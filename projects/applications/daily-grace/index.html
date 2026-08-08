@@ -831,6 +831,11 @@ body.comfort-mode .companion-strip {
   }
 }
 
+
+@media (hover: none), (pointer: coarse) {
+  /* Install and clear are both real actions and sat 3-4px under the target. */
+  #installButton, #clearPrayerButton { min-height: 44px; }
+}
 </style>
 </head>
 <body>

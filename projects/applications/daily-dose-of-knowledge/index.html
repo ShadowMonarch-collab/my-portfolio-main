@@ -823,6 +823,25 @@
       animation: ttsactive 1s ease-in-out infinite;
     }
 
+    @media (hover: none), (pointer: coarse) {
+      /* .cbtn is 34x34 and .hdr-btn 36x36 — small in both directions, so unlike
+         a wide header link there is no spare area to forgive a near miss. The
+         circles are the design, so grow the hit area instead of the button:
+         a transparent ::after takes each to 44x44 with nothing visible changing. */
+      .cbtn, .hdr-btn { position: relative; }
+      .cbtn::after,
+      .hdr-btn::after {
+        content: '';
+        position: absolute;
+        inset: -5px;
+        border-radius: inherit;
+      }
+      .hdr-btn::after { inset: -4px; }
+
+      /* 9px is below any readable floor; these label the stat chips. */
+      .stat-chip-label { font-size: 11px; letter-spacing: 0.5px; }
+    }
+
   </style>
 </head>
 

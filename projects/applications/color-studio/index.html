@@ -40,6 +40,14 @@
       #preview p,#preview h2,#preview h3,#preview h4{overflow-wrap:anywhere}
       #tabs .tab{padding-left:.7rem;padding-right:.7rem}
     }
+
+    @media (hover: none), (pointer: coarse) {
+      /* Primary actions sat at 34-38px tall. They are wide, but these are the
+         two controls the tool is driven by, so they clear 44px. */
+      #randomBtn, #openFavs { min-height: 44px; }
+      /* 10px hex readouts are meant to be read and copied. */
+      .text-[10px] { font-size: 11px; }
+    }
   </style>
 </head>
 <body>
