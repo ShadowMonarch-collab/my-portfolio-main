@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Category | Greg Kenneth Bradecina</title>
+<meta name="description" content="Browse portfolio categories for Greg Kenneth Bradecina, including funnels, websites, design mockups, automation systems, and custom applications.">
+<meta name="theme-color" content="#080810">
+<link rel="icon" href="assets/G-logo-amber.png" type="image/png">
+<meta property="og:title" content="Project Category | Greg Kenneth Bradecina">
+<meta property="og:description" content="Category-specific portfolio views for funnels, websites, design mockups, automation systems, and custom built apps.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark: #080810;
+  --panel: #0d0d1a;
+  --panel-2: #111124;
+  --text: #fff7ea;
+  --muted: rgba(255,247,234,.64);
+  --faint: rgba(255,247,234,.42);
+  --amber: #f5a623;
+  --orange: #e8622a;
+  --gold: #d4a94a;
+  --line: rgba(245,166,35,.18);
+  --line-strong: rgba(245,166,35,.38);
+  --green: #8ee66b;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 22% 10%, rgba(245,166,35,.13), transparent 34%),
+    radial-gradient(circle at 84% 16%, rgba(232,98,42,.11), transparent 34%),
+    linear-gradient(180deg, #080810 0%, #0b0b16 48%, #07070e 100%);
+  color: var(--text);
+  font-family: 'Instrument Sans', sans-serif;
+  cursor: default;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(245,166,35,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,166,35,.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,.2));
+  z-index: 0;
+}
+a { color: inherit; }
+.page {
+  position: relative;
+  z-index: 1;
+}
+.category-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 82px;
+  padding: 14px 48px;
+  border-bottom: 1px solid rgba(245,166,35,.16);
+  background: rgba(8,8,16,.78);
+  backdrop-filter: blur(18px);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 230px;
+  text-decoration: none;
+}
+.brand img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 16px rgba(245,166,35,.32));
+}
+.brand span {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.category-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-left: auto;
+  position: relative;
+}
+.category-link {
+  min-height: 36px;
+  padding: 10px 13px;
+  border: 1px solid rgba(245,166,35,.24);
+  background: rgba(245,166,35,.035);
+  color: var(--muted);
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: border-color .2s, color .2s, background .2s, transform .2s, box-shadow .2s;
+}
+.category-link.active,
+.category-link:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: rgba(245,166,35,.09);
+}
+.category-link.active {
+  box-shadow: 0 0 24px rgba(245,166,35,.14);
+  transform: translateY(-1px);
+}
+.category-link.is-selecting {
+  color: var(--dark);
+  background: linear-gradient(135deg, var(--amber), var(--orange));
+  border-color: transparent;
+  box-shadow: 0 0 34px rgba(245,166,35,.28);
+}
+.category-swap {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition: opacity .28s cubic-bezier(.16,1,.3,1), transform .28s cubic-bezier(.16,1,.3,1), filter .28s cubic-bezier(.16,1,.3,1);
+}
+body.category-changing .category-swap {
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(4px);
+}
+body.category-entering .category-swap {
+  animation: category-enter .52s cubic-bezier(.16,1,.3,1) both;
+}
+body.category-entering .project-card {
+  animation: card-rise .62s cubic-bezier(.16,1,.3,1) both;
+}
+body.category-entering .project-card:nth-child(2) { animation-delay: .06s; }
+body.category-entering .project-card:nth-child(3) { animation-delay: .12s; }
+.section-pulse {
+  animation: section-pulse .85s cubic-bezier(.16,1,.3,1);
+}
+@keyframes category-enter {
+  from { opacity: 0; transform: translateY(22px); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes card-rise {
+  from { opacity: 0; transform: translateY(24px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes section-pulse {
+  0% { box-shadow: inset 0 0 0 0 rgba(245,166,35,0); }
+  35% { box-shadow: inset 0 0 0 1px rgba(245,166,35,.22), 0 0 44px rgba(245,166,35,.08); }
+  100% { box-shadow: inset 0 0 0 0 rgba(245,166,35,0); }
+}
+.hero {
+  min-height: calc(100vh - 82px);
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(360px, .72fr);
+  align-items: center;
+  gap: 68px;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 94px 48px 70px;
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: var(--amber);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+.eyebrow::before {
+  content: '';
+  width: 42px;
+  height: 1px;
+  background: var(--amber);
+  box-shadow: 0 0 12px rgba(245,166,35,.72);
+}
+h1 {
+  margin: 0;
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(46px, 6.2vw, 88px);
+  line-height: .92;
+  letter-spacing: -.04em;
+}
+.glow {
+  display: block;
+  background: linear-gradient(135deg, var(--amber), var(--orange) 58%, var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 34px rgba(245,166,35,.22));
+}
+.plain { display: block; }
+.hero-copy {
+  max-width: 640px;
+  margin: 28px 0 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 34px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 14px 24px;
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  transition: transform .2s, box-shadow .2s, background .2s, color .2s;
+}
+.btn.primary {
+  border-color: transparent;
+  color: var(--dark);
+  background: linear-gradient(135deg, var(--amber), var(--orange));
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 28px rgba(245,166,35,.18);
+}
+.hero-panel {
+  position: relative;
+  min-height: 520px;
+  border: 1px solid var(--line);
+  background: rgba(13,13,26,.72);
+  clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px);
+  overflow: hidden;
+}
+.hero-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(245,166,35,.24), transparent 22%),
+    linear-gradient(rgba(245,166,35,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,166,35,.055) 1px, transparent 1px);
+  background-size: auto, 42px 42px, 42px 42px;
+  opacity: .75;
+}
+.hero-panel-inner {
+  position: absolute;
+  inset: 28px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 22px;
+}
+.status-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--green);
+  text-shadow: 0 0 10px rgba(142,230,107,.3);
+}
+.live::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--green);
+  box-shadow: 0 0 9px rgba(142,230,107,.75);
+}
+.feature-orbit {
+  align-self: center;
+  display: grid;
+  place-items: center;
+  min-height: 310px;
+}
+.core {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(245,166,35,.45);
+  background: radial-gradient(circle, rgba(245,166,35,.2), rgba(8,8,16,.78) 66%);
+  box-shadow: 0 0 46px rgba(245,166,35,.18), inset 0 0 48px rgba(245,166,35,.08);
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  color: var(--amber);
+  text-align: center;
+}
+.core::before,
+.core::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(245,166,35,.28);
+}
+.core::before { inset: -42px; animation: spin 18s linear infinite; }
+.core::after { inset: -82px; animation: spin 28s linear infinite reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.panel-points {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.panel-point {
+  padding: 14px;
+  border: 1px solid rgba(245,166,35,.16);
+  background: rgba(8,8,16,.46);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+section {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 88px 48px;
+}
+.section-kicker {
+  color: var(--amber);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.section-title {
+  margin: 0 0 34px;
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(34px, 4vw, 58px);
+  line-height: .98;
+  letter-spacing: -.03em;
+}
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+.project-card {
+  position: relative;
+  min-height: 100%;
+  border: 1px solid var(--line);
+  background: rgba(13,13,26,.78);
+  clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+  overflow: hidden;
+  transition: transform .24s, border-color .24s;
+}
+.project-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--amber);
+}
+.project-media {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  background: #111124;
+}
+.project-media::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  height: 22px;
+  z-index: 2;
+  border: 1px solid rgba(245,166,35,.15);
+  background: rgba(8,8,16,.78);
+}
+.project-media::after {
+  content: '●  ●  ●';
+  position: absolute;
+  top: 18px;
+  left: 25px;
+  z-index: 3;
+  color: var(--amber);
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .2em;
+}
+.project-media img,
+.project-media iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+  display: block;
+}
+.project-body {
+  padding: 24px;
+}
+.project-type {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 12px;
+}
+.project-title {
+  margin: 0 0 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 24px;
+  line-height: 1.05;
+}
+.project-desc {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 14px;
+}
+.metric-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+.metric {
+  border: 1px solid rgba(245,166,35,.17);
+  color: var(--faint);
+  padding: 7px 9px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.project-link {
+  margin-top: 22px;
+  display: inline-flex;
+  color: var(--amber);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.project-link:hover { color: var(--text); }
+.systems-band {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+.insight-card {
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: rgba(13,13,26,.68);
+  clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+}
+.insight-card h3 {
+  margin: 0 0 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 26px;
+}
+.insight-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.flow-list {
+  display: grid;
+  gap: 10px;
+}
+.flow-step {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 16px;
+  border: 1px solid rgba(245,166,35,.14);
+  background: rgba(8,8,16,.46);
+}
+.flow-step span {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--amber);
+}
+.flow-step strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+.flow-step p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 14px;
+}
+.cta-band {
+  margin: 30px 48px 72px;
+  max-width: none;
+  padding: 48px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(90deg, rgba(245,166,35,.08), rgba(232,98,42,.055), rgba(8,8,16,.1));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+.cta-band h2 {
+  margin: 0;
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: 1;
+}
+.cta-band p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  max-width: 620px;
+  line-height: 1.6;
+}
+.mockup-visual {
+  height: 220px;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(135deg, rgba(245,166,35,.13), transparent),
+    repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(245,166,35,.05) 24px),
+    #111124;
+  font-family: 'Syne', sans-serif;
+  font-size: 62px;
+  color: rgba(245,166,35,.52);
+}
+@media (max-width: 980px) {
+  .category-nav { align-items: flex-start; flex-direction: column; padding: 16px 24px; }
+  .category-links { margin-left: 0; overflow-x: auto; flex-wrap: nowrap; width: 100%; padding-bottom: 4px; }
+  .category-link { flex: 0 0 auto; }
+  .hero { grid-template-columns: 1fr; gap: 38px; padding: 64px 24px 54px; min-height: 0; }
+  .hero-panel { min-height: 430px; }
+  .project-grid { grid-template-columns: 1fr; }
+  .systems-band { grid-template-columns: 1fr; }
+  .cta-band { margin: 20px 24px 54px; padding: 34px 24px; flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 620px) {
+  .brand { min-width: 0; }
+  .brand img { width: 42px; height: 42px; }
+  .hero { padding: 48px 18px 44px; }
+  h1 { font-size: clamp(38px, 13vw, 54px); }
+  .hero-copy { font-size: 15px; }
+  .hero-panel { min-height: 380px; }
+  .hero-panel-inner { inset: 20px; }
+  .panel-points { grid-template-columns: 1fr; }
+  section { padding: 68px 18px; }
+  .project-media { height: 190px; }
+  .hero-actions .btn,
+  .cta-band .btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="category-nav">
+    <a class="brand" href="concept-0-Nexus.html#hero" aria-label="Back to main portfolio">
+      <img src="assets/G-logo-amber.png" alt="">
+      <span>Greg Kenneth Bradecina</span>
+    </a>
+    <div class="category-links" id="category-links"></div>
+  </nav>
+
+  <main>
+    <section class="hero category-swap" id="category-hero">
+      <div>
+        <div class="eyebrow" id="hero-kicker">Project Category</div>
+        <h1 id="hero-title"></h1>
+        <p class="hero-copy" id="hero-copy"></p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#category-work">View Work</a>
+          <a class="btn" href="concept-0-Nexus.html#contact">Start a Project</a>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <div class="hero-panel-inner">
+          <div class="status-line">
+            <span id="panel-title">CATEGORY.exe</span>
+            <span class="live" id="panel-status">Live</span>
+          </div>
+          <div class="feature-orbit">
+            <div class="core" id="category-core">NEXUS</div>
+          </div>
+          <div class="panel-points" id="panel-points"></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="category-swap" id="category-work">
+      <div class="section-kicker" id="work-kicker">Selected Work</div>
+      <h2 class="section-title" id="work-title"></h2>
+      <div class="project-grid" id="project-grid"></div>
+    </section>
+
+    <section class="category-swap" id="category-system">
+      <div class="section-kicker">How This Category Is Designed</div>
+      <h2 class="section-title" id="system-title"></h2>
+      <div class="systems-band">
+        <div class="insight-card">
+          <h3 id="insight-title"></h3>
+          <p id="insight-copy"></p>
+        </div>
+        <div class="flow-list" id="flow-list"></div>
+      </div>
+    </section>
+
+    <section class="cta-band category-swap" id="category-cta">
+      <div>
+        <h2 id="cta-title">Build the next system.</h2>
+        <p id="cta-copy"></p>
+      </div>
+      <a class="btn primary" href="concept-0-Nexus.html#contact">Let's Build Your Dream System</a>
+    </section>
+</main>
+</div>
+
+<script>
+const categories = {
+  funnels: {
+    nav: 'Funnels',
+    kicker: 'Live Funnel Systems',
+    title: ['Funnels Built', 'To Convert'],
+    copy: 'Dedicated funnel builds focused on lead capture, offer clarity, booking intent, and the automation handoff that happens after a visitor takes action.',
+    core: 'FUNNEL',
+    panel: ['Lead Capture', 'Offer Path', 'Booking Intent', 'GHL Ready'],
+    workTitle: 'Live Funnel Projects',
+    systemTitle: 'Conversion paths with automation logic behind them.',
+    insightTitle: 'Built beyond the landing page',
+    insightCopy: 'Each funnel is structured around the next operational step: booking, nurture, follow-up, confirmation, or buyer intent. The design is visual, but the real value is the connected path behind the CTA.',
+    flow: [
+      ['01', 'Capture', 'Page structure focuses attention on one primary conversion path.'],
+      ['02', 'Qualify', 'Copy, form fields, and CTA placement clarify intent before handoff.'],
+      ['03', 'Route', 'The funnel is prepared for CRM, calendar, nurture, and follow-up automation.']
+    ],
+    projects: [
+      ['Havenwell Dental', 'Funnel / Dental Appointment', 'A GHL-ready appointment funnel designed to capture patient inquiries and connect scheduling intent into booking, confirmation, and nurture workflows.', 'projects/funnels/Havenwell-Dental-Funnel/assets/wecare-hero.png', 'projects/funnels/Havenwell-Dental-Funnel/index.html', ['Patient Intake', 'Desktop + Mobile']],
+      ['NorthPeak Heating & Air', 'Funnel / Home Service Lead Capture', 'A GHL-ready home service funnel designed to capture urgent HVAC inquiries and route leads toward booking, confirmation, and follow-up workflows.', 'projects/funnels/NorthPeakHeatingAir/desktop-full-preview.png', 'projects/funnels/NorthPeakHeatingAir/index.html', ['Service Request', 'GHL Ready']],
+      ['The Daily Reset Method', 'Funnel / Wellness Offer', 'A GHL-ready offer funnel designed to present the offer clearly and connect purchase intent into follow-up or nurture workflows.', 'projects/funnels/DailyResetMethod/preview-landing-desktop.png', 'projects/funnels/DailyResetMethod/index.html', ['Offer Funnel', 'Buyer Intent']]
+    ]
+  },
+  websites: {
+    nav: 'Websites',
+    kicker: 'Live Website Systems',
+    title: ['Websites That', 'Guide Action'],
+    copy: 'Business websites designed to build trust quickly, clarify the offer, and route visitors toward inquiry, booking, or the next step in the client journey.',
+    core: 'WEBSITE',
+    panel: ['Trust Signals', 'Responsive UI', 'Service Clarity', 'Conversion Paths'],
+    workTitle: 'Live Website Projects',
+    systemTitle: 'Websites built as front doors for real operations.',
+    insightTitle: 'Designed to be useful, not just visible',
+    insightCopy: 'Each website balances brand presentation with practical routing: who it is for, what they can do next, and how the business can follow up cleanly.',
+    flow: [
+      ['01', 'Position', 'The first screen establishes trust, audience fit, and the category.'],
+      ['02', 'Guide', 'Sections support scanning, comparison, and confident decision-making.'],
+      ['03', 'Connect', 'Forms, calendars, and CTAs can connect into CRM and follow-up systems.']
+    ],
+    projects: [
+      ['Havenwell Dental', 'Website / Dental Practice', 'A reassuring clinic website centered on comfort, modern care, and a patient-friendly appointment path.', 'projects/websites/WeCareDental-Website/assets/wecare-hero.png', 'projects/websites/WeCareDental-Website/index.html', ['Patient Trust', 'Responsive']],
+      ['NorthPeak Heating & Air', 'Website / Residential HVAC', 'A service website that positions dependable home comfort support and routes homeowners toward timely service requests.', 'projects/websites/NorthPeakHeatingAir-Website/assets/northpeak-hero.png', 'projects/websites/NorthPeakHeatingAir-Website/index.html', ['Local Service', 'Lead Path']],
+      ['The Daily Reset Method', 'Website / Wellness Brand', 'A calm brand website designed to introduce the method, build reader confidence, and guide discovery of the daily practice.', 'projects/websites/DailyResetMethod-Website/assets/daily-reset-ebook-website.jpg', 'projects/websites/DailyResetMethod-Website/index.html', ['Brand Story', 'Discovery']]
+    ]
+  },
+  mockups: {
+    nav: 'Design Mockups',
+    kicker: 'Design Direction',
+    title: ['Design Mockups', 'Before Buildout'],
+    copy: 'A dedicated space for concept visuals, layout directions, and website or funnel mockups before they become full live builds.',
+    core: 'MOCKUP',
+    panel: ['Visual Direction', 'Wireframe Logic', 'Offer Layouts', 'UI Concepts'],
+    workTitle: 'Mockup Slots',
+    systemTitle: 'A design lab for testing direction before implementation.',
+    insightTitle: 'Explore the shape before committing to the build',
+    insightCopy: 'Mockups make it easier to compare concepts, refine brand direction, and align on the experience before the live system is assembled.',
+    flow: [
+      ['01', 'Direction', 'Clarify audience, offer, and visual tone.'],
+      ['02', 'Structure', 'Map hero sections, content hierarchy, and CTA flow.'],
+      ['03', 'Approve', 'Use the mockup as a blueprint for the live website or funnel build.']
+    ],
+    projects: [
+      ['Website Mockups', 'Mockup Slot / Website Concepts', 'A dedicated space for polished website concepts, visual directions, and layout explorations before they become full live previews.', null, '#', ['Coming Soon', 'Website Concepts']],
+      ['Funnel Mockups', 'Mockup Slot / Funnel Concepts', 'A dedicated space for funnel wireframes, offer pages, lead capture flows, and GHL-ready visual concepts before live buildout.', null, '#', ['Coming Soon', 'Funnel Concepts']],
+      ['System UI Mockups', 'Mockup Slot / Dashboard Concepts', 'A future space for client portals, CRM dashboards, and operational UI concepts that support connected business systems.', null, '#', ['Coming Soon', 'System Concepts']]
+    ]
+  },
+  automations: {
+    nav: 'System Automations',
+    kicker: 'CRM Operating Systems',
+    title: ['Automation Systems', 'That Keep Moving'],
+    copy: 'Workflow architecture for lead routing, booking, nurture, recovery, service follow-up, reputation, and the operational details that prevent leads from slipping away.',
+    core: 'SYSTEM',
+    panel: ['Lead Routing', 'Booking Logic', 'Nurture Paths', 'Review Systems'],
+    workTitle: 'Automation Blueprints',
+    systemTitle: 'Workflow logic designed around lifecycle states.',
+    insightTitle: 'The system is the real conversion engine',
+    insightCopy: 'The pages capture attention, but automation keeps the business moving: routing leads, cleaning tags, updating pipeline states, and triggering the right follow-up at the right time.',
+    flow: [
+      ['01', 'Trigger', 'A form, booking, tag, pipeline move, or review event starts the workflow.'],
+      ['02', 'Decide', 'Conditions check booking state, tags, appointment status, or lifecycle stage.'],
+      ['03', 'Move', 'The CRM updates, messages send, and the next system takes over.']
+    ],
+    projects: [
+      ['LEAD - New Inquiry Intake', 'CRM Automation / Lead Routing', 'Captures a new micro-form inquiry, routes it into the CRM pipeline, and checks whether nurturing is required after the welcome touchpoint.', 'assets/automations/lead-new-inquiry-intake/1.jpg', 'concept-0-Nexus.html#portfolio', ['Lead Routing', 'Pipeline']],
+      ['APPT - Booking Confirmation', 'Appointment Logic / Calendar', 'Cleans up prior nurture states when an appointment is booked, confirms the booking, and runs the full reminder cadence.', 'assets/automations/appt-booking-confirmation-reminders/1.jpg', 'concept-0-Nexus.html#portfolio', ['SMS + Email', 'Calendar']],
+      ['RECOVERY - No Show / Cancel', 'Recovery Automation / Scheduling', 'Runs a staged recovery sequence for canceled or missed appointments and returns unrecovered contacts to nurture.', 'assets/automations/recovery-no-show-cancel/1.jpg', 'concept-0-Nexus.html#portfolio', ['Recovery', 'Nurture']]
+    ]
+  },
+  apps: {
+    nav: 'Custom Built Apps',
+    kicker: 'Custom Product Builds',
+    title: ['Apps Built', 'For Real Use'],
+    copy: 'Small custom applications and tools designed around daily use: focused interfaces, practical workflows, and product experiences that can stand alone or support a wider system.',
+    core: 'APP',
+    panel: ['PWA Thinking', 'Tool UX', 'Offline Paths', 'Product Logic'],
+    workTitle: 'Application Projects',
+    systemTitle: 'Custom apps shaped around the job they need to do.',
+    insightTitle: 'Focused tools with product-level polish',
+    insightCopy: 'These builds prioritize repeat use, clear interaction, and the small details that make a tool feel dependable instead of experimental.',
+    flow: [
+      ['01', 'Use Case', 'Define the daily action or problem the app needs to support.'],
+      ['02', 'Interaction', 'Design the interface around repeated use and fast comprehension.'],
+      ['03', 'Launch', 'Package the app as a clean web experience, PWA, or embedded tool.']
+    ],
+    projects: [
+      ['Daily Dose of Knowledge', 'Application / PWA Education', 'A mobile-first PWA delivering daily vocabulary and idiom lessons with text-to-speech, streak tracking, favorites, and offline capability.', 'projects/applications/daily-dose-of-knowledge/index.html', 'projects/applications/daily-dose-of-knowledge/index.html', ['365 Days', 'PWA']],
+      ['Color Studio', 'Application / Brand Tool', 'A palette generator that maps emotional direction into curated color systems, live previews, favorites, and logo color experiments.', 'projects/applications/color-studio/index.html', 'projects/applications/color-studio/index.html', ['Palette Generator', 'Live Preview']],
+      ['DailyGrace', 'Application / Devotional Wellness', 'A peaceful Christian wellness companion for daily Scripture, emotional check-ins, devotional reflection, prayer notes, and quiet encouragement.', 'projects/applications/daily-grace/index.html', 'projects/applications/daily-grace/index.html', ['Daily Scripture', 'Reflection']]
+    ]
+  }
+};
+
+const params = new URLSearchParams(window.location.search);
+let currentKey = categories[params.get('category')] ? params.get('category') : 'funnels';
+let categoryTimer;
+const categoryLinks = document.getElementById('category-links');
+const projectGrid = document.getElementById('project-grid');
+
+categoryLinks.innerHTML = Object.entries(categories).map(([id, item]) =>
+  `<a class="category-link" href="project-category.html?category=${id}" data-category="${id}">${item.nav}</a>`
+).join('');
+
+function renderMedia(project, key) {
+  const [title, type, desc, image] = project;
+  if (!image) return `<div class="mockup-visual">${title.charAt(0)}</div>`;
+  if (key === 'apps') return `<iframe src="${image}" title="${title} preview" loading="lazy" tabindex="-1"></iframe>`;
+  return `<img src="${image}" alt="${title} preview" loading="lazy" decoding="async">`;
+}
+
+function renderProjectCards(data, key) {
+  projectGrid.innerHTML = data.projects.map(project => {
+    const [title, type, desc, image, link, metrics] = project;
+    const isPlaceholder = link === '#';
+    return `
+      <article class="project-card">
+        <div class="project-media">${renderMedia(project, key)}</div>
+        <div class="project-body">
+          <div class="project-type">${type}</div>
+          <h3 class="project-title">${title}</h3>
+          <p class="project-desc">${desc}</p>
+          <div class="metric-row">${metrics.map(metric => `<span class="metric">${metric}</span>`).join('')}</div>
+          ${isPlaceholder ? '' : `<a class="project-link" href="${link}">Open Preview &rarr;</a>`}
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+function updateActiveCategory(key) {
+  categoryLinks.querySelectorAll('.category-link').forEach(link => {
+    const isActive = link.dataset.category === key;
+    link.classList.toggle('active', isActive);
+    if (isActive) {
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+    link.classList.remove('is-selecting');
+  });
+}
+
+function paintCategory(key) {
+  const data = categories[key];
+  document.title = `${data.nav} | Greg Kenneth Bradecina`;
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription) metaDescription.content = data.copy;
+  document.getElementById('hero-kicker').textContent = data.kicker;
+  document.getElementById('hero-title').innerHTML = `<span class="glow">${data.title[0]}</span> <span class="plain">${data.title[1]}</span>`;
+  document.getElementById('hero-copy').textContent = data.copy;
+  document.getElementById('panel-title').textContent = `${key.toUpperCase()}_MAP.exe`;
+  document.getElementById('panel-status').textContent = key === 'mockups' ? 'Concept' : 'Live';
+  document.getElementById('category-core').textContent = data.core;
+  document.getElementById('panel-points').innerHTML = data.panel.map(point => `<div class="panel-point">${point}</div>`).join('');
+  document.getElementById('work-kicker').textContent = data.nav;
+  document.getElementById('work-title').textContent = data.workTitle;
+  document.getElementById('system-title').textContent = data.systemTitle;
+  document.getElementById('insight-title').textContent = data.insightTitle;
+  document.getElementById('insight-copy').textContent = data.insightCopy;
+  document.getElementById('flow-list').innerHTML = data.flow.map(step => `
+    <div class="flow-step">
+      <span>${step[0]}</span>
+      <div><strong>${step[1]}</strong><p>${step[2]}</p></div>
+    </div>
+  `).join('');
+  document.getElementById('cta-copy').textContent = `If this ${data.nav.toLowerCase()} direction feels useful, we can turn it into a connected build with CRM, follow-up, and the right action path behind it.`;
+  renderProjectCards(data, key);
+  updateActiveCategory(key);
+}
+
+function renderCategory(nextKey, options = {}) {
+  if (!categories[nextKey]) return;
+  const shouldAnimate = options.animate && nextKey !== currentKey;
+  const clickedLink = options.clickedLink;
+
+  window.clearTimeout(categoryTimer);
+  if (clickedLink) clickedLink.classList.add('is-selecting');
+
+  const commit = () => {
+    currentKey = nextKey;
+    paintCategory(currentKey);
+    if (options.updateHistory) {
+      const nextUrl = `project-category.html?category=${currentKey}`;
+      window.history.pushState({ category: currentKey }, '', nextUrl);
+    }
+  };
+
+  if (!shouldAnimate) {
+    commit();
+    return;
+  }
+
+  document.body.classList.add('category-changing');
+  categoryTimer = window.setTimeout(() => {
+    commit();
+    document.body.classList.remove('category-changing');
+    document.body.classList.add('category-entering');
+    categoryTimer = window.setTimeout(() => {
+      document.body.classList.remove('category-entering');
+    }, 680);
+  }, 240);
+}
+
+function pulseSection(target) {
+  if (!target) return;
+  target.classList.remove('section-pulse');
+  void target.offsetWidth;
+  target.classList.add('section-pulse');
+  window.setTimeout(() => target.classList.remove('section-pulse'), 900);
+}
+
+categoryLinks.addEventListener('click', event => {
+  const link = event.target.closest('.category-link');
+  if (!link) return;
+  event.preventDefault();
+  const nextKey = link.dataset.category;
+  if (nextKey === currentKey) {
+    pulseSection(document.getElementById('category-hero'));
+    return;
+  }
+  renderCategory(nextKey, { animate: true, updateHistory: true, clickedLink: link });
+});
+
+document.addEventListener('click', event => {
+  const link = event.target.closest('a[href^="#"]');
+  if (!link) return;
+  const target = document.querySelector(link.getAttribute('href'));
+  if (!target) return;
+  event.preventDefault();
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  window.setTimeout(() => pulseSection(target), 360);
+});
+
+window.addEventListener('popstate', () => {
+  const nextParams = new URLSearchParams(window.location.search);
+  const nextKey = categories[nextParams.get('category')] ? nextParams.get('category') : 'funnels';
+  renderCategory(nextKey, { animate: true, updateHistory: false });
+});
+
+paintCategory(currentKey);
+</script>
+</body>
+</html>

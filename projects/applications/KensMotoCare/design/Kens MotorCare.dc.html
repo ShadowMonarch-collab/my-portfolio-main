@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#07090C;font-family:'Barlow',sans-serif}
+a{color:#38BDF8}a:hover{color:#7DD3FC}
+*::-webkit-scrollbar{width:0;height:0}
+input,select,textarea{color-scheme:dark}
+select option{background:#151B23;color:#EDF1F6}
+@keyframes mcSheet{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes mcFade{from{opacity:0}to{opacity:1}}
+@keyframes mcToast{from{transform:translateY(-12px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:36px 20px;background:radial-gradient(1200px 800px at 50% -10%,#10151D,#07090C);">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+<div style="position:relative;height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,#0D1219 0%,#0B0E13 30%);font-family:'Barlow',sans-serif;color:#EDF1F6;-webkit-font-smoothing:antialiased;">
+<div style="flex:1;overflow:auto;padding-bottom:130px;">
+
+<!-- ══════════ DASHBOARD ══════════ -->
+<sc-if value="{{ isDash }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Dashboard" style="animation:mcFade .25s ease;">
+  <div style="padding:70px 20px 16px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;">
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:#38BDF8;">KEN'S MOTORCARE</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;line-height:1.05;letter-spacing:0.5px;margin-top:4px;">{{ bikeName }}</div>
+      <div style="font-size:13px;color:#8A94A3;margin-top:2px;">{{ bikeSub }}</div>
+    </div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:4px 8px;">{{ bikePlate }}</div>
+  </div>
+
+  <div style="margin:4px 16px 0;background:linear-gradient(160deg,#161D27,#10151C);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:18px 18px 16px;display:flex;align-items:center;gap:14px;">
+    <div style="flex:1;min-width:0;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2.5px;color:#8A94A3;">ODOMETER</div>
+      <div style="display:flex;align-items:baseline;gap:6px;margin-top:2px;">
+        <span style="font-family:'Barlow Condensed',sans-serif;font-size:44px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:1px;">{{ odoFmt }}</span>
+        <span style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;color:#8A94A3;letter-spacing:1px;">KM</span>
+      </div>
+      <button onClick="{{ openOdo }}" style="margin-top:12px;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.35);color:#38BDF8;border-radius:9px;padding:7px 14px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:1.5px;cursor:pointer;" style-hover="background:rgba(56,189,248,0.22)">UPDATE</button>
+    </div>
+    <button onClick="{{ goHealth }}" style="background:none;border:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;" aria-label="Health breakdown">
+      <div style="position:relative;width:104px;height:104px;">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="44" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8"></circle>
+          <circle cx="52" cy="52" r="44" fill="none" stroke="{{ healthColor }}" strokeWidth="8" strokeLinecap="round" strokeDasharray="{{ ringDash }}" transform="rotate(-90 52 52)" style="transition:stroke-dasharray .6s ease;"></circle>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;line-height:1;color:{{ healthColor }};">{{ healthScore }}</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;color:#8A94A3;">HEALTH</span>
+        </div>
+      </div>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;color:{{ healthColor }};">{{ healthLabel }}</span>
+    </button>
+  </div>
+
+  <div style="margin:12px 16px 0;padding:14px 18px;background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:16px;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2.5px;color:#8A94A3;">MAINTENANCE STATUS</span>
+      <span style="font-size:12px;color:#8A94A3;font-variant-numeric:tabular-nums;">{{ onTrackTxt }}</span>
+    </div>
+    <div style="display:flex;gap:3px;">
+      <sc-for list="{{ segments }}" as="s" hint-placeholder-count="11">
+        <div style="flex:1;height:5px;border-radius:3px;background:{{ s.color }};"></div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:baseline;justify-content:space-between;padding:22px 20px 10px;">
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:2.5px;color:#EDF1F6;">UP NEXT</span>
+    <button onClick="{{ goSchedule }}" style="background:none;border:none;color:#38BDF8;font-size:13px;font-weight:500;cursor:pointer;padding:0;">See all</button>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px;margin:0 16px;">
+    <sc-for list="{{ upcoming }}" as="u" hint-placeholder-count="3">
+      <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;border-radius:11px;background:{{ u.pillBg }};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">{{ u.emoji }}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+            <span style="font-size:15px;font-weight:600;">{{ u.name }}</span>
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:{{ u.color }};background:{{ u.pillBg }};border-radius:5px;padding:3px 7px;">{{ u.statusLabel }}</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:3px;">
+            <span style="font-size:12.5px;color:#8A94A3;font-variant-numeric:tabular-nums;">{{ u.dueTxt }}</span>
+            <button onClick="{{ u.onLog }}" style="background:none;border:1px solid rgba(255,255,255,0.14);color:#EDF1F6;border-radius:7px;padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;cursor:pointer;" style-hover="border-color:#38BDF8;color:#38BDF8">LOG</button>
+          </div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.07);margin-top:9px;overflow:hidden;">
+            <div style="height:100%;border-radius:2px;background:{{ u.color }};width:{{ u.pctW }};"></div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:16px 16px 8px;">
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;">TOTAL SPENT</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;">{{ lifetimeCostTxt }}</div>
+    </div>
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;">LAST SERVICE</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:700;margin-top:3px;">{{ lastServiceTxt }}</div>
+    </div>
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;">SERVICES</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;">{{ servicesCount }}</div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════ SCHEDULE ══════════ -->
+<sc-if value="{{ isSchedule }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Maintenance Schedule" style="animation:mcFade .25s ease;">
+  <div style="padding:70px 20px 14px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:#38BDF8;">{{ bikeNameUpper }}</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;letter-spacing:0.5px;margin-top:2px;">Maintenance Schedule</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px;margin:0 16px;">
+    <sc-for list="{{ scheduleRows }}" as="r" hint-placeholder-count="6">
+      <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:13px 14px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:40px;height:40px;border-radius:11px;background:{{ r.pillBg }};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">{{ r.emoji }}</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:15px;font-weight:600;">{{ r.name }}</div>
+            <div style="font-size:12px;color:#8A94A3;margin-top:1px;">{{ r.intervalTxt }} · {{ r.lastTxt }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;">
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:{{ r.color }};background:{{ r.pillBg }};border-radius:5px;padding:3px 7px;">{{ r.statusLabel }}</span>
+            <button onClick="{{ r.onLog }}" style="background:none;border:1px solid rgba(255,255,255,0.14);color:#EDF1F6;border-radius:7px;padding:4px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;cursor:pointer;" style-hover="border-color:#38BDF8;color:#38BDF8">LOG</button>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+          <div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.07);overflow:hidden;">
+            <div style="height:100%;border-radius:2px;background:{{ r.color }};width:{{ r.pctW }};"></div>
+          </div>
+          <span style="font-size:12px;color:#8A94A3;font-variant-numeric:tabular-nums;white-space:nowrap;">{{ r.dueTxt }}</span>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════ HISTORY ══════════ -->
+<sc-if value="{{ isHistory }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Maintenance History" style="animation:mcFade .25s ease;">
+  <div style="padding:70px 20px 14px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:#38BDF8;">{{ bikeNameUpper }}</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;letter-spacing:0.5px;margin-top:2px;">History</div>
+    <div style="font-size:13px;color:#8A94A3;margin-top:2px;">{{ historySummary }}</div>
+  </div>
+  <div style="margin:0 16px 0 26px;border-left:2px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;gap:10px;padding:4px 0 8px;">
+    <sc-for list="{{ historyRows }}" as="h" hint-placeholder-count="5">
+      <div style="position:relative;margin-left:16px;background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px 14px;">
+        <div style="position:absolute;left:-23px;top:18px;width:10px;height:10px;border-radius:5px;background:#38BDF8;border:2px solid #0B0E13;"></div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:16px;">{{ h.emoji }}</span>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:14.5px;font-weight:600;">{{ h.name }}</div>
+            <div style="font-size:12px;color:#8A94A3;margin-top:1px;">{{ h.dateTxt }} · {{ h.shop }}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;">{{ h.costTxt }}</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;color:#8A94A3;font-variant-numeric:tabular-nums;">{{ h.kmTxt }}</div>
+          </div>
+        </div>
+        <sc-if value="{{ h.hasParts }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:8px;font-size:12px;color:#8A94A3;background:rgba(255,255,255,0.04);border-radius:7px;padding:5px 9px;display:inline-block;">{{ h.parts }}</div>
+        </sc-if>
+        <sc-if value="{{ h.hasNotes }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:6px;font-size:12.5px;color:#B7C0CC;font-style:italic;">“{{ h.notes }}”</div>
+        </sc-if>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════ EXPENSES ══════════ -->
+<sc-if value="{{ isExpenses }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Expenses" style="animation:mcFade .25s ease;">
+  <div style="padding:70px 20px 14px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:#38BDF8;">{{ bikeNameUpper }}</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;letter-spacing:0.5px;margin-top:2px;">Expenses</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:0 16px;">
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;">THIS MONTH</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;">{{ monthCostTxt }}</div>
+    </div>
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;">THIS YEAR</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;">{{ yearCostTxt }}</div>
+    </div>
+    <div style="background:#12171F;border:1px solid rgba(56,189,248,0.25);border-radius:14px;padding:12px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#38BDF8;">LIFETIME</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:700;margin-top:3px;color:#38BDF8;font-variant-numeric:tabular-nums;">{{ lifetimeCostTxt }}</div>
+    </div>
+  </div>
+  <div style="margin:12px 16px 0;background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:16px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2.5px;color:#8A94A3;margin-bottom:14px;">MONTHLY EXPENSES</div>
+    <div style="display:flex;align-items:flex-end;gap:10px;height:110px;">
+      <sc-for list="{{ monthBars }}" as="m" hint-placeholder-count="6">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;color:{{ m.amtColor }};font-variant-numeric:tabular-nums;">{{ m.amountTxt }}</span>
+          <div style="width:100%;max-width:30px;border-radius:6px 6px 3px 3px;background:{{ m.barColor }};height:{{ m.h }}px;transition:height .5s ease;"></div>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;color:#8A94A3;">{{ m.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px;margin:12px 16px 8px;">
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:13px;color:#8A94A3;">Most expensive maintenance</div>
+        <div style="font-size:15px;font-weight:600;margin-top:2px;">{{ topSpendName }}</div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;">{{ topSpendTxt }}</div>
+    </div>
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;">
+      <div style="font-size:13px;color:#8A94A3;">Average per service</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;">{{ avgServiceTxt }}</div>
+    </div>
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;">
+      <div style="font-size:13px;color:#8A94A3;">Cost per kilometer</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;">{{ costPerKmTxt }}</div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════ HEALTH ══════════ -->
+<sc-if value="{{ isHealth }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Health Breakdown" style="animation:mcFade .25s ease;">
+  <div style="padding:64px 16px 6px;">
+    <button onClick="{{ goDash }}" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#EDF1F6;border-radius:10px;padding:7px 12px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;">
+      <svg width="7" height="12" viewBox="0 0 7 12"><path d="M6 1L1 6l5 5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"></path></svg>
+      Back
+    </button>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;padding:10px 20px 6px;">
+    <div style="position:relative;width:150px;height:150px;">
+      <svg width="150" height="150" viewBox="0 0 150 150">
+        <circle cx="75" cy="75" r="64" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10"></circle>
+        <circle cx="75" cy="75" r="64" fill="none" stroke="{{ healthColor }}" strokeWidth="10" strokeLinecap="round" strokeDasharray="{{ ringDashBig }}" transform="rotate(-90 75 75)" style="transition:stroke-dasharray .6s ease;"></circle>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <span style="font-family:'Barlow Condensed',sans-serif;font-size:46px;font-weight:700;line-height:1;color:{{ healthColor }};">{{ healthScore }}</span>
+        <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2.5px;color:#8A94A3;">HEALTH</span>
+      </div>
+    </div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px;margin-top:8px;color:{{ healthColor }};">{{ healthLabel }}</div>
+    <div style="font-size:13px;color:#8A94A3;margin-top:2px;">{{ healthSubTxt }}</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px;margin:14px 16px;">
+    <sc-for list="{{ healthCats }}" as="c" hint-placeholder-count="6">
+      <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">{{ c.emoji }}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-size:14.5px;font-weight:600;">{{ c.name }}</span>
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:{{ c.color }};font-variant-numeric:tabular-nums;">{{ c.pctTxt }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+            <div style="flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,0.07);overflow:hidden;">
+              <div style="height:100%;border-radius:2px;background:{{ c.color }};width:{{ c.wTxt }};"></div>
+            </div>
+            <span style="font-size:11px;color:#8A94A3;white-space:nowrap;">{{ c.itemsTxt }}</span>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════ GARAGE ══════════ -->
+<sc-if value="{{ isGarage }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Garage" style="animation:mcFade .25s ease;">
+  <div style="padding:70px 20px 14px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:#38BDF8;">KEN'S MOTORCARE</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;letter-spacing:0.5px;margin-top:2px;">Garage</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px;margin:0 16px;">
+    <sc-for list="{{ bikeCards }}" as="b" hint-placeholder-count="2">
+      <div style="background:linear-gradient(160deg,#161D27,#10151C);border:1px solid {{ b.borderC }};border-radius:18px;padding:16px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+          <button onClick="{{ b.onOpen }}" style="background:none;border:none;padding:0;text-align:left;cursor:pointer;color:#EDF1F6;flex:1;min-width:0;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:0.5px;">{{ b.name }}</div>
+            <div style="font-size:12.5px;color:#8A94A3;margin-top:2px;">{{ b.sub }}</div>
+          </button>
+          <sc-if value="{{ b.isActive }}" hint-placeholder-val="{{ false }}">
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#38BDF8;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.35);border-radius:6px;padding:4px 8px;flex-shrink:0;">ACTIVE</span>
+          </sc-if>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;">
+          <div style="display:flex;gap:16px;">
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;">ODOMETER</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;">{{ b.odoTxt }}</div>
+            </div>
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;">HEALTH</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:{{ b.healthColor }};font-variant-numeric:tabular-nums;">{{ b.healthTxt }}</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button onClick="{{ b.onOpen }}" style="background:none;border:1px solid rgba(255,255,255,0.14);color:#EDF1F6;border-radius:9px;padding:7px 12px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:1.5px;cursor:pointer;" style-hover="border-color:#38BDF8;color:#38BDF8">DETAILS</button>
+            <sc-if value="{{ b.notActive }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ b.onSelect }}" style="background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.35);color:#38BDF8;border-radius:9px;padding:7px 12px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:1.5px;cursor:pointer;" style-hover="background:rgba(56,189,248,0.22)">SWITCH</button>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+    <button onClick="{{ goAddBike }}" style="background:none;border:1.5px dashed rgba(255,255,255,0.18);color:#8A94A3;border-radius:18px;padding:18px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;cursor:pointer;" style-hover="border-color:#38BDF8;color:#38BDF8">+ ADD MOTORCYCLE</button>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════ PROFILE ══════════ -->
+<sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Motorcycle Profile" style="animation:mcFade .25s ease;">
+  <div style="padding:64px 16px 6px;">
+    <button onClick="{{ goGarage }}" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#EDF1F6;border-radius:10px;padding:7px 12px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;">
+      <svg width="7" height="12" viewBox="0 0 7 12"><path d="M6 1L1 6l5 5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"></path></svg>
+      Garage
+    </button>
+  </div>
+  <div style="padding:8px 20px 14px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;letter-spacing:0.5px;">{{ profileName }}</div>
+    <div style="font-size:13px;color:#8A94A3;margin-top:2px;">{{ profileSub }}</div>
+  </div>
+  <div style="margin:0 16px;background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:16px;overflow:hidden;">
+    <sc-for list="{{ profileFields }}" as="f" hint-placeholder-count="7">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;">{{ f.label }}</span>
+        <span style="font-size:14.5px;font-weight:500;">{{ f.value }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <sc-if value="{{ profileHasNotes }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:10px 16px 0;background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:13px 16px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:4px;">NOTES</div>
+      <div style="font-size:13.5px;color:#B7C0CC;line-height:1.5;">{{ profileNotes }}</div>
+    </div>
+  </sc-if>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 16px;">
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;">SERVICES</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;margin-top:3px;">{{ profileServices }}</div>
+    </div>
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;">SPENT</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;margin-top:3px;">{{ profileSpent }}</div>
+    </div>
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#8A94A3;">HEALTH</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;margin-top:3px;color:{{ profileHealthColor }};">{{ profileHealth }}</div>
+    </div>
+  </div>
+  <sc-if value="{{ profileNotActive }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:0 16px;">
+      <button onClick="{{ profileSetActive }}" style="width:100%;background:#38BDF8;border:none;color:#08111A;border-radius:13px;padding:13px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;cursor:pointer;" style-hover="background:#5FCBFA">SET AS ACTIVE</button>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<!-- ══════════ ADD MOTORCYCLE ══════════ -->
+<sc-if value="{{ isAddBike }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Add Motorcycle" style="animation:mcFade .25s ease;">
+  <div style="padding:64px 16px 6px;">
+    <button onClick="{{ goGarage }}" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#EDF1F6;border-radius:10px;padding:7px 12px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;">
+      <svg width="7" height="12" viewBox="0 0 7 12"><path d="M6 1L1 6l5 5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"></path></svg>
+      Cancel
+    </button>
+  </div>
+  <div style="padding:8px 20px 14px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;letter-spacing:0.5px;">Add Motorcycle</div>
+    <div style="font-size:13px;color:#8A94A3;margin-top:2px;">Each item's cycle starts from the odometer you enter.</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px;margin:0 16px;">
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">NICKNAME *</div>
+      <input name="name" value="{{ draft.name }}" onChange="{{ onDraftInput }}" placeholder="e.g. Honda ADV160" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:11px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">BRAND</div>
+        <input name="brand" value="{{ draft.brand }}" onChange="{{ onDraftInput }}" placeholder="Honda" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:11px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">MODEL</div>
+        <input name="model" value="{{ draft.model }}" onChange="{{ onDraftInput }}" placeholder="ADV160" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:11px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">YEAR</div>
+        <input name="year" value="{{ draft.year }}" onChange="{{ onDraftInput }}" placeholder="2026" type="number" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:11px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">COLOR</div>
+        <input name="color" value="{{ draft.color }}" onChange="{{ onDraftInput }}" placeholder="Matte Black" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:11px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">PLATE NO.</div>
+        <input name="plate" value="{{ draft.plate }}" onChange="{{ onDraftInput }}" placeholder="ABC 1234" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:11px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">ODOMETER (KM) *</div>
+        <input name="odo" value="{{ draft.odo }}" onChange="{{ onDraftInput }}" placeholder="0" type="number" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:11px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">NOTES</div>
+      <textarea name="notes" value="{{ draft.notes }}" onChange="{{ onDraftInput }}" rows="2" placeholder="Anything worth remembering…" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:11px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;resize:none;" style-focus="border-color:#38BDF8"></textarea>
+    </div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:2.5px;color:#EDF1F6;margin-top:8px;">PREFERRED MAINTENANCE</div>
+    <div style="background:#12171F;border:1px solid rgba(255,255,255,0.06);border-radius:16px;overflow:hidden;">
+      <sc-for list="{{ draftRows }}" as="d" hint-placeholder-count="6">
+        <div style="display:flex;align-items:center;gap:11px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,0.05);opacity:{{ d.rowOpacity }};">
+          <span style="font-size:16px;">{{ d.emoji }}</span>
+          <span style="flex:1;font-size:14px;font-weight:500;">{{ d.name }}</span>
+          <div style="display:flex;align-items:center;gap:5px;">
+            <input type="number" value="{{ d.interval }}" onChange="{{ d.onInterval }}" style="width:70px;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#EDF1F6;padding:6px 8px;font-family:'Barlow',sans-serif;font-size:13px;outline:none;text-align:right;" style-focus="border-color:#38BDF8">
+            <span style="font-size:11px;color:#8A94A3;">km</span>
+          </div>
+          <button onClick="{{ d.toggle }}" aria-label="Toggle item" style="width:42px;height:25px;border-radius:13px;border:none;position:relative;background:{{ d.trackBg }};cursor:pointer;flex-shrink:0;transition:background .15s;">
+            <div style="position:absolute;top:3.5px;left:{{ d.knobLeft }};width:18px;height:18px;border-radius:9px;background:#fff;transition:left .15s;"></div>
+          </button>
+        </div>
+      </sc-for>
+    </div>
+    <button onClick="{{ saveBike }}" style="width:100%;background:#38BDF8;border:none;color:#08111A;border-radius:13px;padding:14px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;cursor:pointer;margin-top:4px;" style-hover="background:#5FCBFA">SAVE TO GARAGE</button>
+  </div>
+</div>
+</sc-if>
+
+</div>
+
+<!-- ══════════ TAB BAR ══════════ -->
+<div style="position:absolute;left:0;right:0;bottom:0;z-index:40;display:flex;padding:10px 8px 32px;background:rgba(11,14,19,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,0.07);">
+  <button onClick="{{ goDash }}" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:{{ tabDashC }};padding:4px 0;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7v8.5a1.5 1.5 0 0 1-1.5 1.5H14v-6h-4v6H5.5A1.5 1.5 0 0 1 4 19.5z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"></path></svg>
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;">HOME</span>
+  </button>
+  <button onClick="{{ goSchedule }}" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:{{ tabSchedC }};padding:4px 0;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 17a8 8 0 0 1 16 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"></path><line x1="12" y1="17" x2="16.5" y2="11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"></line><circle cx="12" cy="17" r="1.6" fill="currentColor"></circle></svg>
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;">SCHEDULE</span>
+  </button>
+  <button onClick="{{ goHistory }}" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:{{ tabHistC }};padding:4px 0;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.8"></circle><path d="M12 7.5V12l3 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"></path></svg>
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;">HISTORY</span>
+  </button>
+  <button onClick="{{ goExpenses }}" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:{{ tabExpC }};padding:4px 0;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="13" width="3.5" height="7" rx="1" fill="currentColor"></rect><rect x="10.2" y="8" width="3.5" height="12" rx="1" fill="currentColor"></rect><rect x="16.5" y="4" width="3.5" height="16" rx="1" fill="currentColor"></rect></svg>
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;">EXPENSES</span>
+  </button>
+  <button onClick="{{ goGarage }}" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:{{ tabGarC }};padding:4px 0;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 20v-9l8-6 8 6v9" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round"></path><rect x="8" y="13" width="8" height="7" rx="1" stroke="currentColor" strokeWidth="1.8"></rect></svg>
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;">GARAGE</span>
+  </button>
+</div>
+
+<!-- FAB -->
+<sc-if value="{{ fabOn }}" hint-placeholder-val="{{ true }}">
+  <button onClick="{{ openRecBlank }}" aria-label="Log maintenance" style="position:absolute;right:18px;bottom:104px;z-index:41;width:54px;height:54px;border-radius:27px;background:#38BDF8;color:#08111A;border:none;font-size:30px;font-weight:400;line-height:1;cursor:pointer;box-shadow:0 8px 24px rgba(56,189,248,0.35);display:flex;align-items:center;justify-content:center;padding-bottom:3px;" style-hover="background:#5FCBFA">+</button>
+</sc-if>
+
+<!-- ══════════ RECORD SHEET ══════════ -->
+<sc-if value="{{ recOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeRec }}" style="position:absolute;inset:0;z-index:60;background:rgba(0,0,0,0.55);animation:mcFade .2s ease;"></div>
+  <div data-screen-label="Log Maintenance" style="position:absolute;left:0;right:0;bottom:0;z-index:61;background:#151B23;border-top:1px solid rgba(255,255,255,0.1);border-radius:24px 24px 0 0;padding:10px 18px 42px;max-height:80%;overflow:auto;animation:mcSheet .3s ease;">
+    <div style="width:38px;height:4px;border-radius:2px;background:rgba(255,255,255,0.18);margin:0 auto 14px;"></div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:0.5px;margin-bottom:14px;">Log Maintenance</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">MAINTENANCE TYPE</div>
+        <select name="typeId" value="{{ recForm.typeId }}" onChange="{{ onRecInput }}" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:11px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;appearance:none;">
+          <sc-for list="{{ typeOptions }}" as="o" hint-placeholder-count="4">
+            <option value="{{ o.id }}">{{ o.label }}</option>
+          </sc-for>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">DATE</div>
+          <input name="date" type="date" value="{{ recForm.date }}" onChange="{{ onRecInput }}" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:10px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+        </div>
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">ODOMETER (KM)</div>
+          <input name="km" type="number" value="{{ recForm.km }}" onChange="{{ onRecInput }}" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:10px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+        </div>
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">SHOP / MECHANIC</div>
+          <input name="shop" value="{{ recForm.shop }}" onChange="{{ onRecInput }}" placeholder="Kenny Moto Works" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:10px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+        </div>
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">COST ({{ currencySym }})</div>
+          <input name="cost" type="number" value="{{ recForm.cost }}" onChange="{{ onRecInput }}" placeholder="0" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:10px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">BRAND / PARTS USED</div>
+        <input name="parts" value="{{ recForm.parts }}" onChange="{{ onRecInput }}" placeholder="e.g. Yamalube Blue Core 10W-40" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:10px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;" style-focus="border-color:#38BDF8">
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;color:#8A94A3;margin-bottom:5px;">NOTES</div>
+        <textarea name="notes" value="{{ recForm.notes }}" onChange="{{ onRecInput }}" rows="2" placeholder="Optional" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:10px 13px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;resize:none;" style-focus="border-color:#38BDF8"></textarea>
+      </div>
+      <button onClick="{{ togglePhoto }}" style="background:none;border:1.5px dashed rgba(255,255,255,0.18);color:{{ photoColor }};border-radius:12px;padding:13px;font-size:13.5px;cursor:pointer;font-family:'Barlow',sans-serif;" style-hover="border-color:#38BDF8">{{ photoLabel }}</button>
+      <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:11px;padding:10px 13px;font-size:12.5px;color:#7DD3FC;">{{ recPreviewTxt }}</div>
+      <div style="display:flex;gap:10px;margin-top:2px;">
+        <button onClick="{{ closeRec }}" style="flex:1;background:none;border:1px solid rgba(255,255,255,0.14);color:#EDF1F6;border-radius:13px;padding:13px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;letter-spacing:2px;cursor:pointer;">CANCEL</button>
+        <button onClick="{{ saveRec }}" style="flex:2;background:#38BDF8;border:none;color:#08111A;border-radius:13px;padding:13px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;cursor:pointer;" style-hover="background:#5FCBFA">SAVE SERVICE</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ══════════ ODOMETER MODAL ══════════ -->
+<sc-if value="{{ odoOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeOdo }}" style="position:absolute;inset:0;z-index:70;background:rgba(0,0,0,0.55);animation:mcFade .2s ease;"></div>
+  <div style="position:absolute;left:24px;right:24px;top:36%;z-index:71;background:#151B23;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:20px;animation:mcSheet .25s ease;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:0.5px;">Update Odometer</div>
+    <div style="font-size:13px;color:#8A94A3;margin-top:2px;margin-bottom:12px;">Current: {{ odoFmt }} km</div>
+    <input type="number" value="{{ odoVal }}" onChange="{{ onOdoInput }}" style="width:100%;box-sizing:border-box;background:#0F141B;border:1px solid rgba(255,255,255,0.1);border-radius:11px;color:#EDF1F6;padding:12px 13px;font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;outline:none;text-align:center;font-variant-numeric:tabular-nums;" style-focus="border-color:#38BDF8">
+    <div style="display:flex;gap:10px;margin-top:14px;">
+      <button onClick="{{ closeOdo }}" style="flex:1;background:none;border:1px solid rgba(255,255,255,0.14);color:#EDF1F6;border-radius:12px;padding:12px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;cursor:pointer;">CANCEL</button>
+      <button onClick="{{ saveOdo }}" style="flex:1;background:#38BDF8;border:none;color:#08111A;border-radius:12px;padding:12px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;cursor:pointer;" style-hover="background:#5FCBFA">SAVE</button>
+    </div>
+  </div>
+</sc-if>
+
+<!-- TOAST -->
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;top:66px;left:20px;right:20px;z-index:90;background:rgba(20,28,36,0.95);border:1px solid rgba(74,222,128,0.4);border-radius:13px;padding:11px 15px;display:flex;align-items:center;gap:9px;animation:mcToast .25s ease;backdrop-filter:blur(8px);">
+    <span style="color:#4ADE80;font-size:15px;">✓</span>
+    <span style="font-size:13.5px;font-weight:500;">{{ toastMsg }}</span>
+  </div>
+</sc-if>
+
+</div>
+</x-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:560,&quot;height&quot;:980},&quot;currency&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;₱&quot;,&quot;$&quot;,&quot;€&quot;,&quot;Rp&quot;],&quot;default&quot;:&quot;₱&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Settings&quot;},&quot;dueSoonPct&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:10,&quot;max&quot;:40,&quot;step&quot;:5,&quot;default&quot;:25,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Settings&quot;},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;dashboard&quot;,&quot;schedule&quot;,&quot;history&quot;,&quot;expenses&quot;,&quot;health&quot;,&quot;garage&quot;],&quot;default&quot;:&quot;dashboard&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Settings&quot;}}">
+class Component extends DCLogic {
+  static ITEMS = [
+    { id: 'oil',      name: 'Engine Oil',            emoji: '🛢', cat: 'Engine',       interval: 1500 },
+    { id: 'gear',     name: 'Gear Oil',              emoji: '⚙️', cat: 'Transmission', interval: 3000 },
+    { id: 'cvt',      name: 'CVT Cleaning',          emoji: '🌀', cat: 'CVT',          interval: 4000 },
+    { id: 'air',      name: 'Air Filter',            emoji: '🌬️', cat: 'Engine',       interval: 8000 },
+    { id: 'spark',    name: 'Spark Plug',            emoji: '🔥', cat: 'Engine',       interval: 12000 },
+    { id: 'throttle', name: 'Throttle Body Cleaning',emoji: '🧴', cat: 'Engine',       interval: 12000 },
+    { id: 'pads',     name: 'Brake Pads Inspection', emoji: '🛑', cat: 'Brakes',       interval: 12000 },
+    { id: 'shoes',    name: 'Brake Shoes Inspection',emoji: '🛑', cat: 'Brakes',       interval: 12000 },
+    { id: 'susp',     name: 'Front Suspension Repack',emoji: '🛞', cat: 'Suspension',  interval: 12000 },
+    { id: 'battery',  name: 'Battery',               emoji: '🔋', cat: 'Electrical',   interval: 20000 },
+    { id: 'vbelt',    name: 'V-Belt Replacement',    emoji: '🔗', cat: 'CVT',          interval: 24000 }
+  ];
+  static CATS = [
+    { name: 'Engine',       emoji: '🛢' },
+    { name: 'Transmission', emoji: '⚙️' },
+    { name: 'CVT',          emoji: '🌀' },
+    { name: 'Brakes',       emoji: '🛑' },
+    { name: 'Suspension',   emoji: '🛞' },
+    { name: 'Electrical',   emoji: '🔋' }
+  ];
+  static TODAY = '2026-07-07';
+  static MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  state = {
+    screen: this.props.startScreen ?? 'dashboard',
+    activeBikeId: 'b1',
+    recOpen: false,
+    recForm: { typeId: 'oil', date: Component.TODAY, km: '', shop: '', cost: '', parts: '', notes: '', photo: false },
+    odoOpen: false,
+    odoVal: '',
+    profileId: null,
+    toast: null,
+    draft: this.blankDraft(),
+    bikes: [
+      {
+        id: 'b1', name: 'Yamaha Fazzio', brand: 'Yamaha', model: 'Fazzio 125 Hybrid', year: '2025',
+        color: 'Cyan Silver', plate: 'NDP 4821', odo: 8420,
+        notes: 'Daily commuter. Slight valve tick noticed at 7,800 km — monitor at next oil change.',
+        schedule: this.mkSchedule({ oil: 7800, gear: 5900, cvt: 5000, air: 0, spark: 0, throttle: 0, pads: 0, shoes: 0, susp: 0, battery: 0, vbelt: 0 }),
+        history: [
+          { id: 1, date: '2025-09-12', km: 1000, typeId: 'oil',  shop: 'Yamaha 3S Caloocan', cost: 380, parts: 'Yamalube 10W-40', notes: 'Break-in oil change' },
+          { id: 2, date: '2025-12-02', km: 2600, typeId: 'oil',  shop: 'Kenny Moto Works', cost: 420, parts: 'Yamalube Blue Core', notes: '' },
+          { id: 3, date: '2025-12-20', km: 2900, typeId: 'gear', shop: 'Kenny Moto Works', cost: 180, parts: 'Yamalube Gear Oil', notes: '' },
+          { id: 4, date: '2026-01-18', km: 4300, typeId: 'oil',  shop: 'Kenny Moto Works', cost: 420, parts: 'Yamalube Blue Core', notes: '' },
+          { id: 5, date: '2026-02-08', km: 5000, typeId: 'cvt',  shop: 'Kenny Moto Works', cost: 350, parts: '', notes: 'Cleaned rollers, belt dust removed' },
+          { id: 6, date: '2026-03-22', km: 5900, typeId: 'oil',  shop: 'Kenny Moto Works', cost: 420, parts: 'Yamalube Blue Core', notes: '' },
+          { id: 7, date: '2026-03-22', km: 5900, typeId: 'gear', shop: 'Kenny Moto Works', cost: 180, parts: 'Yamalube Gear Oil', notes: '' },
+          { id: 8, date: '2026-06-14', km: 7800, typeId: 'oil',  shop: 'Kenny Moto Works', cost: 420, parts: 'Yamalube Blue Core', notes: 'Slight valve tick, monitor' }
+        ]
+      },
+      {
+        id: 'b2', name: 'Honda Click 125i', brand: 'Honda', model: 'Click 125i', year: '2022',
+        color: 'Matte Gunpowder Black', plate: 'KLM 2207', odo: 21300,
+        notes: '',
+        schedule: this.mkSchedule({ oil: 20500, gear: 18400, cvt: 18400, air: 16000, spark: 12000, throttle: 12000, pads: 12000, shoes: 12000, susp: 12000, battery: 0, vbelt: 0 }),
+        history: [
+          { id: 1, date: '2025-11-09', km: 16000, typeId: 'air',  shop: 'Honda Prestige Center', cost: 520, parts: 'Genuine Honda filter', notes: '' },
+          { id: 2, date: '2026-04-15', km: 18400, typeId: 'gear', shop: 'Honda Prestige Center', cost: 220, parts: 'Honda Gear Oil', notes: '' },
+          { id: 3, date: '2026-04-15', km: 18400, typeId: 'cvt',  shop: 'Honda Prestige Center', cost: 380, parts: '', notes: 'Replaced slider pieces' },
+          { id: 4, date: '2026-06-28', km: 20500, typeId: 'oil',  shop: 'Honda Prestige Center', cost: 450, parts: 'Honda MPX2 10W-30', notes: '' }
+        ]
+      }
+    ]
+  };
+
+  blankDraft() {
+    return {
+      name: '', brand: '', model: '', year: '', color: '', plate: '', odo: '', notes: '',
+      items: Component.ITEMS.map(d => ({ id: d.id, name: d.name, emoji: d.emoji, cat: d.cat, interval: d.interval, on: true }))
+    };
+  }
+  mkSchedule(lastMap) {
+    return Component.ITEMS.map(d => ({ ...d, lastKm: lastMap[d.id] ?? 0 }));
+  }
+
+  bike() { return this.state.bikes.find(b => b.id === this.state.activeBikeId); }
+  cur() { return this.props.currency ?? '₱'; }
+  duePct() { return (this.props.dueSoonPct ?? 25) / 100; }
+  fmt(n) { return Math.round(n).toLocaleString('en-US'); }
+  money(n) { return this.cur() + Math.round(n).toLocaleString('en-US'); }
+  fmtDate(s, withYear) {
+    const [y, m, d] = s.split('-').map(Number);
+    return Component.MONTHS[m - 1] + ' ' + d + (withYear ? ', ' + y : '');
+  }
+
+  statusOf(it, odo) {
+    const next = it.lastKm + it.interval;
+    const remaining = next - odo;
+    const window = it.interval * this.duePct();
+    let color, label;
+    if (remaining < 0) { color = '#F87171'; label = 'OVERDUE'; }
+    else if (remaining <= it.interval * 0.1) { color = '#FB923C'; label = 'ALMOST DUE'; }
+    else if (remaining <= window) { color = '#FACC15'; label = 'DUE SOON'; }
+    else { color = '#4ADE80'; label = 'ON TRACK'; }
+    const usedPct = Math.max(2, Math.min(100, ((odo - it.lastKm) / it.interval) * 100));
+    let score;
+    if (remaining >= window) score = 100;
+    else score = Math.max(0, Math.min(100, 50 + 50 * (remaining / window)));
+    return {
+      remaining, next, color, label, score,
+      pctW: usedPct.toFixed(0) + '%',
+      pillBg: color + '22',
+      dueTxt: remaining >= 0 ? 'Due in ' + this.fmt(remaining) + ' km' : 'Overdue by ' + this.fmt(-remaining) + ' km'
+    };
+  }
+
+  healthOf(bike) {
+    const sts = bike.schedule.map(it => this.statusOf(it, bike.odo));
+    const mean = sts.reduce((a, s) => a + s.score, 0) / Math.max(1, sts.length);
+    const overdue = sts.filter(s => s.label === 'OVERDUE').length;
+    const almost = sts.filter(s => s.label === 'ALMOST DUE').length;
+    const score = Math.round(Math.max(0, Math.min(100, mean - overdue * 12 - almost * 4)));
+    let color, label;
+    if (score >= 80) { color = '#4ADE80'; label = 'EXCELLENT'; }
+    else if (score >= 60) { color = '#FACC15'; label = 'GOOD'; }
+    else if (score >= 40) { color = '#FB923C'; label = 'FAIR'; }
+    else { color = '#F87171'; label = 'NEEDS ATTENTION'; }
+    return { score, color, label, overdue };
+  }
+
+  toast(msg) {
+    clearTimeout(this._toastT);
+    this.setState({ toast: msg });
+    this._toastT = setTimeout(() => this.setState({ toast: null }), 2600);
+  }
+
+  go(screen) { this.setState({ screen }); }
+
+  openRec(typeId) {
+    const b = this.bike();
+    this.setState({
+      recOpen: true,
+      recForm: { typeId: typeId ?? b.schedule[0].id, date: Component.TODAY, km: String(b.odo), shop: '', cost: '', parts: '', notes: '', photo: false }
+    });
+  }
+  saveRec() {
+    const f = this.state.recForm;
+    const km = parseInt(f.km, 10);
+    if (!km || km <= 0) { this.toast('Enter a valid odometer reading'); return; }
+    const cost = parseFloat(f.cost) || 0;
+    const item = this.bike().schedule.find(it => it.id === f.typeId);
+    const entry = { id: Date.now(), date: f.date || Component.TODAY, km, typeId: f.typeId, shop: f.shop, cost, parts: f.parts, notes: f.notes };
+    this.setState(s => ({
+      recOpen: false,
+      bikes: s.bikes.map(b => b.id !== s.activeBikeId ? b : {
+        ...b,
+        odo: Math.max(b.odo, km),
+        schedule: b.schedule.map(it => it.id === f.typeId ? { ...it, lastKm: km } : it),
+        history: [...b.history, entry]
+      })
+    }));
+    this.toast((item ? item.name : 'Service') + ' logged at ' + this.fmt(km) + ' km — next due at ' + this.fmt(km + (item ? item.interval : 0)) + ' km');
+  }
+
+  saveOdo() {
+    const v = parseInt(this.state.odoVal, 10);
+    if (!v || v <= 0) { this.toast('Enter a valid reading'); return; }
+    this.setState(s => ({
+      odoOpen: false,
+      bikes: s.bikes.map(b => b.id === s.activeBikeId ? { ...b, odo: v } : b)
+    }));
+    this.toast('Odometer updated to ' + this.fmt(v) + ' km');
+  }
+
+  saveBike() {
+    const d = this.state.draft;
+    if (!d.name.trim()) { this.toast('Give your motorcycle a nickname'); return; }
+    const odo = parseInt(d.odo, 10) || 0;
+    const bike = {
+      id: 'b' + Date.now(),
+      name: d.name.trim(), brand: d.brand, model: d.model, year: d.year, color: d.color, plate: d.plate,
+      odo, notes: d.notes,
+      schedule: d.items.filter(i => i.on).map(i => ({ id: i.id, name: i.name, emoji: i.emoji, cat: i.cat, interval: Math.max(100, parseInt(i.interval, 10) || 100), lastKm: odo })),
+      history: []
+    };
+    if (!bike.schedule.length) { this.toast('Keep at least one maintenance item'); return; }
+    this.setState(s => ({ bikes: [...s.bikes, bike], activeBikeId: bike.id, screen: 'dashboard', draft: this.blankDraft() }));
+    this.toast(bike.name + ' added to your garage');
+  }
+
+  monthBuckets(history) {
+    const now = new Date(Component.TODAY);
+    const out = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+      const amount = history.filter(h => h.date.startsWith(key)).reduce((a, h) => a + h.cost, 0);
+      out.push({ label: Component.MONTHS[d.getMonth()].toUpperCase(), key, amount });
+    }
+    return out;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const b = this.bike();
+    const odo = b.odo;
+    const health = this.healthOf(b);
+    const itemById = Object.fromEntries(Component.ITEMS.map(i => [i.id, i]));
+
+    const rows = b.schedule.map(it => {
+      const st = this.statusOf(it, odo);
+      return {
+        id: it.id, emoji: it.emoji, name: it.name,
+        intervalTxt: 'Every ' + this.fmt(it.interval) + ' km',
+        lastTxt: it.lastKm > 0 ? 'Last at ' + this.fmt(it.lastKm) + ' km' : 'Not yet serviced',
+        color: st.color, pillBg: st.pillBg, statusLabel: st.label, dueTxt: st.dueTxt, pctW: st.pctW,
+        remaining: st.remaining,
+        onLog: () => this.openRec(it.id)
+      };
+    });
+    const upcoming = [...rows].sort((a, x) => a.remaining - x.remaining).slice(0, 4);
+    const onTrack = rows.filter(r => r.statusLabel === 'ON TRACK').length;
+
+    // history
+    const historyRows = [...b.history].sort((a, x) => x.km - a.km || (x.date < a.date ? -1 : 1)).map(h => {
+      const it = itemById[h.typeId] || { name: 'Service', emoji: '🔧' };
+      return {
+        id: h.id, emoji: it.emoji, name: it.name,
+        dateTxt: this.fmtDate(h.date, true), shop: h.shop || '—',
+        costTxt: this.money(h.cost), kmTxt: this.fmt(h.km) + ' KM',
+        parts: h.parts, hasParts: !!h.parts, notes: h.notes, hasNotes: !!h.notes
+      };
+    });
+    const lifetimeCost = b.history.reduce((a, h) => a + h.cost, 0);
+    const lastEntry = [...b.history].sort((a, x) => (x.date < a.date ? -1 : 1))[0];
+
+    // expenses
+    const yearCost = b.history.filter(h => h.date.startsWith('2026')).reduce((a, h) => a + h.cost, 0);
+    const monthCost = b.history.filter(h => h.date.startsWith('2026-07')).reduce((a, h) => a + h.cost, 0);
+    const buckets = this.monthBuckets(b.history);
+    const maxAmt = Math.max(1, ...buckets.map(x => x.amount));
+    const monthBars = buckets.map(x => ({
+      label: x.label,
+      amountTxt: x.amount ? this.money(x.amount) : '—',
+      amtColor: x.amount ? '#EDF1F6' : '#4A5462',
+      barColor: x.amount ? (x.amount === maxAmt ? '#38BDF8' : 'rgba(56,189,248,0.4)') : 'rgba(255,255,255,0.06)',
+      h: x.amount ? Math.max(8, Math.round((x.amount / maxAmt) * 62)) : 4
+    }));
+    const byType = {};
+    b.history.forEach(h => { byType[h.typeId] = (byType[h.typeId] || 0) + h.cost; });
+    const topType = Object.entries(byType).sort((a, x) => x[1] - a[1])[0];
+
+    // health categories
+    const healthCats = Component.CATS.map(c => {
+      const items = b.schedule.filter(it => it.cat === c.name);
+      if (!items.length) return null;
+      const avg = Math.round(items.reduce((a, it) => a + this.statusOf(it, odo).score, 0) / items.length);
+      let color;
+      if (avg >= 80) color = '#4ADE80'; else if (avg >= 60) color = '#FACC15'; else if (avg >= 40) color = '#FB923C'; else color = '#F87171';
+      return { name: c.name, emoji: c.emoji, pctTxt: avg + '%', wTxt: avg + '%', color, itemsTxt: items.length + (items.length === 1 ? ' item' : ' items') };
+    }).filter(Boolean);
+
+    // garage
+    const bikeCards = s.bikes.map(bk => {
+      const h = this.healthOf(bk);
+      return {
+        id: bk.id, name: bk.name,
+        sub: [bk.year, bk.model, bk.plate].filter(Boolean).join(' · '),
+        odoTxt: this.fmt(bk.odo) + ' km', healthTxt: h.score + '%', healthColor: h.color,
+        isActive: bk.id === s.activeBikeId, notActive: bk.id !== s.activeBikeId,
+        borderC: bk.id === s.activeBikeId ? 'rgba(56,189,248,0.35)' : 'rgba(255,255,255,0.07)',
+        onSelect: () => { this.setState({ activeBikeId: bk.id, screen: 'dashboard' }); this.toast('Switched to ' + bk.name); },
+        onOpen: () => this.setState({ profileId: bk.id, screen: 'profile' })
+      };
+    });
+
+    // profile
+    const pb = s.bikes.find(x => x.id === s.profileId) || b;
+    const ph = this.healthOf(pb);
+    const profileFields = [
+      { label: 'BRAND', value: pb.brand || '—' },
+      { label: 'MODEL', value: pb.model || '—' },
+      { label: 'YEAR', value: pb.year || '—' },
+      { label: 'COLOR', value: pb.color || '—' },
+      { label: 'PLATE NUMBER', value: pb.plate || '—' },
+      { label: 'ODOMETER', value: this.fmt(pb.odo) + ' km' },
+      { label: 'MAINTENANCE ITEMS', value: String(pb.schedule.length) }
+    ];
+
+    // add-bike draft
+    const draftRows = s.draft.items.map(d => ({
+      id: d.id, emoji: d.emoji, name: d.name, interval: d.interval, on: d.on,
+      rowOpacity: d.on ? '1' : '0.4',
+      trackBg: d.on ? '#38BDF8' : 'rgba(255,255,255,0.14)',
+      knobLeft: d.on ? '20px' : '3px',
+      toggle: () => this.setState(st => ({ draft: { ...st.draft, items: st.draft.items.map(i => i.id === d.id ? { ...i, on: !i.on } : i) } })),
+      onInterval: (e) => {
+        const v = e.target.value;
+        this.setState(st => ({ draft: { ...st.draft, items: st.draft.items.map(i => i.id === d.id ? { ...i, interval: v } : i) } }));
+      }
+    }));
+
+    // record preview
+    const recItem = b.schedule.find(it => it.id === s.recForm.typeId);
+    const recKm = parseInt(s.recForm.km, 10);
+    const recPreviewTxt = recItem && recKm
+      ? 'Next ' + recItem.name.toLowerCase() + ' will be due at ' + this.fmt(recKm + recItem.interval) + ' km.'
+      : 'Next due mileage is calculated automatically after saving.';
+
+    const scr = s.screen;
+    const tabC = (name) => scr === name ? '#38BDF8' : '#6B7684';
+    const ringC = 2 * Math.PI * 44, ringCB = 2 * Math.PI * 64;
+
+    return {
+      // identity
+      bikeName: b.name, bikeNameUpper: b.name.toUpperCase(),
+      bikeSub: [b.year, b.model].filter(Boolean).join(' · '), bikePlate: b.plate || '—',
+      odoFmt: this.fmt(odo),
+      currencySym: this.cur(),
+      // health
+      healthScore: health.score, healthColor: health.color, healthLabel: health.label,
+      ringDash: (health.score / 100 * ringC).toFixed(1) + ' ' + ringC.toFixed(1),
+      ringDashBig: (health.score / 100 * ringCB).toFixed(1) + ' ' + ringCB.toFixed(1),
+      healthSubTxt: health.overdue ? health.overdue + (health.overdue === 1 ? ' item is overdue' : ' items are overdue') : 'No overdue items',
+      healthCats,
+      // dashboard
+      segments: rows.map(r => ({ color: r.color })),
+      onTrackTxt: onTrack + ' of ' + rows.length + ' on track',
+      upcoming,
+      lifetimeCostTxt: this.money(lifetimeCost),
+      lastServiceTxt: lastEntry ? this.fmtDate(lastEntry.date) : '—',
+      servicesCount: b.history.length,
+      // schedule
+      scheduleRows: rows,
+      // history
+      historyRows,
+      historySummary: b.history.length + ' services · ' + this.money(lifetimeCost) + ' lifetime',
+      // expenses
+      monthCostTxt: this.money(monthCost), yearCostTxt: this.money(yearCost),
+      monthBars,
+      topSpendName: topType ? (itemById[topType[0]] || {}).name || '—' : '—',
+      topSpendTxt: topType ? this.money(topType[1]) : '—',
+      avgServiceTxt: b.history.length ? this.money(lifetimeCost / b.history.length) : '—',
+      costPerKmTxt: odo > 0 ? this.cur() + (lifetimeCost / odo).toFixed(2) + '/km' : '—',
+      // garage / profile
+      bikeCards,
+      profileName: pb.name, profileSub: [pb.year, pb.model].filter(Boolean).join(' · '),
+      profileFields, profileNotes: pb.notes, profileHasNotes: !!pb.notes,
+      profileServices: pb.history.length,
+      profileSpent: this.money(pb.history.reduce((a, h) => a + h.cost, 0)),
+      profileHealth: ph.score + '%', profileHealthColor: ph.color,
+      profileNotActive: pb.id !== s.activeBikeId,
+      profileSetActive: () => { this.setState({ activeBikeId: pb.id, screen: 'dashboard' }); this.toast('Switched to ' + pb.name); },
+      // add bike
+      draft: s.draft, draftRows,
+      onDraftInput: (e) => { const { name, value } = e.target; this.setState(st => ({ draft: { ...st.draft, [name]: value } })); },
+      saveBike: () => this.saveBike(),
+      // record
+      recOpen: s.recOpen, recForm: s.recForm,
+      typeOptions: b.schedule.map(it => ({ id: it.id, label: it.emoji + ' ' + it.name })),
+      onRecInput: (e) => { const { name, value } = e.target; this.setState(st => ({ recForm: { ...st.recForm, [name]: value } })); },
+      togglePhoto: () => this.setState(st => ({ recForm: { ...st.recForm, photo: !st.recForm.photo } })),
+      photoLabel: s.recForm.photo ? '📸 receipt-2026-07-07.jpg attached — tap to remove' : '📸 Add receipt or photo',
+      photoColor: s.recForm.photo ? '#4ADE80' : '#8A94A3',
+      recPreviewTxt,
+      saveRec: () => this.saveRec(),
+      openRecBlank: () => this.openRec(null),
+      closeRec: () => this.setState({ recOpen: false }),
+      // odometer
+      odoOpen: s.odoOpen, odoVal: s.odoVal,
+      openOdo: () => this.setState({ odoOpen: true, odoVal: String(odo) }),
+      closeOdo: () => this.setState({ odoOpen: false }),
+      onOdoInput: (e) => this.setState({ odoVal: e.target.value }),
+      saveOdo: () => this.saveOdo(),
+      // toast
+      hasToast: !!s.toast, toastMsg: s.toast,
+      // nav
+      isDash: scr === 'dashboard', isSchedule: scr === 'schedule', isHistory: scr === 'history',
+      isExpenses: scr === 'expenses', isGarage: scr === 'garage', isHealth: scr === 'health',
+      isProfile: scr === 'profile', isAddBike: scr === 'addBike',
+      fabOn: ['dashboard', 'schedule', 'history'].includes(scr) && !s.recOpen,
+      goDash: () => this.go('dashboard'), goSchedule: () => this.go('schedule'),
+      goHistory: () => this.go('history'), goExpenses: () => this.go('expenses'),
+      goGarage: () => this.go('garage'), goHealth: () => this.go('health'),
+      goAddBike: () => this.setState({ screen: 'addBike', draft: this.blankDraft() }),
+      tabDashC: tabC('dashboard'), tabSchedC: tabC('schedule'), tabHistC: tabC('history'),
+      tabExpC: tabC('expenses'), tabGarC: ['garage', 'profile', 'addBike'].includes(scr) ? '#38BDF8' : '#6B7684'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141C28"/>
+      <stop offset="1" stop-color="#0A0E14"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.14" r="0.72">
+      <stop offset="0" stop-color="#38BDF8" stop-opacity="0.30"/>
+      <stop offset="0.55" stop-color="#38BDF8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5FCBFA"/>
+      <stop offset="1" stop-color="#2FA8E0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <rect width="512" height="512" fill="url(#glow)"/>
+  <circle cx="256" cy="256" r="150" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="30"/>
+  <circle cx="256" cy="256" r="150" fill="none" stroke="url(#ring)" stroke-width="30" stroke-linecap="round" stroke-dasharray="730 942" transform="rotate(-90 256 256)"/>
+  <g transform="translate(256 256) scale(8.2) translate(-11.4 -13.4)" fill="#EAF6FF">
+    <path d="M14.9 6.2a4.3 4.3 0 0 0-5.7 5.7L3.4 17.7l2.9 2.9 5.8-5.8a4.3 4.3 0 0 0 5.7-5.7l-2.7 2.7-2.5-.9-.9-2.5 2.7-2.7z"/>
+  </g>
+</svg>

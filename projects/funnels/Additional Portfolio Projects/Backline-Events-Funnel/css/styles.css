@@ -1,0 +1,635 @@
+/* ============================================================
+   BACKLINE EVENTS CO. — day-of coordination funnel
+   Direction: "No Panic Events" (Events / Bold & Confident)
+
+   Palette (direction hexes, unchanged):
+     Command Base  #161C1F  hero, sections, footer
+     Graphite      #525C5D  secondary panels, notes
+     Signal Orange #D04D39  primary CTA, contingency flags
+     Panel         #E1E7E5  cards, plan tables
+     Bone          #F8F1E6  page background, proof cards
+
+   Type: Archivo Black (display) / Roboto (body)
+   Radius system: 0 everywhere. A command brand has no soft corners.
+   Accent rule: #D04D39 is the only accent, used identically page-wide.
+
+   Contrast notes (audited):
+     Signal Orange is a mid-tone. Nothing hits 4.5:1 on it, so orange only ever
+     carries LARGE text (>=19.2px bold, the 3:1 threshold) or acts as a fill.
+     Small orange-on-dark labels were rejected for exactly this reason and are
+     set in Panel instead.
+   ============================================================ */
+
+:root {
+  --base:      #161C1F;
+  --graphite:  #525C5D;
+  --accent:    #D04D39;
+  --accent-lo: #B8422F;   /* hover/active only, same hue family */
+  --panel:     #E1E7E5;
+  --bg:        #F8F1E6;
+
+  --on-dark:   #E1E7E5;   /* 13.7:1 on base */
+  --on-dark-2: #AFB9B8;   /*  8.6:1 on base */
+  --on-dark-3: #8E9897;   /*  5.7:1 on base, quietest passing tone */
+  --line:      #CBD3D1;
+  --line-dark: #2C3438;
+
+  --font-display: "Archivo Black", "Arial Black", Impact, sans-serif;
+  --font-body: Roboto, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);   /* ease-out-quint */
+  --snap: 250ms;                            /* direction: hero snaps in */
+  --settle: 420ms;
+
+  --wrap: 1200px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+
+  --z-sticky: 50;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--base);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip {
+  position: absolute; left: 0; top: -100%;
+  background: var(--accent); color: #fff; padding: 0.75rem 1.25rem;
+  font-weight: 700; z-index: 100; text-decoration: none;
+}
+.skip:focus { top: 0; }
+
+/* ---------- type ---------- */
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* Archivo Black sets very wide. The display scale is tuned so the hero
+   headline holds its line count and the CTA stays above the fold at 1280x720,
+   not to the largest size the grid would technically allow. */
+h1 { font-size: clamp(1.95rem, 3.35vw, 2.95rem); }
+h2 { font-size: clamp(1.85rem, 4.1vw, 3rem); }
+h3 { font-size: clamp(1.15rem, 1.9vw, 1.4rem); line-height: 1.2; }
+
+p { text-wrap: pretty; }
+
+.lede {
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  color: var(--graphite);
+  max-width: 62ch;
+  margin-top: 1.35rem;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--on-dark);
+  margin-bottom: 1.4rem;
+}
+
+.micro { font-size: 0.85rem; color: var(--graphite); }
+.micro--light { color: var(--on-dark-2); }
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 160ms var(--ease), transform 120ms var(--ease);
+}
+
+.btn--accent { background: var(--accent); color: #fff; }
+.btn--accent:hover { background: var(--accent-lo); }
+.btn--accent:active { transform: translateY(1px); }
+
+/* 19.2px bold clears the WCAG large-text threshold, where #fff on
+   Signal Orange measures 4.37:1 against a 3:1 requirement. */
+.btn--lg { font-size: 1.2rem; padding: 1rem 2.1rem; }
+.btn--block { width: 100%; }
+
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.close :where(a, button, input):focus-visible { outline-color: #fff; }
+
+/* ---------- reveals ----------
+   Content is visible by default. Motion is layered on only once JS confirms
+   IntersectionObserver support, so a headless render or a failed script can
+   never ship a blank section. */
+
+.js .reveal { opacity: 0; transform: translateY(14px); }
+.js .reveal.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--settle) var(--ease), transform var(--settle) var(--ease);
+}
+.js .reveal--d1.in { transition-delay: 70ms; }
+.js .reveal--d2.in { transition-delay: 140ms; }
+.js .reveal--d3.in { transition-delay: 210ms; }
+.js .reveal--d4.in { transition-delay: 280ms; }
+.js .reveal--d5.in { transition-delay: 350ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; }
+  .js .reveal.in { transition: none; transition-delay: 0ms !important; }
+}
+
+/* ============================================================
+   NAV — one line, under 80px
+   ============================================================ */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: rgba(22, 28, 31, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line-dark);
+  color: var(--on-dark);
+}
+
+.nav__inner {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding: 0.7rem var(--gutter);
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.nav__brand { display: inline-flex; color: var(--on-dark); }
+.nav__logo { height: 34px; width: auto; }
+
+.nav__cta { font-size: 1.2rem; padding: 0.6rem 1.4rem; white-space: nowrap; }
+
+@media (max-width: 860px) {
+  /* The hero CTA sits immediately below; a wrapped nav button is worse than none. */
+  .nav__cta { display: none; }
+}
+
+/* ============================================================
+   1. HERO — split, full-bleed photo under a directional scrim
+   ============================================================ */
+
+.hero {
+  position: relative;
+  color: var(--on-dark);
+  background:
+    linear-gradient(100deg,
+      rgba(22, 28, 31, 0.97) 0%,
+      rgba(22, 28, 31, 0.93) 42%,
+      rgba(22, 28, 31, 0.55) 72%,
+      rgba(208, 77, 57, 0.32) 100%),
+    url("../assets/bg-hero-tent-dusk.jpg") center / cover no-repeat,
+    var(--base);
+}
+
+.hero__inner {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding: clamp(2.25rem, 4vw, 3.5rem) var(--gutter) clamp(2.5rem, 4.5vw, 4rem);
+  display: grid;
+  grid-template-columns: 1.32fr 1fr;
+  gap: clamp(1.75rem, 4vw, 3.25rem);
+  align-items: center;
+  /* Reserve the sticky nav so the fold budget is the space actually left. */
+  min-height: min(calc(100dvh - 74px), 740px);
+}
+
+.hero__sub {
+  font-size: clamp(1.05rem, 1.65vw, 1.25rem);
+  color: var(--on-dark);
+  max-width: 46ch;
+  margin-top: 1.5rem;
+  line-height: 1.7;
+}
+
+.hero__cta { margin-top: 2.4rem; }
+.hero__cta .micro { margin-top: 0.85rem; color: var(--on-dark-2); }
+
+.hero__media img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: saturate(0.92) contrast(1.06);
+}
+
+@media (max-width: 900px) {
+  .hero__inner { grid-template-columns: 1fr; min-height: 0; }
+  .hero__media { order: -1; }
+  .hero__media img { aspect-ratio: 16 / 9; }
+  .hero__sub { margin-top: 1.1rem; }
+  .hero__cta { margin-top: 1.75rem; }
+}
+
+@media (max-width: 560px) {
+  /* Full width buys the label a single line. Shrinking the type instead would
+     drop it under 18.66px, out of the WCAG large-text bracket that white on
+     Signal Orange (4.37:1) depends on. */
+  .hero__cta .btn--lg,
+  .proof__cta .btn--lg { width: 100%; letter-spacing: 0.02em; padding-inline: 1rem; }
+}
+
+/* ============================================================
+   2. THE RUN BOOK — asymmetric grid on Bone
+   ============================================================ */
+
+.plan { padding: clamp(4rem, 8vw, 7rem) 0; background: var(--bg); }
+
+.plan__head h2 { max-width: 20ch; }
+
+.plan__grid {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.plan__lead h3,
+.plan__item h3 { margin-bottom: 0.7rem; }
+
+.plan__lead p { color: var(--graphite); max-width: 52ch; }
+.plan__lead p + p { margin-top: 1rem; }
+
+.plan__figure { margin-top: 2rem; }
+.plan__figure img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.plan__figure figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.85rem;
+  color: var(--graphite);
+}
+
+.plan__side { display: grid; gap: 1px; background: var(--line); border-block: 1px solid var(--line); }
+.plan__item { background: var(--bg); padding: clamp(1.5rem, 2.5vw, 2rem) 0; }
+.plan__item p { color: var(--graphite); }
+
+@media (max-width: 900px) {
+  .plan__grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   3. ON-SITE COMMAND — roster rows on Command Base
+   ============================================================ */
+
+.command {
+  padding: clamp(4rem, 8vw, 7rem) 0;
+  background: var(--base);
+  color: var(--on-dark);
+}
+.command h2 { color: var(--on-dark); }
+.command .lede { color: var(--on-dark-2); }
+
+.roster {
+  list-style: none;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  border-top: 1px solid var(--line-dark);
+}
+
+.roster__row {
+  display: grid;
+  grid-template-columns: 13rem 1fr 15rem;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: start;
+  padding: clamp(1.6rem, 3vw, 2.2rem) 0;
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.roster__role {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.15;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+
+.roster__body h3 { color: var(--on-dark); margin-bottom: 0.55rem; }
+.roster__body p { color: var(--on-dark-2); max-width: 58ch; }
+
+.roster__name {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--on-dark-2);
+  border: 1px dashed var(--graphite);
+  padding: 0.5rem 0.7rem;
+}
+
+.command__figure { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.command__figure img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; }
+.command__figure figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.85rem;
+  color: var(--on-dark-2);
+}
+
+@media (max-width: 900px) {
+  .roster__row { grid-template-columns: 1fr; gap: 0.75rem; }
+  .roster__name { justify-self: start; }
+}
+
+/* ============================================================
+   4. CONTINGENCY MATRIX — the plan table on Panel
+   ============================================================ */
+
+.matrix { padding: clamp(4rem, 8vw, 7rem) 0; background: var(--panel); }
+
+.matrix__scroll { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+
+.matrix__table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.98rem;
+}
+
+.matrix__table thead th {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--base);
+  padding: 0 1.25rem 0.9rem 0;
+  border-bottom: 2px solid var(--base);
+  vertical-align: bottom;
+}
+
+.matrix__table tbody tr {
+  border-bottom: 1px solid var(--line);
+  transition: background-color 160ms var(--ease);
+}
+.matrix__table tbody tr:hover,
+.matrix__table tbody tr:focus-within { background: rgba(208, 77, 57, 0.07); }
+
+.matrix__table tbody th,
+.matrix__table tbody td {
+  padding: 1.35rem 1.25rem 1.35rem 0;
+  vertical-align: top;
+}
+
+.matrix__table tbody th {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--base);
+  width: 22%;
+}
+
+.matrix__table tbody td { color: var(--graphite); width: 39%; }
+
+.matrix__table tbody td:last-child {
+  color: var(--base);
+  font-weight: 500;
+  background: rgba(208, 77, 57, 0.08);
+  padding-inline: 1.25rem;
+}
+
+.matrix__note {
+  margin-top: 1.75rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--graphite);
+  max-width: 72ch;
+}
+
+@media (max-width: 820px) {
+  /* Collapse the matrix to one stacked block per failure point. */
+  .matrix__table thead { display: none; }
+  .matrix__table, .matrix__table tbody, .matrix__table tr,
+  .matrix__table th, .matrix__table td { display: block; width: auto; }
+
+  .matrix__table tbody tr {
+    background: var(--bg);
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+    border-bottom: 0;
+  }
+  .matrix__table tbody th { padding: 0 0 0.6rem; font-size: 1.15rem; }
+  .matrix__table tbody td { padding: 0; }
+  .matrix__table tbody td + td { margin-top: 0.9rem; }
+
+  .matrix__table tbody td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--base);
+    margin-bottom: 0.35rem;
+  }
+  .matrix__table tbody td:last-child { padding: 0.9rem 1rem; }
+}
+
+/* ============================================================
+   5. CRISES YOU NEVER KNEW ABOUT — proof row on Bone
+   ============================================================ */
+
+.proof { padding: clamp(4rem, 8vw, 7rem) 0; background: var(--bg); }
+
+.proof__flag {
+  margin-top: 1.25rem;
+  padding: 0.9rem 1.1rem;
+  background: rgba(208, 77, 57, 0.08);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--base);
+  max-width: 72ch;
+}
+
+.proof__grid {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.story { border-top: 3px solid var(--base); padding-top: 1.4rem; }
+.story:nth-child(2) { margin-top: clamp(0rem, 3vw, 2.5rem); }
+.story:nth-child(3) { margin-top: clamp(0rem, 6vw, 5rem); }
+
+.story__when {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin-bottom: 0.85rem;
+}
+.story h3 { margin-bottom: 0.8rem; }
+.story > p { color: var(--graphite); }
+
+.story blockquote { margin-top: 1.3rem; padding-top: 1.1rem; border-top: 1px solid var(--line); }
+.story blockquote p { color: var(--base); font-size: 1.02rem; line-height: 1.55; }
+.story cite {
+  display: block;
+  margin-top: 0.7rem;
+  font-size: 0.8rem;
+  font-style: normal;
+  color: var(--graphite);
+}
+
+.proof__cta { margin-top: clamp(3rem, 5vw, 4rem); text-align: center; }
+.proof__cta .micro { margin-top: 0.9rem; }
+
+/* ============================================================
+   6. CLOSE — centered, full-bleed photo under a stronger scrim
+   ============================================================ */
+
+.close {
+  color: var(--on-dark);
+  background:
+    linear-gradient(150deg,
+      rgba(22, 28, 31, 0.94) 0%,
+      rgba(139, 43, 30, 0.88) 52%,
+      rgba(22, 28, 31, 0.95) 100%),
+    url("../assets/bg-close-toast.jpg") center / cover no-repeat,
+    var(--base);
+}
+
+.close__inner {
+  max-width: 660px;
+  margin-inline: auto;
+  padding: clamp(4rem, 9vw, 7rem) var(--gutter);
+  text-align: center;
+}
+.close h2 { color: #fff; }
+.close__sub {
+  margin-top: 1.35rem;
+  font-size: clamp(1.02rem, 1.5vw, 1.15rem);
+  color: var(--on-dark);
+  line-height: 1.7;
+}
+
+/* ---------- form ---------- */
+
+.form { margin-top: 2.5rem; text-align: left; }
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field + .field, .form__row + .field { margin-top: 1rem; }
+
+.field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--on-dark);
+  margin-bottom: 0.45rem;
+}
+.field__hint {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--on-dark-2);
+}
+
+.field input {
+  width: 100%;
+  min-height: 48px;
+  font: inherit;
+  color: var(--base);
+  background: var(--bg);
+  border: 1px solid transparent;
+  border-radius: 0;
+  padding: 0.7rem 0.9rem;
+}
+.field input[aria-invalid="true"] { border-color: #FFC9BF; box-shadow: inset 0 0 0 2px var(--accent); }
+
+.field__err {
+  margin-top: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #FFD2C9;
+}
+
+.form .btn--block { margin-top: 1.5rem; }
+.form .micro--light { margin-top: 0.9rem; text-align: center; line-height: 1.6; }
+
+.form__done { margin-top: 2.5rem; padding: 2rem; background: rgba(22, 28, 31, 0.55); }
+.form__done h3 { color: #fff; margin-bottom: 0.7rem; }
+.form__done p { color: var(--on-dark); }
+.form__done a { color: #fff; }
+
+@media (max-width: 560px) {
+  .form__row { grid-template-columns: 1fr; gap: 1rem; }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.footer { background: var(--base); color: var(--on-dark-2); padding: clamp(2.5rem, 5vw, 3.5rem) 0; border-top: 1px solid var(--line-dark); }
+.footer__inner { display: grid; gap: 0.6rem; }
+.footer__logo { height: 36px; width: auto; color: var(--on-dark); margin-bottom: 0.6rem; }
+.footer__meta { font-size: 0.9rem; }
+.footer__fine { font-size: 0.8rem; color: var(--on-dark-3); margin-top: 0.6rem; }
+
+
+/* Risk reversal beside the CTA. Named .guarantee rather than .promise —
+   at least one funnel already uses .promise (and .promise__label) for a
+   different block, and reusing the name silently restyled it. */
+.guarantee {
+  margin: 1.75rem auto 0;
+  padding: 1.1rem 1.3rem;
+  max-width: 54ch;
+  border: 1px solid rgba(208,77,57,.30);
+  border-left: 3px solid #D04D39;
+  background: rgba(208,77,57,.06);
+  color: #525C5D;
+  font-size: 0.94rem;
+  line-height: 1.65;
+  text-align: left;
+}
+
+.guarantee__label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #B8422F;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}

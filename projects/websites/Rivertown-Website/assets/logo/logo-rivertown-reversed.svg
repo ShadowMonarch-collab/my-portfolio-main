@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 214 48" role="img" aria-label="Ellison Family Dental">
+  <rect x="2" y="4" width="40" height="40" rx="11" fill="#DFA24F"/>
+  <path d="M22 12c-5.7 0-9.6 4-9.6 9.3 0 4.4 1.6 7.4 2.7 11.1 0.6 2.2 1.2 4.9 3 4.9 1.6 0 1.7-3.7 3.4-3.7s1.8 3.7 3.4 3.7c1.7 0 2.4-2.7 3-4.9 1.1-3.7 2.7-6.7 2.7-11.1 0-5.3-3.9-9.3-9.6-9.3z" fill="#3C4630"/>
+  <path d="M15.5 23.5c3-2.3 4.6 1.6 7.2-0.4s4.2 1.2 6.8-1" fill="none" stroke="#DFA24F" stroke-width="1.9" stroke-linecap="round"/>
+  <text x="54" y="24" font-family="'Fraunces', Georgia, serif" font-size="19" font-weight="600" fill="#FFFAF2">Ellison</text>
+  <text x="55" y="37" font-family="'Karla', sans-serif" font-size="7.5" font-weight="700" letter-spacing="2.6" fill="#DFA24F">FAMILY DENTAL</text>
+</svg>

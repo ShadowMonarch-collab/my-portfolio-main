@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PeakForm Coaching | 12-Week Online Fitness Coaching for Busy Men</title>
+  <meta name="description" content="12-week personalized online fitness coaching for busy men 30 to 45. Custom workouts, nutrition guidance, and weekly check-ins built around your real schedule. Apply for coaching.">
+  <link rel="icon" href="assets/logo-peakform-mark.svg" type="image/svg+xml">
+
+  <meta property="og:title" content="PeakForm Coaching | 12-Week Online Fitness Coaching for Busy Men">
+  <meta property="og:description" content="12-week personalized online fitness coaching for busy men. Custom workouts, nutrition guidance, and weekly check-ins built around your real schedule.">
+  <meta property="og:image" content="assets/bg-hero.jpg">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="#top" aria-label="PeakForm Coaching home">
+        <svg class="nav__logo-svg" viewBox="0 0 232 64" role="img" aria-label="PeakForm Coaching" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="6" width="52" height="52" rx="12" fill="#E0379E"/>
+          <path d="M15 47 L28 24 L41 47 L33 47 L28 37 L23 47 Z" fill="#F4E04D"/>
+          <path d="M25 30 L28 24 L31 30 L28 27 Z" fill="#F4E04D"/>
+          <text x="66" y="46" font-family="'Anton','Arial Narrow',sans-serif" font-size="30" letter-spacing="0.5" fill="#2B2A4A">PEAK</text>
+          <text x="152" y="46" font-family="'Anton','Arial Narrow',sans-serif" font-size="30" letter-spacing="0.5" fill="#E0379E">FORM</text>
+        </svg>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#plan-quiz">Your Plan</a>
+        <a href="#results">Results</a>
+        <a href="#coach">Coach</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn--volt nav__cta" href="#apply">Apply for Coaching</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ 1. HERO ============ -->
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__shape hero__shape--volt" aria-hidden="true"></div>
+      <div class="hero__shape hero__shape--magenta" aria-hidden="true"></div>
+
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="hero__eyebrow">Stop guessing.</p>
+          <h1 class="hero__headline">
+            Tell us your week.
+            <span class="pop">We'll build your plan.</span>
+          </h1>
+          <p class="hero__sub">Twelve weeks of coaching built around your job, your family, and the time you actually have. No extreme anything.</p>
+        </div>
+
+        <div class="hero__widget widget-card" aria-labelledby="hero-widget-title">
+          <p class="widget-card__title" id="hero-widget-title">Find your starting plan</p>
+          <p class="widget-card__q">How much time can you realistically give a workout?</p>
+          <div class="widget-card__options" role="group" aria-label="Time per workout">
+            <button type="button" class="chip" data-hero-answer="0">20 to 30 minutes</button>
+            <button type="button" class="chip" data-hero-answer="1">About 45 minutes</button>
+            <button type="button" class="chip" data-hero-answer="2">It changes every week</button>
+          </div>
+          <p class="micro">Takes 30 seconds. Applying comes later, only if it fits.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 2. FIND YOUR STARTING PLAN ============ -->
+    <section class="quiz section" id="plan-quiz">
+      <div class="container container--narrow">
+        <p class="eyebrow">Find your starting plan</p>
+        <h2>Answer three questions. Get a real starting point.</h2>
+        <p class="section__lede">No 40-field intake form. Tell us your time, your setup, and your goal, and we'll show you the plan we'd start you on.</p>
+
+        <div class="quiz__module" id="quiz-main" data-quiz>
+          <noscript>
+            <p>The plan matcher needs JavaScript. You can skip straight ahead and <a href="#apply">Apply for Coaching</a> instead.</p>
+          </noscript>
+        </div>
+
+        <p class="micro micro--center">Every plan is fully personalized after your free consultation. This just shows you where we'd begin.</p>
+      </div>
+    </section>
+
+    <!-- ============ 3. PROOF, SOCIAL-STYLE ============ -->
+    <section class="proof section" id="results">
+      <div class="container">
+        <h2>Proof, not promises.</h2>
+        <p class="section__lede">Real clients, real schedules, real numbers. Photos and quotes shared with permission.</p>
+
+        <div class="proof__grid">
+          <article class="social-card reveal">
+            <div class="social-card__head">
+              <span class="avatar" aria-hidden="true">D</span>
+              <div>
+                <p class="social-card__name">Daniel, 38</p>
+                <p class="social-card__role">Sales Manager</p>
+              </div>
+            </div>
+            <blockquote>
+              <p>&ldquo;Marcus helped me lose 18 pounds in 12 weeks without making me feel like I had to live in the gym. The best part was finally having a plan I could follow.&rdquo;</p>
+            </blockquote>
+            <p class="social-card__meta">12-week client</p>
+          </article>
+
+          <figure class="photo-card photo-card--tall reveal">
+            <div class="photo-card__img photo-card__img--t1" role="img" aria-label="Client transformation photo, before and after 12 weeks"></div>
+            <figcaption>Client progress, shared with permission.</figcaption>
+          </figure>
+
+          <article class="social-card reveal">
+            <div class="social-card__head">
+              <span class="avatar" aria-hidden="true">J</span>
+              <div>
+                <p class="social-card__name">James, 42</p>
+                <p class="social-card__role">Business Owner</p>
+              </div>
+            </div>
+            <blockquote>
+              <p>&ldquo;I had tried meal plans before, but this was the first time fitness actually fit around my work schedule. The weekly check-ins kept me consistent.&rdquo;</p>
+            </blockquote>
+            <p class="social-card__meta">12-week client</p>
+          </article>
+
+          <article class="social-card reveal">
+            <div class="social-card__head">
+              <span class="avatar" aria-hidden="true">C</span>
+              <div>
+                <p class="social-card__name">Chris, 35</p>
+                <p class="social-card__role">Father of Two</p>
+              </div>
+            </div>
+            <blockquote>
+              <p>&ldquo;I was nervous about starting because I was out of shape, but the program met me where I was. I feel stronger, lighter, and more confident.&rdquo;</p>
+            </blockquote>
+            <p class="social-card__meta">12-week client</p>
+          </article>
+
+          <figure class="photo-card reveal">
+            <div class="photo-card__img photo-card__img--t2" role="img" aria-label="Client transformation photo, before and after 12 weeks"></div>
+            <figcaption>Client progress, shared with permission.</figcaption>
+          </figure>
+
+          <article class="social-card social-card--ig reveal">
+            <p class="social-card__name">More wins on Instagram</p>
+            <p>Workout tips, client check-ins, and progress posts, most weeks.</p>
+            <a class="text-link" href="https://instagram.com/peakformcoaching" rel="noopener" target="_blank">@peakformcoaching</a>
+          </article>
+        </div>
+
+        <div class="cta-row">
+          <p class="cta-row__proof">18 pounds in 12 weeks, without living in the gym. That's the standard we build plans for.</p>
+          <a class="btn btn--volt" href="#apply">Apply for Coaching</a>
+          <p class="micro">Free consultation for qualified applicants.</p>
+
+          <p class="guarantee">
+            <span class="guarantee__label">Our promise</span>
+            Thirty days. If you&rsquo;ve done the work and it isn&rsquo;t fitting your life, email us and the rest of the block is refunded. No exit interview.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 4. MEET YOUR COACH ============ -->
+    <section class="coach section" id="coach">
+      <div class="coach__bg" aria-hidden="true"></div>
+      <div class="container">
+        <h2>Meet your coach.</h2>
+        <p class="section__lede">One coach, the whole 12 weeks. No rotating staff, no chatbot check-ins.</p>
+      </div>
+      <div class="coach__strip" role="list">
+        <article class="coach-card coach-card--photo reveal" role="listitem">
+          <div class="coach-card__img coach-card__img--marcus" role="img" aria-label="Marcus Reed, head coach, mid-session"></div>
+          <div class="coach-card__body">
+            <h3>Marcus Reed</h3>
+            <p class="coach-card__tag">Head Fitness Coach and Founder</p>
+            <p>Former corporate professional turned certified coach. He rebuilds strength, energy, and confidence for busy men without extreme routines, because he needed the same thing once.</p>
+          </div>
+        </article>
+        <article class="coach-card reveal" role="listitem">
+          <div class="coach-card__body">
+            <h3>How he coaches</h3>
+            <p>Straight answers and short sessions. If a week falls apart, he adjusts the plan instead of guilting you about it.</p>
+          </div>
+        </article>
+        <article class="coach-card reveal" role="listitem">
+          <div class="coach-card__body">
+            <h3>Credentials</h3>
+            <p>NASM Certified Personal Trainer, with a Precision Nutrition Level 1 coaching certification.</p>
+          </div>
+        </article>
+        <article class="coach-card reveal" role="listitem">
+          <div class="coach-card__body">
+            <h3>A week with Marcus</h3>
+            <p>Custom workouts you can finish on a work night, nutrition guidance with no banned-foods list, a weekly progress review, and private messaging when the plan meets real life.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 5. FAQ ============ -->
+    <section class="faq section" id="faq">
+      <div class="container container--narrow">
+        <h2>The questions guys actually ask.</h2>
+
+        <div class="faq__list">
+          <details class="faq__item">
+            <summary>I can barely find 30 minutes some days. Is that enough?</summary>
+            <div class="faq__answer">
+              <p>Yes. Your plan is built from your real calendar, not an ideal one. Most clients train three to four times a week, 30 to 45 minutes at a time. Daniel lost 18 pounds without living in the gym, and that's the standard we build for.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary>I've started programs before and quit. Why would this stick?</summary>
+            <div class="faq__answer">
+              <p>Because quitting usually isn't a willpower problem, it's a plan problem. Weekly check-ins catch a bad week before it becomes a bad month, and your plan gets adjusted instead of abandoned.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary>Do I have to give up beer and pizza?</summary>
+            <div class="faq__answer">
+              <p>No. There is no banned-foods list. You get nutrition guidance built around how you already eat, so the plan survives birthdays, travel, and Friday nights.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary>I'm the most out of shape I've ever been. Can I start where I am?</summary>
+            <div class="faq__answer">
+              <p>That's exactly who this is built for. Chris, 35, was nervous to start and finished feeling stronger, lighter, and more confident. The first weeks meet you at your current level and build from there.</p>
+              <p>Starting points are data, not verdicts.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary>Does online coaching actually work?</summary>
+            <div class="faq__answer">
+              <p>You get custom workouts, nutrition guidance, a weekly progress review, and private messaging support. Someone qualified looks at your week, every week, which is tighter accountability than most in-person setups deliver.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary>What does it cost?</summary>
+            <div class="faq__answer">
+              <p>The 12-week program starts at $497 per month. That covers your custom workouts, nutrition plan, weekly progress review, private messaging support, habit tracker, and accountability check-ins. The consultation is free for qualified applicants, so you'll know exactly what you're getting before you commit to anything.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary>Will anyone judge where I'm starting from?</summary>
+            <div class="faq__answer">
+              <p>No. Marcus was a desk-job guy before he was a coach. Your starting point is the input for your plan, nothing more.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6. CLOSE ============ -->
+    <section class="close section" id="apply">
+      <div class="close__bg" aria-hidden="true"></div>
+      <div class="container container--narrow close__inner">
+        <h2>Twelve weeks from now, you could have a routine that survives your calendar.</h2>
+        <p class="close__sub">Start with the 30-second plan matcher, or go straight to the application.</p>
+
+        <div class="quiz__module quiz__module--compact" id="quiz-close" data-quiz data-compact></div>
+
+        <form action="#" method="post" class="apply-form" id="apply-form" novalidate>
+          <div class="apply-form__row">
+            <div class="field">
+              <label class="sr-only" for="apply-name">Your name</label>
+              <input id="apply-name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label class="sr-only" for="apply-email">Email</label>
+              <input id="apply-email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required>
+            </div>
+          </div>
+          <p class="form__error" role="alert" hidden></p>
+          <button class="btn btn--indigo btn--big" type="submit">Apply for Coaching</button>
+        </form>
+        <p class="micro micro--dark">Free consultation for qualified applicants. If your application looks like a fit, we'll contact you within one business day with the next step.</p>
+
+        <div class="apply-form__success" id="apply-success" hidden role="status">
+          <h3>You're on the list.</h3>
+          <p>We'll review your answers and reach out within one business day if it looks like a fit.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__logo">
+          <svg class="footer__logo-svg" viewBox="0 0 232 64" role="img" aria-label="PeakForm Coaching" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="6" width="52" height="52" rx="12" fill="#F4E04D"/>
+            <path d="M15 47 L28 24 L41 47 L33 47 L28 37 L23 47 Z" fill="#2B2A4A"/>
+            <path d="M25 30 L28 24 L31 30 L28 27 Z" fill="#2B2A4A"/>
+            <text x="66" y="46" font-family="'Anton','Arial Narrow',sans-serif" font-size="30" letter-spacing="0.5" fill="#FFFFFF">PEAK</text>
+            <text x="152" y="46" font-family="'Anton','Arial Narrow',sans-serif" font-size="30" letter-spacing="0.5" fill="#F4E04D">FORM</text>
+          </svg>
+        </div>
+        <p>Online fitness coaching for busy men, available across the United States.</p>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p><a href="mailto:support@peakformcoaching.com">support@peakformcoaching.com</a></p>
+        <p><a href="tel:+16125550164">(612) 555-0164</a></p>
+        <p><a href="privacy.html">Privacy</a></p>
+      </div>
+      <div>
+        <h3>Hours</h3>
+        <p>Monday to Friday: 9:00 AM to 6:00 PM</p>
+        <p>Saturday: 10:00 AM to 2:00 PM</p>
+        <p>Sunday: Closed</p>
+      </div>
+      <div>
+        <h3>Follow</h3>
+        <p><a href="https://instagram.com/peakformcoaching" rel="noopener" target="_blank">Instagram</a></p>
+        <p><a href="https://facebook.com/peakformcoaching" rel="noopener" target="_blank">Facebook</a></p>
+      </div>
+    </div>
+    <div class="container footer__legal">
+      <p>Results vary based on starting point, effort, consistency, nutrition adherence, and individual factors. Fitness and nutrition guidance is educational and not medical advice. Consult a physician before beginning any exercise or nutrition program.</p>
+      <p>&copy; <span id="year">2026</span> PeakForm Coaching &middot; Privacy Policy</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

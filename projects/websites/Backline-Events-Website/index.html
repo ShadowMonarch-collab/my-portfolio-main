@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backline Events Co. Day-of Event Coordination in Portland, Oregon</title>
+<meta name="description" content="Backline runs the day itself: a dedicated on-site team, a written backup for every failure point, and problems solved before you hear about them. Portland, Oregon.">
+<link rel="icon" href="assets/logo/logo-backline-mark.svg" type="image/svg+xml">
+
+  <meta property="og:title" content="Backline Events Co. Day-of Event Coordination in Portland, Oregon">
+  <meta property="og:description" content="Backline runs the day itself: a dedicated on-site team, a written backup for every failure point, and problems solved before you hear about them. Portland, Oregon.">
+  <meta property="og:image" content="assets/photos/bg-hero-tent-dusk.jpg">
+  <meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<script>
+/* Gate reveals before first paint, but only where they can run. site.js drops
+   the gate on every failure path; this timer covers site.js never loading. */
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (document.hidden) return;
+  var d = document.documentElement;
+  d.classList.add('js');
+  window.__blFailsafe = setTimeout(function () { d.classList.remove('js'); }, 2500);
+})();
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="Backline Events Co. home">
+      <svg viewBox="0 0 258 48" role="img" aria-label="Backline Events Co." xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="5" width="25" height="25" fill="#D04D39"/>
+        <rect x="13" y="17" width="25" height="25" fill="currentColor"/>
+        <text x="50" y="25" font-family="'Archivo Black', Impact, sans-serif" font-size="19" fill="currentColor" letter-spacing="0.5">BACKLINE</text>
+        <text x="51" y="40" font-family="Roboto, Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="3.4" fill="#D04D39">EVENTS CO.</text>
+      </svg>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="services.html">Services</a>
+      <a href="how-we-work.html">How We Work</a>
+      <a href="events.html">Events</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a class="btn nav__cta" href="contact.html#book">Book a Walkthrough</a>
+    <button class="nav__toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav__drawer">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="how-we-work.html">How We Work</a>
+    <a href="events.html">Events</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a class="btn" href="contact.html#book">Book a Walkthrough</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero hero--split" style="background-image:
+      linear-gradient(100deg, rgba(22,28,31,0.97) 0%, rgba(22,28,31,0.93) 42%, rgba(22,28,31,0.55) 72%, rgba(208,77,57,0.32) 100%),
+      url('assets/photos/bg-hero-tent-dusk.jpg');
+      background-size: cover; background-position: center;">
+    <div class="hero__inner">
+      <div class="reveal">
+        <p class="kicker kicker--light">Day-of coordination · Portland, Oregon</p>
+        <h1>Someone Is Always in Command of Your Event.</h1>
+        <p class="hero__sub">Backline runs the day itself. A dedicated on-site team, a written backup for every failure point, and problems solved behind you, before you ever hear about them.</p>
+        <div class="hero__actions">
+          <a class="btn" href="contact.html#book">Book a Walkthrough</a>
+          <a class="btn-text btn-text--light" href="how-we-work.html">See how we work</a>
+        </div>
+        <p class="hero__micro">45 minutes, at your venue. No deposit, and you keep the failure-point list either way.</p>
+      </div>
+      <figure class="hero__media reveal" data-d="1">
+        <img src="assets/photos/crew-onsite-staff.jpg" width="1600" height="1067"
+             alt="Three coordinators in black staff shirts walking into a venue together during load-in">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="section--dark" style="padding-block: 0;">
+    <div class="wrap" style="padding-inline: 0;">
+      <div class="stats reveal">
+        <div class="stat">
+          <p class="stat__num"><span data-count="214">214</span></p>
+          <p class="stat__label">Events run since 2018</p>
+        </div>
+        <div class="stat">
+          <p class="stat__num"><span data-count="41">41</span></p>
+          <p class="stat__label">Vendor no-shows and late arrivals absorbed on site</p>
+        </div>
+        <div class="stat">
+          <p class="stat__num"><span data-count="61">61</span></p>
+          <p class="stat__label">Vendors on our standby list across the metro</p>
+        </div>
+        <div class="stat">
+          <p class="stat__num"><span data-count="3">3</span></p>
+          <p class="stat__label">Coordinators on site once you pass 120 guests</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT WE DO ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <h2>Most Coordinators Sell You a Timeline.</h2>
+        <p class="lede">A timeline only describes the day that goes right. We write that one too, then we write the second document covering the day that doesn't, and we put people in the room to run it.</p>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="block reveal">
+          <h3>Day-of coordination</h3>
+          <p>You plan it, we run it. We take over four to six weeks out, confirm every vendor, and own the day from load-in to load-out so you can actually attend your own event.</p>
+        </article>
+        <article class="block reveal" data-d="1">
+          <h3>Partial planning</h3>
+          <p>You have the venue and a couple of vendors. We fill the gaps, take the decisions you are tired of making, and still run the day, which means the plan and the people executing it are the same team.</p>
+        </article>
+        <article class="block reveal" data-d="2">
+          <h3>Full planning</h3>
+          <p>From an empty calendar to load-out. Design, budget, vendor selection and the run book, so you never have to hold two contradictory quotes and guess which one is honest.</p>
+        </article>
+      </div>
+
+      <p style="margin-top: 2.5rem;" class="reveal">
+        <a class="btn-text" href="services.html">Compare the three, with pricing</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ THE RUN BOOK ============ -->
+  <section class="section section--panel">
+    <div class="wrap">
+      <div class="split">
+        <div class="reveal">
+          <p class="kicker">The method</p>
+          <h2>The Run Book</h2>
+          <p class="lede">Sixty to ninety lines, printed twice, carried by two people. Every vendor's arrival window, the name and mobile of the person actually driving the van, and the backup we call if that van doesn't move.</p>
+          <p style="margin-top: 1.1rem; color: var(--graphite);">It means a florist who cancels at 9 a.m. costs you a phone call you never hear about, instead of the centrepieces.</p>
+          <p style="margin-top: 1.75rem;"><a class="btn-text" href="how-we-work.html">Read the full method</a></p>
+        </div>
+        <figure class="figure figure--land split__media reveal" data-d="1">
+          <img src="assets/photos/runbook-clipboards.jpg" width="1600" height="1600" loading="lazy"
+               alt="A row of clipboards holding printed run sheets, lined up on a table before an event">
+          <figcaption>Run books and vendor sheets laid out at load-in.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ON-SITE COMMAND ============ -->
+  <section class="section section--dark">
+    <div class="wrap">
+      <div class="split">
+        <figure class="figure figure--land split__media reveal">
+          <img src="assets/photos/floor-banquet-service.jpg" width="1900" height="1425" loading="lazy"
+               alt="A banquet floor mid-service, staff moving between round tables of seated guests">
+        </figure>
+        <div class="reveal" data-d="1">
+          <h2>A Team on Site, Not a Number to Call.</h2>
+          <p class="lede">Two coordinators minimum, three past 120 guests, on the floor the whole time. Nobody is running your day from a laptop across town, so a problem gets solved by someone standing in the room where it happened.</p>
+          <blockquote class="pullquote" style="margin-top: 2rem;">
+            <p>&ldquo;Our rule is that you find out at brunch the next morning.&rdquo;</p>
+            <cite>Dana Okafor, Founder and Lead Coordinator</cite>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROOF ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <h2>Crises You Never Knew About</h2>
+        <p class="lede">Two events where something went badly wrong. In both, the couple found out afterwards.</p>
+      </div>
+
+      <div class="grid grid--2">
+        <article class="story reveal">
+          <p class="story__when">11:00 a.m. · 90 minutes to the ceremony</p>
+          <h3>Rain, and a lawn ceremony with no cover.</h3>
+          <p>The forecast turned at nine. We released the tent hold at eleven rather than waiting for rain, and the crew had it up by half past twelve. The ceremony started on schedule, dry, in front of 96 guests.</p>
+          <blockquote>
+            <p>&ldquo;My mother still thinks we planned the tent all along. Nobody asked me a single question that morning.&rdquo;</p>
+            <cite>Priya C., wedding, Sauvie Island</cite>
+          </blockquote>
+        </article>
+        <article class="story reveal" data-d="1">
+          <p class="story__when">9:48 p.m. · four bars into the first dance</p>
+          <h3>The DJ&rsquo;s rig died in front of everyone.</h3>
+          <p>A blown amp, mid-song. The battery speaker came out of our van and the track restarted from our own copy of the playlist. Three minutes and forty seconds of quiet, and most of the room read it as a pause in the song.</p>
+          <blockquote>
+            <p>&ldquo;Our photographer told us what happened a week later. We genuinely had not noticed.&rdquo;</p>
+            <cite>Owen M., wedding, Portland</cite>
+          </blockquote>
+        </article>
+      </div>
+
+      <p style="margin-top: 2.5rem;" class="reveal"><a class="btn-text" href="events.html">More events, and what we handle</a></p>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta">
+    <div class="cta__inner reveal">
+      <h2>On the Day, Your Only Job Is to Be There.</h2>
+      <p>Tell us the date and the venue. We'll walk it with you, hand you the failure points we find, and you can decide about us afterwards.</p>
+      <a class="btn" href="contact.html#book">Book a Walkthrough</a>
+      <p class="cta__micro">Takes about 45 minutes. No deposit, and no sales call afterwards unless you ask for one.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__logo">
+          <svg viewBox="0 0 258 48" role="img" aria-label="Backline Events Co." xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="5" width="25" height="25" fill="#D04D39"/>
+            <rect x="13" y="17" width="25" height="25" fill="currentColor"/>
+            <text x="50" y="25" font-family="'Archivo Black', Impact, sans-serif" font-size="19" fill="currentColor" letter-spacing="0.5">BACKLINE</text>
+            <text x="51" y="40" font-family="Roboto, Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="3.4" fill="#D04D39">EVENTS CO.</text>
+          </svg>
+        </div>
+        <p class="footer__meta">Day-of coordination and full-service planning across Portland, the Gorge, and the Willamette Valley.</p>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="how-we-work.html">How We Work</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <p class="footer__meta">
+          1400 SE Stark St<br>Portland, OR 97214<br>
+          (503) 555-0148
+        </p>
+      </div>
+    </div>
+    <p class="footer__fine">&copy; <span data-year>2026</span> Backline Events Co. All rights reserved. &middot; <a href="privacy.html">Privacy</a></p>
+  </div>
+</footer>
+
+<button class="totop" aria-label="Back to top">&uarr;</button>
+
+<script src="js/site.js"></script>
+</body>
+</html>

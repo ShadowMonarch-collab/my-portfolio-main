@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <title>NorthPeak PeakFlow mark</title>
+  <path
+    d="M6.5 29.5 20.25 9.75l8 11.25 4.5-6.5 8.75 15"
+    fill="none"
+    stroke="#164d70"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2.35"
+  />
+  <path
+    d="m17.25 14.25 3-4.5 3.15 4.45-3.15 2.05-3-2Z"
+    fill="#164d70"
+  />
+  <circle cx="32.75" cy="14.5" r="2.15" fill="#ec833a" />
+  <path
+    d="M7.25 35.75c5.5-5.25 12.25-5.75 17-1.75 4.7 3.95 10.25 3.45 16.25-2"
+    fill="none"
+    stroke="#ec833a"
+    stroke-linecap="round"
+    stroke-width="2.35"
+  />
+  <path
+    d="M8.25 39.5c5.4-3.35 10.25-3.45 14.4-.65"
+    fill="none"
+    stroke="#7daabc"
+    stroke-linecap="round"
+    stroke-width="1.85"
+  />
+</svg>

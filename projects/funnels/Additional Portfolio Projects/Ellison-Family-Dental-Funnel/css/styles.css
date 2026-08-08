@@ -1,0 +1,801 @@
+/* ==========================================================================
+   Ellison Family Dental — "The Family Chair" (Warm & Human)
+   Mobile-first. Palette + type per design direction.
+   ========================================================================== */
+
+:root {
+  /* Palette (design direction) */
+  --terracotta: #C66B4A;       /* headlines, nav, warm accents */
+  --terracotta-deep: #A0492B;  /* small text / links needing 4.5:1 on cream */
+  --olive: #5A6844;            /* body text, secondary labels */
+  --olive-dark: #3C4630;       /* strong body text, dark buttons */
+  --olive-ink: #2E3520;        /* text on honey backgrounds */
+  --honey: #DFA24F;            /* CTA buttons, highlight moments */
+  --honey-soft: #F3D9AE;
+  --linen: #F2E8DA;            /* card fills, section dividers */
+  --cream: #FFFAF2;            /* page canvas */
+
+  /* Type */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Karla", "Nunito Sans", -apple-system, sans-serif;
+
+  /* Rhythm */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+  --space-7: 96px;
+
+  --radius-card: 20px;
+  --radius-pill: 999px;
+
+  --shadow-soft: 0 8px 30px rgba(90, 104, 68, 0.10);
+
+  /* Motion (direction: unhurried, relational pace) */
+  --ease-warm: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-reveal: 600ms;
+}
+
+/* ---------- Reset & base ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--olive);
+  background-color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--terracotta);
+  margin: 0 0 var(--space-2);
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: clamp(2rem, 5.5vw, 3.25rem); }
+h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); }
+h3 { font-size: 1.2rem; }
+
+p { margin: 0 0 var(--space-2); }
+
+a { color: var(--terracotta-deep); }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--terracotta);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.container {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+}
+
+section { padding-block: var(--space-6); }
+
+.section-linen { background-color: var(--linen); }
+
+.section-intro {
+  max-width: 42rem;
+  font-size: 1.06rem;
+}
+
+.editor-note {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--olive-dark);
+  background: var(--honey-soft);
+  border: 1px dashed var(--honey);
+  border-radius: 8px;
+  padding: 6px 12px;
+  margin-bottom: var(--space-3);
+}
+
+.photo-note {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-2);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.78rem;
+  color: var(--olive-dark);
+  background: rgba(255, 250, 242, 0.9);
+  border: 1px dashed var(--terracotta);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  padding: 15px 32px;
+  min-height: 44px;
+  transition: transform 250ms var(--ease-warm), box-shadow 250ms var(--ease-warm), filter 250ms var(--ease-warm);
+}
+
+.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+
+.btn-primary {
+  background-color: var(--honey);
+  color: var(--olive-ink);
+}
+.btn-primary:hover { filter: brightness(1.04); }
+
+.btn-dark {
+  background-color: var(--olive-dark);
+  color: var(--cream);
+}
+
+.btn-small { padding: 10px 20px; font-size: 0.95rem; }
+
+.cta-micro {
+  font-size: 0.9rem;
+  color: var(--olive);
+  margin-top: var(--space-1);
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 250, 242, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--linen);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-block: 12px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.brand__logo {
+  display: block;
+  height: 32px;
+  width: auto;
+}
+
+.header-actions { display: flex; align-items: center; gap: var(--space-2); }
+
+.header-phone {
+  display: none;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--terracotta-deep);
+}
+
+@media (min-width: 768px) {
+  .header-phone { display: inline; }
+}
+
+/* ---------- 1. Hero ---------- */
+
+.hero {
+  padding-block: var(--space-5) var(--space-6);
+  
+  background:
+    linear-gradient(100deg, rgba(255, 250, 242, 0.97) 0%, rgba(255, 250, 242, 0.9) 45%, rgba(198, 107, 74, 0.32) 100%),
+    url("../assets/bg-hero-family.jpg") center / cover no-repeat,
+    radial-gradient(60rem 32rem at 85% 0%, rgba(223, 162, 79, 0.14), transparent 60%),
+    radial-gradient(48rem 30rem at 0% 90%, rgba(242, 232, 218, 0.9), transparent 65%),
+    var(--cream);
+}
+
+.hero-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.hero-copy { animation: fade-up 500ms var(--ease-warm) both; }
+.hero-photo-wrap { animation: fade-up 500ms var(--ease-warm) 80ms both; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  max-width: 34rem;
+}
+
+.offer-card {
+  display: inline-block;
+  background: var(--linen);
+  border-radius: var(--radius-card);
+  padding: var(--space-2) var(--space-3);
+  margin-block: var(--space-2) var(--space-3);
+  box-shadow: var(--shadow-soft);
+}
+
+.offer-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--terracotta-deep);
+  margin-bottom: 2px;
+}
+
+.offer-price {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--olive-dark);
+  margin-bottom: 2px;
+}
+.offer-price s {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--olive);
+  margin-left: 8px;
+}
+
+.offer-includes { font-size: 0.95rem; margin: 0; }
+
+.cta-block { margin-bottom: var(--space-3); }
+
+.trust-row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  font-size: 0.9rem;
+}
+
+.trust-row li {
+  position: relative;
+  padding-left: 18px;
+}
+.trust-row li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.42em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--honey);
+}
+
+.hero-photo {
+  position: relative;
+  min-height: 320px;
+  border-radius: 160px 160px var(--radius-card) var(--radius-card); /* soft arch — warm, not clinical */
+  overflow: hidden;
+  /* Tinted atmosphere shows until assets/hero-family.jpg arrives, then the photo layers over it */
+  background-image:
+    linear-gradient(rgba(198, 107, 74, 0.16), rgba(223, 162, 79, 0.18)),
+    url("../assets/hero-family.jpg");
+  background-size: cover;
+  background-position: center;
+  background-color: var(--linen);
+  box-shadow: var(--shadow-soft);
+}
+
+@media (min-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: var(--space-6);
+  }
+  .hero-photo { min-height: 460px; }
+}
+
+/* ---------- 2. Team strip ---------- */
+
+.team-strip {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0 0 var(--space-2);
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.team-member {
+  scroll-snap-align: start;
+  flex: 0 0 220px;
+  text-align: center;
+  background: var(--cream);
+  border-radius: var(--radius-card);
+  padding: var(--space-3) var(--space-2);
+  box-shadow: var(--shadow-soft);
+}
+
+.team-member h3 { color: var(--terracotta-deep); margin-bottom: 4px; }
+.team-member p { font-size: 0.92rem; margin: 0; }
+
+.member-photo {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto var(--space-2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--honey-soft), var(--linen));
+  border: 3px solid var(--honey);
+  transition: filter 250ms var(--ease-warm);
+}
+.member-photo span {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--terracotta);
+}
+
+/* Photo swapped in: cover-fill the circle, hide the initials fallback */
+.member-photo.has-photo {
+  background-size: cover;
+  background-position: center;
+}
+.member-photo.has-photo span { display: none; }
+
+/* Direction: team photos warm slightly on hover — personable, not clinical */
+.team-member:hover .member-photo { filter: brightness(1.06) saturate(1.05); }
+
+@media (min-width: 1024px) {
+  .team-strip {
+    overflow-x: visible;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .team-member { flex: 0 1 240px; }
+}
+
+/* ---------- 3. Testimonial wall ---------- */
+
+.stories {
+  background:
+    radial-gradient(50rem 28rem at 100% 100%, rgba(223, 162, 79, 0.10), transparent 60%),
+    var(--cream);
+}
+
+.stories-grid {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.story-card {
+  margin: 0;
+  background: var(--cream);
+  border: 1px solid var(--linen);
+  border-radius: var(--radius-card);
+  padding: var(--space-4) var(--space-3) var(--space-3);
+  position: relative;
+  box-shadow: var(--shadow-soft);
+}
+
+.quote-mark {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--honey);
+  position: absolute;
+  top: 8px;
+  left: var(--space-3);
+}
+
+.story-card blockquote { margin: var(--space-3) 0 0; }
+.story-card blockquote p { font-size: 1.02rem; color: var(--olive-dark); }
+
+.story-card figcaption {
+  font-size: 0.88rem;
+  color: var(--olive);
+  font-style: italic;
+}
+
+.mid-cta {
+  text-align: center;
+  margin-top: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .stories-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ---------- 4. Care for every age ---------- */
+
+.ages-grid {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.age-card {
+  background: var(--cream);
+  border-radius: var(--radius-card);
+  padding: var(--space-4) var(--space-3);
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+}
+
+.age-card h3 { color: var(--terracotta); font-size: 1.35rem; }
+.age-card p { margin: 0; font-size: 0.98rem; }
+
+.age-illustration { width: 96px; margin: 0 auto var(--space-2); }
+.age-illustration svg { width: 100%; height: auto; }
+
+@media (min-width: 768px) {
+  .ages-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ---------- 5. Insurance strip ---------- */
+
+.insurance { padding-block: var(--space-5); }
+
+.insurance-inner {
+  display: grid;
+  gap: var(--space-4);
+  background: var(--linen);
+  border-radius: var(--radius-card);
+  padding: var(--space-4) var(--space-3);
+}
+
+.insurance h2 { font-size: 1.3rem; margin-bottom: var(--space-2); }
+.insurance h3 { color: var(--terracotta-deep); font-size: 1.1rem; }
+.insurance-family p { margin: 0; font-size: 0.98rem; }
+.insurance-family .btn { margin-top: var(--space-3); }
+.insurance-family .cta-micro { margin-top: var(--space-2); }
+
+.carrier-badges {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.carrier-badges li {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--olive-dark);
+  background: var(--cream);
+  border: 1px solid var(--honey);
+  border-radius: var(--radius-pill);
+  padding: 10px 22px;
+}
+
+@media (min-width: 768px) {
+  .insurance-inner {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: var(--space-4) var(--space-5);
+  }
+}
+
+/* ---------- 6. FAQ ---------- */
+
+.faq-inner { max-width: 46rem; }
+
+.faq-list { margin-top: var(--space-4); }
+
+.faq-list details {
+  background: var(--cream);
+  border-radius: 14px;
+  margin-bottom: var(--space-2);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.faq-list summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  min-height: 44px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--terracotta-deep);
+}
+
+.faq-list summary::-webkit-details-marker { display: none; }
+
+.faq-list summary::after {
+  content: "+";
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--honey);
+  flex-shrink: 0;
+  transition: transform 250ms var(--ease-warm);
+}
+
+.faq-list details[open] summary::after { transform: rotate(45deg); }
+
+.faq-answer { padding: 0 var(--space-3) var(--space-3); }
+.faq-answer p { margin: 0; }
+
+/* ---------- 7. Location & hours ---------- */
+
+.visit-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.visit-map {
+  position: relative;
+  min-height: 280px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Palette-tinted map atmosphere until the real embed goes in */
+  background:
+    repeating-linear-gradient(0deg, transparent 0 46px, rgba(90, 104, 68, 0.12) 46px 48px),
+    repeating-linear-gradient(90deg, transparent 0 62px, rgba(90, 104, 68, 0.10) 62px 64px),
+    linear-gradient(160deg, rgba(223, 162, 79, 0.12), transparent 55%),
+    var(--linen);
+  box-shadow: var(--shadow-soft);
+}
+
+.visit-map iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.map-pin { width: 48px; }
+.map-pin svg { width: 100%; height: auto; }
+
+address { font-style: normal; }
+
+.hours dt {
+  font-weight: 700;
+  color: var(--terracotta-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.hours dd { margin: 0 0 var(--space-2); }
+
+.visit-note {
+  background: var(--linen);
+  border-radius: 14px;
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .visit-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--space-6);
+  }
+  .visit-map { min-height: 380px; }
+}
+
+/* ---------- 8. Booking close (honey band) ---------- */
+
+.close {
+  
+  background:
+    linear-gradient(rgba(223, 162, 79, 0.90), rgba(223, 162, 79, 0.94)),
+    url("../assets/bg-close-family.jpg") center / cover no-repeat,
+    radial-gradient(44rem 26rem at 15% 10%, rgba(255, 250, 242, 0.35), transparent 60%),
+    var(--honey);
+  padding-block: var(--space-7);
+}
+
+.close-inner {
+  max-width: 40rem;
+  text-align: center;
+}
+
+.close h2 { color: var(--olive-ink); }
+.close-sub { color: var(--olive-ink); font-size: 1.1rem; }
+.close .cta-micro { color: var(--olive-ink); }
+
+.book-form {
+  background: var(--cream);
+  border-radius: var(--radius-card);
+  padding: var(--space-4) var(--space-3);
+  margin-top: var(--space-4);
+  text-align: left;
+  box-shadow: 0 16px 44px rgba(60, 70, 48, 0.18);
+}
+
+.form-field { margin-bottom: var(--space-3); }
+
+.form-field label {
+  display: block;
+  font-weight: 700;
+  color: var(--olive-dark);
+  margin-bottom: 6px;
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--olive-dark);
+  background: #fff;
+  border: 2px solid var(--linen);
+  border-radius: 12px;
+  padding: 12px 14px;
+  min-height: 48px;
+  transition: border-color 200ms var(--ease-warm);
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  border-color: var(--honey);
+  outline: none;
+}
+
+.form-field input[aria-invalid="true"],
+.form-field select[aria-invalid="true"] { border-color: var(--terracotta); }
+
+.field-error {
+  color: var(--terracotta-deep);
+  font-size: 0.88rem;
+  margin: 6px 0 0;
+}
+
+.book-form .btn-dark { width: 100%; }
+.book-form .cta-micro { text-align: center; color: var(--olive); }
+
+.form-success {
+  background: var(--cream);
+  border-radius: var(--radius-card);
+  padding: var(--space-4) var(--space-3);
+  margin-top: var(--space-4);
+  box-shadow: 0 16px 44px rgba(60, 70, 48, 0.18);
+}
+.form-success h3 { color: var(--terracotta); }
+.form-success p { margin: 0; }
+
+@media (min-width: 768px) {
+  .book-form { padding: var(--space-5); }
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  background: var(--olive-dark);
+  color: var(--linen);
+  padding-block: var(--space-5);
+  text-align: center;
+  font-size: 0.92rem;
+}
+
+.site-footer a { color: var(--honey-soft); }
+
+.brand-footer {
+  margin-bottom: var(--space-2);
+}
+.brand-footer__logo {
+  display: inline-block;
+  height: 36px;
+  width: auto;
+  vertical-align: middle;
+}
+
+.footer-legal { opacity: 0.75; margin: var(--space-2) 0 0; }
+
+/* ---------- Sticky mobile CTA ---------- */
+
+.sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  padding: 10px var(--space-2) calc(10px + env(safe-area-inset-bottom));
+  background: rgba(255, 250, 242, 0.95);
+  border-top: 1px solid var(--linen);
+  text-align: center;
+}
+.sticky-cta .btn { width: 100%; max-width: 420px; }
+
+@media (min-width: 768px) {
+  .sticky-cta { display: none; }
+}
+
+/* ---------- Scroll reveals (unhurried, one at a time) ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-reveal) var(--ease-warm), transform var(--dur-reveal) var(--ease-warm);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy,
+  .hero-photo-wrap { animation: none; }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .btn,
+  .member-photo,
+  .faq-list summary::after { transition: none; }
+}
+
+
+/* Risk reversal beside the CTA. Named .guarantee rather than .promise —
+   at least one funnel already uses .promise (and .promise__label) for a
+   different block, and reusing the name silently restyled it. */
+.guarantee {
+  margin: 1.75rem auto 0;
+  padding: 1.1rem 1.3rem;
+  max-width: 54ch;
+  border: 1px solid rgba(90,104,68,.28);
+  border-left: 3px solid #5A6844;
+  background: rgba(90,104,68,.06);
+  color: #3C4630;
+  font-size: 0.94rem;
+  line-height: 1.65;
+  text-align: left;
+}
+
+.guarantee__label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #5A6844;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}

@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Ken's Daily" />
+  <meta id="theme-meta" name="theme-color" content="#1D5C5C" />
+  <title>Ken's Daily Dose of Knowledge</title>
+  <link rel="icon" href="../../../assets/G-logo-amber.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../../assets/G-logo-amber.png">
+
+  <style>
+    /* =====================================================
+       RESET
+    ===================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      /* #app uses position:fixed to anchor to physical screen edges.
+         html background matches the nav bar color so any gap in PWA
+         standalone mode is visually seamless (same color, invisible). */
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background: #f8f6f2; /* light mode nav color — default */
+    }
+    @media (prefers-color-scheme: dark) {
+      html { background: #0a1212; } /* dark mode nav color */
+    }
+
+    body {
+      /* height:100% inherits from html. #app uses position:fixed for actual sizing. */
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+      -webkit-overflow-scrolling: touch;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: var(--nav-bg); /* matches nav — gap becomes invisible */
+    }
+
+    button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: inherit;
+      touch-action: manipulation;
+    }
+
+    /* =====================================================
+       THEME VARIABLES  (light is default)
+    ===================================================== */
+    body {
+      --teal:         #1D5C5C;
+      --teal-mid:     #2A7070;
+      --teal-light:   #2E8080;
+      --accent:       #FFBD59;
+      --earth:        #A74927;
+      --earth-light:  #C85A35;
+
+      --bg:           #F4F1EE;
+      --surface:      #FFFFFF;
+      --surface-2:    #F0EDE9;
+      --text-1:       #1A1A2E;
+      --text-2:       #5C6B7A;
+      --text-3:       #9AA5B4;
+      --divider:      rgba(0,0,0,0.07);
+      --shadow-card:  0 2px 16px rgba(0,0,0,0.07), 0 6px 32px rgba(0,0,0,0.05);
+      --nav-bg:       rgba(248,246,242,0.94);
+      --nav-border:   rgba(0,0,0,0.1);
+      --bg-top:       #e0efef;
+
+      --r-card:   20px;
+      --r-btn:    12px;
+      --r-pill:   100px;
+    }
+
+    body.dark {
+      --bg:           #0D1E1E;
+      --surface:      #192929;
+      --surface-2:    #1F3535;
+      --text-1:       #EFF0EC;
+      --text-2:       #85989A;
+      --text-3:       #4D6464;
+      --divider:      rgba(255,255,255,0.07);
+      --shadow-card:  0 4px 28px rgba(0,0,0,0.45);
+      --nav-bg:       rgba(10,18,18,0.95);
+      --nav-border:   rgba(255,255,255,0.07);
+      --bg-top:       #122828;
+    }
+
+    /* =====================================================
+       APP SHELL
+    ===================================================== */
+    #app {
+      /* position:fixed with all edges at 0 anchors to the PHYSICAL screen
+         corners — bypasses all viewport height calculations entirely.
+         This is the same pattern ChatGPT uses to fill edge-to-edge on iOS.
+         #bottom-nav padding (env safe-area-inset-bottom) keeps content above
+         the home indicator; the nav background covers the safe area visually. */
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: radial-gradient(ellipse 100% 40% at 50% 0%, var(--bg-top) 0%, var(--bg) 60%);
+      color: var(--text-1);
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+    #header {
+      flex-shrink: 0;
+      padding: 14px 18px 10px;
+      padding-top: calc(14px + env(safe-area-inset-top));
+      animation: fadeDown 0.5s ease both;
+    }
+
+    .hdr-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hdr-brand {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hdr-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    .hdr-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-1);
+      letter-spacing: -0.4px;
+      line-height: 1.15;
+      font-family: Georgia, "Times New Roman", serif;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hdr-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Streak badge */
+    .streak-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 11px;
+      background: rgba(255,189,89,0.14);
+      border: 1px solid rgba(255,189,89,0.32);
+      border-radius: var(--r-pill);
+      transition: background 0.2s;
+    }
+
+    .streak-fire { font-size: 14px; }
+
+    .streak-text {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Header icon buttons */
+    .hdr-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      background: var(--surface-2);
+      color: var(--text-2);
+      transition: transform 0.15s, background 0.2s;
+    }
+
+    .hdr-btn:active { transform: scale(0.88); }
+
+    /* =====================================================
+       MAIN SCROLLABLE AREA
+    ===================================================== */
+    #main {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .tab-pane {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 16px;
+      padding-bottom: calc(84px + env(safe-area-inset-bottom));
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(22px);
+      transition: opacity 0.26s ease, transform 0.26s ease;
+    }
+
+    /* hide scrollbar everywhere */
+    .tab-pane::-webkit-scrollbar { display: none; }
+    .tab-pane { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .tab-pane.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
+
+    .tab-pane.exit-left {
+      opacity: 0;
+      transform: translateX(-22px);
+    }
+
+    /* =====================================================
+       DATE ROW
+    ===================================================== */
+    .date-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 2px 12px;
+      animation: fadeDown 0.5s 0.05s ease both;
+    }
+
+    .date-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-1);
+    }
+
+    .preview-badge {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .preview-badge.visible { display: flex; }
+
+    .day-pill {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--teal);
+      padding: 4px 11px;
+      background: rgba(29,92,92,0.1);
+      border-radius: var(--r-pill);
+    }
+
+    body.dark .day-pill {
+      background: rgba(29,92,92,0.28);
+      color: #5DB8B8;
+    }
+
+    /* =====================================================
+       CARD BASE
+    ===================================================== */
+    .card {
+      border-radius: var(--r-card);
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 16px;
+      opacity: 0;
+      transform: translateY(22px);
+      transition: box-shadow 0.3s, background 0.3s;
+    }
+
+    .card.in {
+      animation: slideUp 0.52s ease-out forwards;
+    }
+
+    .word-card.in  { animation-delay: 0.05s; }
+    .idiom-card.in { animation-delay: 0.2s;  }
+
+    /* Card gradient header */
+    .card-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px 10px 16px;
+    }
+
+    .card-hdr-teal { background: linear-gradient(135deg, #1D5C5C 0%, #2E8080 100%); }
+    .card-hdr-rust { background: linear-gradient(135deg, #A74927 0%, #C85A35 100%); }
+
+    .card-type {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+    }
+
+    .card-type-icon { font-size: 14px; }
+
+    .card-btns {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Small round icon buttons inside card header */
+    .cbtn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.9);
+      font-size: 15px;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .cbtn:active { background: rgba(255,255,255,0.32); transform: scale(0.88); }
+
+    .cbtn.fav-on { color: #FF6B8A; }
+
+    .cbtn.pop {
+      animation: heartPop 0.38s cubic-bezier(.36,.07,.19,.97);
+    }
+
+    /* Card body */
+    .card-body {
+      padding: 20px 20px 22px;
+    }
+
+    .card-divider {
+      height: 1px;
+      background: var(--divider);
+      margin: 14px 0;
+    }
+
+    /* Section labels */
+    .sec-lbl {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 5px;
+    }
+
+    .sec-text {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text-2);
+      margin-bottom: 14px;
+    }
+
+    .sec-example {
+      display: flex;
+      gap: 10px;
+      font-size: 14px;
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--text-2);
+    }
+
+    .ex-bar {
+      width: 3px;
+      min-width: 3px;
+      border-radius: 2px;
+      background: var(--accent);
+      flex-shrink: 0;
+      align-self: stretch;
+    }
+
+    /* =====================================================
+       WORD CARD SPECIFIC
+    ===================================================== */
+    .word-title {
+      font-size: clamp(26px, 8vw, 34px);
+      font-weight: 800;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text-1);
+      line-height: 1.12;
+      margin-bottom: 8px;
+    }
+
+    .word-pron {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--teal);
+      font-family: "Courier New", Courier, monospace;
+      padding: 4px 12px;
+      background: rgba(29,92,92,0.08);
+      border-radius: var(--r-pill);
+      margin-bottom: 16px;
+    }
+
+    body.dark .word-pron {
+      background: rgba(46,128,128,0.2);
+      color: #5BBFBF;
+    }
+
+    /* =====================================================
+       IDIOM CARD SPECIFIC
+    ===================================================== */
+    .idiom-title {
+      font-size: clamp(19px, 5.5vw, 25px);
+      font-weight: 800;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text-1);
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+
+    /* =====================================================
+       TESTING TOOLS
+    ===================================================== */
+    .testing-section {
+      margin-top: 4px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: var(--surface-2);
+      border: 1px solid var(--divider);
+      animation: slideUp 0.52s 0.35s ease-out both;
+    }
+
+    .testing-lbl {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 10px;
+    }
+
+    .testing-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tbtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 15px;
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      font-weight: 700;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .tbtn:active { transform: scale(0.95); opacity: 0.8; }
+
+    .tbtn.t-primary {
+      background: rgba(29,92,92,0.12);
+      color: var(--teal);
+    }
+
+    body.dark .tbtn.t-primary {
+      background: rgba(46,128,128,0.22);
+      color: #5BBFBF;
+    }
+
+    .tbtn.t-secondary {
+      background: var(--surface);
+      color: var(--text-2);
+      border: 1px solid var(--divider);
+    }
+
+    /* =====================================================
+       FAVORITES TAB
+    ===================================================== */
+    .fav-hdr {
+      font-size: 28px;
+      font-weight: 800;
+      font-family: Georgia, serif;
+      color: var(--text-1);
+      padding: 16px 2px 4px;
+    }
+
+    .fav-sec-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 2px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-3);
+      letter-spacing: 0.4px;
+    }
+
+    .fav-count {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border-radius: var(--r-pill);
+      color: var(--text-3);
+    }
+
+    .fav-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 14px 14px 14px;
+      background: var(--surface);
+      border-radius: 16px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 9px;
+      transition: background 0.3s;
+    }
+
+    .fav-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .fav-icon-word  { background: linear-gradient(135deg, #1D5C5C, #2E8080); }
+    .fav-icon-idiom { background: linear-gradient(135deg, #A74927, #C85A35); }
+
+    .fav-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .fav-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-1);
+      margin-bottom: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .fav-sub {
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .fav-del {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--text-3);
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s, transform 0.12s;
+    }
+
+    .fav-del:active {
+      background: rgba(255,59,48,0.12);
+      color: #FF3B30;
+      transform: scale(0.88);
+    }
+
+    /* Empty state */
+    .fav-empty {
+      text-align: center;
+      padding: 64px 24px 40px;
+    }
+
+    .fav-empty-icon {
+      font-size: 52px;
+      margin-bottom: 16px;
+      opacity: 0.35;
+      display: block;
+    }
+
+    .fav-empty-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-2);
+      margin-bottom: 8px;
+    }
+
+    .fav-empty-sub {
+      font-size: 14px;
+      color: var(--text-3);
+      line-height: 1.6;
+    }
+
+    /* =====================================================
+       BOTTOM NAVIGATION
+    ===================================================== */
+    #bottom-nav {
+      flex-shrink: 0;
+      display: flex;
+      align-items: flex-end;
+      background: var(--nav-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid var(--nav-border);
+      padding: 12px 0 max(env(safe-area-inset-bottom), 14px);
+      transition: background 0.35s, border-color 0.35s;
+    }
+
+    .nav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 5px;
+      padding: 0 0 8px 0;
+      color: var(--text-3);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      transition: color 0.2s, transform 0.15s;
+    }
+
+    .nav-btn:active { transform: scale(0.9); }
+
+    .nav-btn.active { color: var(--teal); }
+    body.dark .nav-btn.active { color: #5BBFBF; }
+
+    .nav-ico {
+      font-size: 30px;
+      line-height: 1;
+      transition: transform 0.2s;
+    }
+
+    .nav-btn.active .nav-ico { transform: translateY(-1px); }
+
+    /* Active indicator dot */
+    .nav-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--teal);
+      margin-top: 1px;
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    body.dark .nav-dot { background: #5BBFBF; }
+    .nav-btn.active .nav-dot { opacity: 1; transform: scale(1); }
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+    #toast {
+      position: fixed;
+      bottom: calc(90px + env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%) translateY(14px);
+      background: rgba(20,20,20,0.88);
+      color: #fff;
+      padding: 9px 18px;
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      z-index: 999;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    body.dark #toast {
+      background: rgba(240,240,240,0.14);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* =====================================================
+       ANIMATIONS
+    ===================================================== */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0);     }
+    }
+
+    @keyframes heartPop {
+      0%   { transform: scale(1);    }
+      35%  { transform: scale(1.5);  }
+      65%  { transform: scale(0.88); }
+      100% { transform: scale(1);    }
+    }
+
+    /* =====================================================
+       HOVER (desktop / trackpad users)
+    ===================================================== */
+    @media (hover: hover) {
+      .cbtn:hover         { background: rgba(255,255,255,0.28); }
+      .hdr-btn:hover      { background: var(--divider); }
+      .tbtn.t-primary:hover  { background: rgba(29,92,92,0.2); }
+      .fav-del:hover      { background: rgba(255,59,48,0.1); color: #FF3B30; }
+    }
+
+    /* =====================================================
+       STATS ROW  (streak / longest / missed)
+    ===================================================== */
+    .stats-row {
+      display: flex;
+      gap: 8px;
+      padding: 0 2px 14px;
+      animation: fadeDown 0.5s 0.08s ease both;
+    }
+
+    .stat-chip {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 9px 6px 8px;
+      background: var(--surface);
+      border-radius: 14px;
+      box-shadow: var(--shadow-card);
+      transition: background 0.3s;
+    }
+
+    .stat-chip-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .stat-chip-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-1);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+    }
+
+    .stat-chip-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    /* TTS button — keep same look as existing .cbtn */
+    .cbtn.tts-active {
+      background: rgba(255,255,255,0.38);
+      animation: ttspulse 1s ease-in-out infinite;
+    }
+
+    @keyframes ttsplus {
+      0%, 100% { opacity: 1;   }
+      50%       { opacity: 0.6; }
+    }
+
+    @keyframes ttsrings {
+      0%   { box-shadow: 0 0 0 0px rgba(255,255,255,0.5); }
+      100% { box-shadow: 0 0 0 8px rgba(255,255,255,0);   }
+    }
+
+    @keyframes ttsactive {
+      0%, 100% { background: rgba(255,255,255,0.18); }
+      50%       { background: rgba(255,255,255,0.38); }
+    }
+
+    .cbtn.tts-active {
+      animation: ttsactive 1s ease-in-out infinite;
+    }
+
+  </style>
+</head>
+
+<body>
+<div id="app">
+
+  <!-- ── HEADER ─────────────────────────────────────────── -->
+  <header id="header">
+    <div class="hdr-row">
+      <div class="hdr-brand">
+        <div class="hdr-eyebrow">Ken's Daily</div>
+        <div class="hdr-title">Dose of Knowledge</div>
+      </div>
+      <div class="hdr-controls">
+        <div class="streak-badge">
+          <span class="streak-fire" id="streak-fire">🔥</span>
+          <span class="streak-text" id="streak-text">1 day</span>
+        </div>
+        <button class="hdr-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MAIN ───────────────────────────────────────────── -->
+  <main id="main">
+
+    <!-- HOME TAB -->
+    <div id="home-pane" class="tab-pane active">
+
+      <!-- Date row -->
+      <div class="date-row">
+        <div>
+          <div class="date-label" id="date-label">Loading…</div>
+          <div class="preview-badge" id="preview-badge">👁 Preview Mode</div>
+        </div>
+        <div class="day-pill" id="day-pill">Day 1</div>
+      </div>
+
+      <!-- STATS ROW -->
+      <div class="stats-row">
+        <div class="stat-chip">
+          <span class="stat-chip-icon">🔥</span>
+          <span class="stat-chip-value" id="stat-current">1</span>
+          <span class="stat-chip-label">Streak</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-icon">🏆</span>
+          <span class="stat-chip-value" id="stat-longest">1</span>
+          <span class="stat-chip-label">Longest</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-icon">⚠️</span>
+          <span class="stat-chip-value" id="stat-missed">0</span>
+          <span class="stat-chip-label">Missed</span>
+        </div>
+      </div>
+
+      <!-- WORD OF THE DAY CARD -->
+      <div class="card word-card" id="word-card">
+        <div class="card-hdr card-hdr-teal">
+          <span class="card-type">
+            <span class="card-type-icon">📖</span>
+            Word of the Day
+          </span>
+          <div class="card-btns">
+            <button class="cbtn" id="word-fav-btn" onclick="toggleWordFav()" title="Save to favorites">♡</button>
+            <button class="cbtn" id="word-tts-btn" onclick="speakWord()" title="Pronounce word">🔊</button>
+            <button class="cbtn" id="word-share-btn" onclick="shareWord()" title="Share">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2.5"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/>
+                <polyline points="16 6 12 2 8 6"/>
+                <line x1="12" y1="2" x2="12" y2="15"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="word-title" id="word-title">…</div>
+          <div class="word-pron">
+            <span id="word-pron">…</span>
+          </div>
+          <div class="card-divider"></div>
+          <div class="sec-lbl">Definition</div>
+          <div class="sec-text" id="word-def">…</div>
+          <div class="sec-lbl">Example</div>
+          <div class="sec-example">
+            <div class="ex-bar"></div>
+            <div id="word-ex">…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IDIOM OF THE DAY CARD -->
+      <div class="card idiom-card" id="idiom-card">
+        <div class="card-hdr card-hdr-rust">
+          <span class="card-type">
+            <span class="card-type-icon">💬</span>
+            Idiom of the Day
+          </span>
+          <div class="card-btns">
+            <button class="cbtn" id="idiom-fav-btn" onclick="toggleIdiomFav()" title="Save to favorites">♡</button>
+            <button class="cbtn" id="idiom-share-btn" onclick="shareIdiom()" title="Share">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2.5"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/>
+                <polyline points="16 6 12 2 8 6"/>
+                <line x1="12" y1="2" x2="12" y2="15"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="idiom-title" id="idiom-title">…</div>
+          <div class="card-divider"></div>
+          <div class="sec-lbl">Meaning</div>
+          <div class="sec-text" id="idiom-meaning">…</div>
+          <div class="sec-lbl">Example</div>
+          <div class="sec-example">
+            <div class="ex-bar"></div>
+            <div id="idiom-ex">…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TESTING TOOLS -->
+      <div class="testing-section">
+        <div class="testing-lbl">⚙ Testing Tools</div>
+        <div class="testing-btns">
+          <button class="tbtn t-primary" id="preview-btn" onclick="previewNext()">
+            Preview Next →
+          </button>
+          <button class="tbtn t-secondary" id="back-btn" style="display:none" onclick="backToToday()">
+            ← Back to Today
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /home-pane -->
+
+    <!-- FAVORITES TAB -->
+    <div id="fav-pane" class="tab-pane">
+      <div class="fav-hdr">Favorites</div>
+      <div id="fav-content"><!-- rendered by JS --></div>
+    </div>
+
+  </main>
+
+  <!-- ── BOTTOM NAV ─────────────────────────────────────── -->
+  <nav id="bottom-nav">
+    <button class="nav-btn active" id="nav-home" onclick="switchTab('home')">
+      <span class="nav-ico">🏠</span>
+      <span>Home</span>
+      <div class="nav-dot"></div>
+    </button>
+    <button class="nav-btn" id="nav-fav" onclick="switchTab('fav')">
+      <span class="nav-ico">❤️</span>
+      <span>Favorites</span>
+      <div class="nav-dot"></div>
+    </button>
+  </nav>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+</div><!-- /app -->
+
+<script>
+
+/* ============================================================
+   ORIENTATION CHANGE SHIM
+   On iOS, rotating the device causes a brief layout stutter.
+   This forces a repaint after the orientation settles.
+   No height manipulation — position:fixed on #app handles sizing.
+============================================================ */
+window.addEventListener('orientationchange', function () {
+  // iOS needs ~300 ms to settle layout after rotation
+  setTimeout(function () {
+    // Trigger a style recalc so layout re-resolves correctly after rotation
+    var el = document.documentElement;
+    el.style.display = 'none';
+    void el.offsetHeight; // force reflow
+    el.style.display = '';
+  }, 350);
+}, { passive: true });
+
+/* ============================================================
+   DATASET  —  365 words + 365 idioms
+============================================================ */
+const WORDS = [
+  { id:1, word:"Ephemeral", pron:"ih-FEM-er-uhl", def:"Lasting for a very short time; transitory.", ex:"The ephemeral beauty of cherry blossoms reminds us to cherish fleeting moments." },
+  { id:2, word:"Serendipity", pron:"ser-en-DIP-ih-tee", def:"The occurrence of fortunate events by chance; a pleasant surprise.", ex:"It was pure serendipity that they met at the bookstore — they had so much in common." },
+  { id:3, word:"Mellifluous", pron:"meh-LIF-loo-us", def:"Sweet or musical; pleasant to hear.", ex:"His mellifluous voice made even the simplest words sound like poetry." },
+  { id:4, word:"Luminous", pron:"LOO-mih-nus", def:"Emitting or reflecting light; bright or glowing.", ex:"Her luminous smile lit up the entire room the moment she walked in." },
+  { id:5, word:"Tenacious", pron:"teh-NAY-shus", def:"Tending to keep a firm hold; persistent and determined.", ex:"The tenacious athlete trained every day, regardless of the weather or obstacles." },
+  { id:6, word:"Solitude", pron:"SOL-ih-tood", def:"The state of being alone, especially in a calm and peaceful way.", ex:"She cherished the solitude of her morning walks before the city came alive." },
+  { id:7, word:"Wanderlust", pron:"WON-der-lust", def:"A strong desire to travel and explore the world.", ex:"His wanderlust led him to visit over forty countries before the age of thirty." },
+  { id:8, word:"Perspicacious", pron:"per-spih-KAY-shus", def:"Having a ready insight into things; shrewd and discerning.", ex:"The perspicacious investor spotted the opportunity long before the market moved." },
+  { id:9, word:"Ebullient", pron:"ih-BUL-yent", def:"Cheerful and full of energy; overflowing with enthusiasm.", ex:"Her ebullient personality made her the life of every gathering she attended." },
+  { id:10, word:"Ineffable", pron:"in-EF-uh-bul", def:"Too great or extreme to be expressed or described in words.", ex:"Standing at the summit, he felt an ineffable sense of peace and accomplishment." },
+  { id:11, word:"Halcyon", pron:"HAL-see-on", def:"Denoting a period of time that was idyllically happy and peaceful.", ex:"She often looked back on her halcyon college days with deep nostalgia." },
+  { id:12, word:"Sanguine", pron:"SANG-gwin", def:"Optimistic or positive, especially in a difficult situation.", ex:"Despite the setbacks, the team remained sanguine about their chances of success." },
+  { id:13, word:"Magnanimous", pron:"mag-NAN-ih-mus", def:"Generous or forgiving, especially toward a rival or someone less powerful.", ex:"The champion was magnanimous in victory, praising his opponent's effort." },
+  { id:14, word:"Petrichor", pron:"PEH-trih-kor", def:"The pleasant, earthy smell produced when rain falls on dry soil.", ex:"After weeks of drought, the petrichor that followed the first rain was deeply comforting." },
+  { id:15, word:"Diaphanous", pron:"dy-AF-uh-nus", def:"Light, delicate, and translucent; so fine as to be almost transparent.", ex:"The diaphanous curtains billowed gently in the warm morning breeze." },
+  { id:16, word:"Incandescent", pron:"in-kan-DES-ent", def:"Emitting brilliant light; passionate or remarkably talented.", ex:"Her incandescent performance left the entire audience completely speechless." },
+  { id:17, word:"Susurrus", pron:"soo-SUR-us", def:"A soft whispering or rustling sound.", ex:"The susurrus of leaves in the ancient forest created a deeply meditative atmosphere." },
+  { id:18, word:"Loquacious", pron:"loh-KWAY-shus", def:"Tending to talk a great deal; very talkative.", ex:"The loquacious professor often extended classes by thirty minutes or more." },
+  { id:19, word:"Crepuscular", pron:"kreh-PUS-kyuh-ler", def:"Relating to or resembling twilight; active during the twilight hours.", ex:"Deer are crepuscular animals, most active at dawn and dusk." },
+  { id:20, word:"Hiraeth", pron:"HEER-eyeth", def:"A longing for home or something familiar that may never be recovered.", ex:"Living abroad, she was filled with hiraeth whenever she heard her native language." },
+  { id:21, word:"Eudaimonia", pron:"yoo-deh-MOH-nee-uh", def:"A state of flourishing and human well-being; the highest human good.", ex:"For Aristotle, eudaimonia was achieved through virtue, reason, and purposeful living." },
+  { id:22, word:"Eloquent", pron:"EL-oh-kwent", def:"Fluent or persuasive in speaking or writing; clearly expressive.", ex:"Her eloquent speech moved the entire audience to tears." },
+  { id:23, word:"Resilient", pron:"reh-ZIL-yent", def:"Able to recover quickly from difficult conditions.", ex:"Despite numerous setbacks, she remained resilient and continued to pursue her dreams." },
+  { id:24, word:"Quintessential", pron:"kwin-teh-SEN-shul", def:"Representing the most perfect or typical example of a quality or class.", ex:"This café is the quintessential Parisian experience — small, charming, and full of character." },
+  { id:25, word:"Nonchalant", pron:"non-shuh-LONT", def:"Feeling or appearing casually calm and relaxed; not displaying anxiety.", ex:"He appeared nonchalant about the interview, though he had prepared for weeks." },
+  { id:26, word:"Axiom", pron:"AK-see-om", def:"A statement regarded as established, accepted, and self-evidently true.", ex:"It is an axiom in business that customer satisfaction drives long-term success." },
+  { id:27, word:"Veracious", pron:"veh-RAY-shus", def:"Truthful; habitually observant of truth.", ex:"A veracious journalist, she never published a story without verifying every fact." },
+  { id:28, word:"Pulchritudinous", pron:"pul-krih-TOO-dih-nus", def:"Beautiful; possessing great physical beauty.", ex:"The pulchritudinous landscape of Tuscany draws artists from around the world." },
+  { id:29, word:"Limerence", pron:"LIM-er-ence", def:"The state of being infatuated with another person, marked by intrusive thoughts.", ex:"His limerence made it difficult to focus on anything other than thoughts of her." },
+  { id:30, word:"Sonder", pron:"SON-der", def:"The realization that each passerby has a life as vivid and complex as one's own.", ex:"He felt a deep sense of sonder watching strangers rush through the busy train station." },
+  { id:31, word:"Alacrity", pron:"uh-LAK-rih-tee", def:"Brisk and cheerful readiness.", ex:"She accepted the invitation with alacrity, eager to meet new people." },
+  { id:32, word:"Benevolent", pron:"beh-NEV-uh-lent", def:"Well meaning and kindly; wishing good to others.", ex:"The benevolent donor funded scholarships for dozens of students every year." },
+  { id:33, word:"Cogent", pron:"KOH-jent", def:"Clear, logical, and convincing.", ex:"Her cogent argument silenced every critic in the room." },
+  { id:34, word:"Dauntless", pron:"DAWNT-less", def:"Showing fearlessness and determination.", ex:"The dauntless explorer pressed on despite the harsh mountain conditions." },
+  { id:35, word:"Equanimity", pron:"ee-kwuh-NIM-ih-tee", def:"Mental calmness and composure, especially in difficult situations.", ex:"She faced the crisis with remarkable equanimity, keeping the whole team calm." },
+  { id:36, word:"Felicitous", pron:"feh-LIS-ih-tus", def:"Well chosen or suited to the circumstances; pleasing and fortunate.", ex:"The speaker made a felicitous choice of words that perfectly captured the mood." },
+  { id:37, word:"Garrulous", pron:"GAR-uh-lus", def:"Excessively talkative, especially on trivial matters.", ex:"The garrulous neighbor kept us at the door for forty minutes." },
+  { id:38, word:"Harbinger", pron:"HAR-bin-jer", def:"A person or thing that announces or signals the approach of another.", ex:"The robin is often seen as a harbinger of spring." },
+  { id:39, word:"Impeccable", pron:"im-PEK-uh-bul", def:"In accordance with the highest standards; faultless.", ex:"Her impeccable taste in design was evident in every room of the house." },
+  { id:40, word:"Jubilant", pron:"JOO-bih-lant", def:"Feeling or expressing great happiness and triumph.", ex:"The jubilant crowd erupted when the final whistle blew." },
+  { id:41, word:"Kinetic", pron:"kih-NET-ik", def:"Relating to or resulting from motion; lively and dynamic.", ex:"The kinetic energy of the performance kept the audience on the edge of their seats." },
+  { id:42, word:"Laconic", pron:"luh-KON-ik", def:"Using very few words; brief and to the point.", ex:"His laconic reply — just 'No.' — ended the debate instantly." },
+  { id:43, word:"Maudlin", pron:"MAWD-lin", def:"Self-pityingly or tearfully sentimental, often after drinking.", ex:"After a glass of wine, he became maudlin about his college years." },
+  { id:44, word:"Nebulous", pron:"NEB-yuh-lus", def:"In the form of a cloud or haze; unclear or vague.", ex:"Her plans for the future were still nebulous, lacking any real direction." },
+  { id:45, word:"Obstinate", pron:"OB-stih-nit", def:"Stubbornly refusing to change one's opinion or chosen course of action.", ex:"Despite good advice, he remained obstinate about his original plan." },
+  { id:46, word:"Pernicious", pron:"per-NISH-us", def:"Having a harmful effect, especially in a gradual or subtle way.", ex:"The pernicious rumor spread quietly, damaging reputations before anyone noticed." },
+  { id:47, word:"Quixotic", pron:"kwik-SOT-ik", def:"Exceedingly idealistic; unrealistic and impractical.", ex:"His quixotic plan to single-handedly clean the ocean was admirable but unrealistic." },
+  { id:48, word:"Rancorous", pron:"RANK-er-us", def:"Characterized by bitterness or resentfulness.", ex:"The rancorous dispute between the neighbors lasted for years." },
+  { id:49, word:"Sagacious", pron:"suh-GAY-shus", def:"Having or showing keen mental discernment and good judgment; wise.", ex:"The sagacious mentor guided his student with patience and insight." },
+  { id:50, word:"Taciturn", pron:"TAS-ih-turn", def:"Reserved or uncommunicative in speech; saying little.", ex:"The taciturn detective observed everything but revealed nothing." },
+  { id:51, word:"Ubiquitous", pron:"yoo-BIK-wih-tus", def:"Present, appearing, or found everywhere.", ex:"Smartphones have become ubiquitous in modern daily life." },
+  { id:52, word:"Vivacious", pron:"vih-VAY-shus", def:"Attractively lively and animated.", ex:"Her vivacious spirit made her the natural center of any gathering." },
+  { id:53, word:"Whimsical", pron:"WIM-zih-kul", def:"Playfully quaint or fanciful, especially in an appealing way.", ex:"The whimsical illustrations in the book delighted readers of all ages." },
+  { id:54, word:"Xenial", pron:"ZEE-nee-ul", def:"Of or relating to hospitality toward guests; hospitable.", ex:"The xenial host made every visitor feel immediately at home." },
+  { id:55, word:"Yielding", pron:"YEEL-ding", def:"Inclined to give way to arguments, demands, or pressure; compliant.", ex:"Her yielding nature sometimes made it difficult to say no to others." },
+  { id:56, word:"Zealous", pron:"ZEL-us", def:"Having or showing great energy or enthusiasm in pursuit of a cause.", ex:"The zealous volunteer arrived first and left last every single day." },
+  { id:57, word:"Adroit", pron:"uh-DROYT", def:"Clever or skillful in using the hands or mind.", ex:"The adroit negotiator defused the tension without either side losing face." },
+  { id:58, word:"Blithe", pron:"BLYTH", def:"Showing a casual and cheerful indifference considered to be callous or improper.", ex:"He gave a blithe dismissal of concerns that others took very seriously." },
+  { id:59, word:"Candor", pron:"KAN-der", def:"The quality of being open and honest in expression; frankness.", ex:"She appreciated his candor even when the feedback was hard to hear." },
+  { id:60, word:"Deft", pron:"DEFT", def:"Neatly skillful and quick in one's movements or abilities.", ex:"With a deft flick of her wrist, she untangled the knot in seconds." },
+  { id:61, word:"Enigmatic", pron:"en-ig-MAT-ik", def:"Difficult to interpret or understand; mysterious.", ex:"The enigmatic smile on the portrait has puzzled art lovers for centuries." },
+  { id:62, word:"Fervid", pron:"FER-vid", def:"Intensely enthusiastic or passionate, especially to an excessive degree.", ex:"His fervid dedication to the project inspired everyone around him." },
+  { id:63, word:"Gregarious", pron:"greh-GAIR-ee-us", def:"Fond of company; sociable.", ex:"The gregarious salesperson thrived in environments full of new people." },
+  { id:64, word:"Hapless", pron:"HAP-less", def:"Unfortunate; unlucky.", ex:"The hapless traveler missed three flights in a single day." },
+  { id:65, word:"Insouciant", pron:"in-SOO-see-unt", def:"Showing a casual lack of concern; carefree.", ex:"Her insouciant attitude toward deadlines was charming and infuriating in equal measure." },
+  { id:66, word:"Jocular", pron:"JOK-yuh-ler", def:"Fond of or characterized by joking; humorous.", ex:"His jocular tone kept spirits high during a very long meeting." },
+  { id:67, word:"Knell", pron:"NEL", def:"The sound of a bell, especially when rung solemnly for a death or funeral.", ex:"The knell of the church bell echoed across the quiet village." },
+  { id:68, word:"Limpid", pron:"LIM-pid", def:"Completely clear and transparent; free of anything that darkens.", ex:"The limpid stream reflected the surrounding mountains perfectly." },
+  { id:69, word:"Mirth", pron:"MERTH", def:"Amusement, especially as expressed in laughter.", ex:"The comedian's routine filled the room with uncontrollable mirth." },
+  { id:70, word:"Nascent", pron:"NAY-sent", def:"Just coming into existence and beginning to display signs of future potential.", ex:"A nascent interest in coding eventually became her career." },
+  { id:71, word:"Opulent", pron:"OP-yuh-lent", def:"Ostentatiously rich and luxurious.", ex:"The opulent ballroom was adorned with gold leaf and crystal chandeliers." },
+  { id:72, word:"Placid", pron:"PLAS-id", def:"Not easily upset or excited; calm and peaceful.", ex:"The placid lake reflected the sunset like a perfect mirror." },
+  { id:73, word:"Querulous", pron:"KWER-yuh-lus", def:"Complaining in a petulant or whining manner.", ex:"The querulous customer complained about every minor detail." },
+  { id:74, word:"Reverie", pron:"REV-er-ee", def:"A state of being pleasantly lost in one's thoughts; a daydream.", ex:"She drifted into a reverie, imagining her ideal life by the sea." },
+  { id:75, word:"Stoic", pron:"STOH-ik", def:"Enduring pain or hardship without showing feelings or complaining.", ex:"He remained stoic throughout the difficult news, comforting others instead." },
+  { id:76, word:"Trepidation", pron:"trep-ih-DAY-shun", def:"A feeling of fear or anxiety about something that may happen.", ex:"She approached the stage with trepidation, hands trembling slightly." },
+  { id:77, word:"Umbrage", pron:"UM-brij", def:"Offense or annoyance.", ex:"He took umbrage at the suggestion that he hadn't worked hard enough." },
+  { id:78, word:"Vicarious", pron:"vy-KAIR-ee-us", def:"Experienced in the imagination through the actions or feelings of another.", ex:"She got vicarious thrills from her daughter's adventures abroad." },
+  { id:79, word:"Wistful", pron:"WIST-ful", def:"Having or showing a feeling of vague or regretful longing.", ex:"He gave a wistful smile when old photographs were passed around." },
+  { id:80, word:"Xeric", pron:"ZEER-ik", def:"Characterized by or adapted to a very dry environment.", ex:"The xeric landscape stretched endlessly, punctuated only by the occasional cactus." },
+  { id:81, word:"Yearn", pron:"YERN", def:"To have an intense feeling of longing for something.", ex:"She yearned for the quiet countryside after years in the city." },
+  { id:82, word:"Zephyr", pron:"ZEF-er", def:"A soft, gentle breeze.", ex:"A warm zephyr drifted through the open windows on a lazy afternoon." },
+  { id:83, word:"Acumen", pron:"AK-yuh-men", def:"The ability to make good judgments and quick decisions; sharpness.", ex:"Her business acumen helped her turn a small idea into a thriving company." },
+  { id:84, word:"Bucolic", pron:"byoo-KOL-ik", def:"Relating to the pleasant aspects of the countryside; rustic and pastoral.", ex:"They spent a bucolic weekend hiking through fields and sleeping under the stars." },
+  { id:85, word:"Capricious", pron:"kuh-PRISH-us", def:"Given to sudden and unaccountable changes of mood or behavior.", ex:"The capricious weather ruined several outdoor events that summer." },
+  { id:86, word:"Diffident", pron:"DIF-ih-dent", def:"Modest or shy due to a lack of self-confidence.", ex:"The diffident student had brilliant ideas but rarely spoke in class." },
+  { id:87, word:"Eminent", pron:"EM-ih-nent", def:"Famous and respected within a particular sphere or profession.", ex:"An eminent surgeon was brought in to consult on the complex case." },
+  { id:88, word:"Fastidious", pron:"fas-TID-ee-us", def:"Very attentive to and concerned about accuracy and detail.", ex:"Her fastidious attention to detail made her an outstanding editor." },
+  { id:89, word:"Grandiloquent", pron:"gran-DIL-oh-kwent", def:"Pompous or extravagant in language, style, or manner.", ex:"His grandiloquent speech impressed no one and confused everyone." },
+  { id:90, word:"Hubris", pron:"HYOO-bris", def:"Excessive pride or self-confidence.", ex:"His hubris led him to underestimate the competition, and he paid the price." },
+  { id:91, word:"Immutable", pron:"ih-MYOO-tuh-bul", def:"Unchanging over time or unable to be changed.", ex:"The laws of physics are immutable regardless of where in the universe you are." },
+  { id:92, word:"Jejune", pron:"jih-JOON", def:"Naive, simplistic, and superficial.", ex:"The essay was jejune, lacking any original analysis or depth." },
+  { id:93, word:"Kowtow", pron:"KOW-tow", def:"To act in an excessively submissive manner toward someone.", ex:"She refused to kowtow to anyone, no matter how powerful they were." },
+  { id:94, word:"Languor", pron:"LANG-ger", def:"The state of feeling pleasantly tired, relaxed, or weak.", ex:"A delicious languor settled over the group after the long afternoon feast." },
+  { id:95, word:"Meticulous", pron:"meh-TIK-yuh-lus", def:"Showing great attention to detail or correct behavior.", ex:"The meticulous chef measured every ingredient to the nearest gram." },
+  { id:96, word:"Nuance", pron:"NOO-ahns", def:"A subtle difference in or shade of meaning, expression, or sound.", ex:"Great writing depends on the nuance between similar words." },
+  { id:97, word:"Obsequious", pron:"ob-SEE-kwee-us", def:"Obedient or attentive to an excessive or servile degree.", ex:"The obsequious assistant agreed with everything the boss said." },
+  { id:98, word:"Pellucid", pron:"peh-LOO-sid", def:"Translucently clear; easily understood.", ex:"Her pellucid explanation made a complex topic feel immediately accessible." },
+  { id:99, word:"Querencia", pron:"keh-REN-see-uh", def:"A place from which one's strength is drawn; where one feels most at home.", ex:"Her small studio apartment was her querencia — quiet, personal, and full of light." },
+  { id:100, word:"Recondite", pron:"REK-un-dyt", def:"Not known by many people; abstruse.", ex:"His recondite knowledge of medieval manuscripts impressed even seasoned historians." },
+  { id:101, word:"Seraphic", pron:"seh-RAF-ik", def:"Characteristic of or resembling a seraph; angelic; blissfully calm.", ex:"The child wore a seraphic expression as she slept." },
+  { id:102, word:"Torpor", pron:"TOR-per", def:"A state of physical or mental inactivity; lethargy.", ex:"The afternoon heat sent everyone into a deep torpor." },
+  { id:103, word:"Unctuous", pron:"UNK-choo-us", def:"Excessively flattering or ingratiating; oily.", ex:"The unctuous salesperson made everyone uncomfortable with hollow compliments." },
+  { id:104, word:"Vapid", pron:"VAP-id", def:"Offering nothing that is stimulating or challenging; dull.", ex:"The conversation was so vapid that she began checking her phone." },
+  { id:105, word:"Winsome", pron:"WIN-sum", def:"Attractive or appealing in appearance or character.", ex:"Her winsome personality made strangers feel at ease within minutes." },
+  { id:106, word:"Xenophile", pron:"ZEE-nuh-fyl", def:"A person who is attracted to foreign peoples, cultures, or customs.", ex:"A true xenophile, he decorated his home with artifacts from every continent." },
+  { id:107, word:"Yore", pron:"YOR", def:"Former times; long ago.", ex:"In days of yore, the village square was the heart of all community life." },
+  { id:108, word:"Zeal", pron:"ZEEL", def:"Great energy or enthusiasm in pursuit of a cause or objective.", ex:"She approached every project with infectious zeal and boundless energy." },
+  { id:109, word:"Abstruse", pron:"ab-STROOS", def:"Difficult to understand; obscure.", ex:"The professor's abstruse lecture left most students bewildered." },
+  { id:110, word:"Bellicose", pron:"BEL-ih-kohs", def:"Demonstrating aggression and willingness to fight.", ex:"His bellicose tone made every staff meeting feel like a battle." },
+  { id:111, word:"Clandestine", pron:"klan-DES-tin", def:"Kept secret or done secretively, especially because illicit.", ex:"The spies held clandestine meetings in a basement café." },
+  { id:112, word:"Dilettante", pron:"DIL-eh-tahnt", def:"A person who cultivates an area of interest, such as the arts, without real commitment.", ex:"He was seen as a dilettante, sampling hobbies but mastering none." },
+  { id:113, word:"Ephemeron", pron:"eh-FEM-er-on", def:"A thing that exists for only a short time.", ex:"The morning dew is a perfect ephemeron — beautiful, brief, and gone." },
+  { id:114, word:"Fatuous", pron:"FACH-oo-us", def:"Silly and pointless.", ex:"He gave a fatuous grin when asked why he hadn't read the assignment." },
+  { id:115, word:"Guileless", pron:"GYL-less", def:"Devoid of guile; innocent and without deception.", ex:"Her guileless questions revealed an honest and open heart." },
+  { id:116, word:"Harangue", pron:"huh-RANG", def:"A lengthy and aggressive speech.", ex:"The politician delivered a harangue that left the crowd divided." },
+  { id:117, word:"Impervious", pron:"im-PER-vee-us", def:"Not allowing fluid to pass through; unable to be affected.", ex:"He seemed impervious to criticism, always maintaining his confidence." },
+  { id:118, word:"Juxtapose", pron:"JUK-stuh-pohz", def:"To place or deal with close together for contrasting effect.", ex:"The photographer juxtaposed poverty and luxury in a single striking image." },
+  { id:119, word:"Kismet", pron:"KIZ-met", def:"Destiny; fate.", ex:"Meeting her business partner at that conference felt like pure kismet." },
+  { id:120, word:"Labyrinthine", pron:"lab-ih-RIN-thin", def:"Twisting and turning; intricate and confusing.", ex:"The labyrinthine bureaucracy made even simple tasks take weeks." },
+  { id:121, word:"Mercurial", pron:"mer-KYOOR-ee-ul", def:"Subject to sudden or unpredictable changes of mood or mind.", ex:"His mercurial temperament made him exciting but difficult to work with." },
+  { id:122, word:"Nefarious", pron:"nih-FAIR-ee-us", def:"Wicked or criminal.", ex:"The nefarious scheme unraveled when an insider came forward." },
+  { id:123, word:"Ominous", pron:"OM-ih-nus", def:"Giving the worrying impression that something bad is going to happen.", ex:"The ominous clouds on the horizon sent everyone indoors." },
+  { id:124, word:"Paragon", pron:"PAR-uh-gon", def:"A person or thing regarded as a perfect example of a particular quality.", ex:"She was a paragon of professionalism in every interaction." },
+  { id:125, word:"Quandary", pron:"KWON-dree", def:"A state of perplexity or uncertainty over what to do in a difficult situation.", ex:"He was in a quandary — both offers were excellent and equally risky." },
+  { id:126, word:"Rapture", pron:"RAP-cher", def:"A feeling of intense pleasure or joy.", ex:"The audience sat in rapture as the final notes of the symphony faded." },
+  { id:127, word:"Scintillating", pron:"SIN-tih-lay-ting", def:"Sparkling or shining brightly; brilliantly clever or entertaining.", ex:"The scintillating panel discussion kept the crowd engaged for hours." },
+  { id:128, word:"Tendentious", pron:"ten-DEN-shus", def:"Expressing a particular point of view; not objective.", ex:"The tendentious report ignored data that contradicted its conclusions." },
+  { id:129, word:"Unequivocal", pron:"un-ih-KWIV-uh-kul", def:"Leaving no doubt; clear and unambiguous.", ex:"Her unequivocal refusal ended the negotiation immediately." },
+  { id:130, word:"Vertiginous", pron:"ver-TIJ-ih-nus", def:"Causing vertigo, especially by being extremely high or steep.", ex:"The vertiginous drop from the cliff edge made even the guide step back." },
+  { id:131, word:"Wanton", pron:"WON-tun", def:"Deliberate and unprovoked; showing no consideration for the rights or feelings of others.", ex:"The wanton destruction of the historic building shocked the entire community." },
+  { id:132, word:"Xerophyte", pron:"ZEER-oh-fyt", def:"A plant adapted to dry conditions.", ex:"The succulent is a classic xerophyte, storing water in its thick leaves." },
+  { id:133, word:"Yawp", pron:"YAWP", def:"To talk loudly and foolishly; also a loud, harsh cry.", ex:"He let out a triumphant yawp when his team scored the final goal." },
+  { id:134, word:"Zenith", pron:"ZEE-nith", def:"The time at which something is most powerful or successful; the peak.", ex:"The artist was at the zenith of her career when she painted that masterpiece." },
+  { id:135, word:"Acrid", pron:"AK-rid", def:"Having an irritatingly strong and unpleasant taste or smell.", ex:"An acrid smell of burning rubber filled the air after the crash." },
+  { id:136, word:"Beguile", pron:"beh-GYL", def:"To charm or enchant, sometimes in a deceptive way.", ex:"She was beguiled by his wit and confidence at the first meeting." },
+  { id:137, word:"Circumspect", pron:"SER-kum-spekt", def:"Wary and unwilling to take risks; careful to consider all circumstances.", ex:"A circumspect approach to investing helped her avoid major losses." },
+  { id:138, word:"Didactic", pron:"dy-DAK-tik", def:"Intended to teach, particularly in having moral instruction as an ulterior motive.", ex:"The novel had a didactic tone that some readers found preachy." },
+  { id:139, word:"Elusive", pron:"ih-LOO-siv", def:"Difficult to find, catch, or achieve.", ex:"Despite years of searching, the elusive butterfly had never been photographed." },
+  { id:140, word:"Flummox", pron:"FLUM-oks", def:"To bewilder; to perplex utterly.", ex:"The final exam question completely flummoxed even the top students." },
+  { id:141, word:"Germane", pron:"jer-MAYN", def:"Relevant to a subject under consideration.", ex:"Please keep your comments germane to the topic we're discussing." },
+  { id:142, word:"Hegemony", pron:"heh-JEM-oh-nee", def:"Leadership or dominance, especially of one country or social group over others.", ex:"The company sought hegemony over the entire streaming market." },
+  { id:143, word:"Iconoclast", pron:"y-KON-oh-klast", def:"A person who attacks cherished beliefs or institutions.", ex:"As an iconoclast in fashion, she rejected every trend and created her own." },
+  { id:144, word:"Jettison", pron:"JET-ih-sun", def:"To throw or drop from an aircraft or ship; to abandon or discard.", ex:"They jettisoned the entire campaign plan and started from scratch." },
+  { id:145, word:"Lachrymose", pron:"LAK-rih-mohs", def:"Tearful or given to weeping.", ex:"The lachrymose ending of the film left few dry eyes in the theater." },
+  { id:146, word:"Maverick", pron:"MAV-er-ik", def:"An independent-minded person who does not follow the crowd.", ex:"The maverick engineer solved the problem everyone else had dismissed as impossible." },
+  { id:147, word:"Nihilism", pron:"NY-hil-iz-um", def:"The rejection of all religious and moral principles in the belief that life is meaningless.", ex:"His nihilism made it hard for him to find motivation in anything he did." },
+  { id:148, word:"Ossify", pron:"OS-ih-fy", def:"To turn into bone; or to become rigid and fixed in one's attitudes or opinions.", ex:"Without reform, the company's culture would ossify and drive away talent." },
+  { id:149, word:"Palimpsest", pron:"PAL-imp-sest", def:"Something altered but still bearing traces of an earlier form.", ex:"The old city was a palimpsest of centuries of history layered upon each other." },
+  { id:150, word:"Recalcitrant", pron:"rih-KAL-sih-trant", def:"Having an obstinately uncooperative attitude toward authority.", ex:"The recalcitrant student refused every offer of extra help." },
+  { id:151, word:"Sophistry", pron:"SOF-ih-stree", def:"The use of clever but false arguments to deceive.", ex:"His speech was full of sophistry designed to mislead rather than inform." },
+  { id:152, word:"Truculent", pron:"TRUK-yuh-lent", def:"Eager or quick to argue or fight; aggressively defiant.", ex:"The truculent witness glared at the defense attorney throughout the hearing." },
+  { id:153, word:"Umbral", pron:"UM-brul", def:"Of or relating to shadow; relating to the darkest part of a shadow.", ex:"The umbral region of the eclipse plunged the valley into complete darkness." },
+  { id:154, word:"Verbose", pron:"ver-BOHS", def:"Using or expressed in more words than are needed.", ex:"His verbose emails could always be summarized in a single sentence." },
+  { id:155, word:"Weal", pron:"WEEL", def:"That which is best for someone or something; well-being.", ex:"She devoted her career to the common weal, asking little for herself." },
+  { id:156, word:"Xanthic", pron:"ZAN-thik", def:"Of a yellow or yellowish color.", ex:"The xanthic petals of the sunflower glowed in the late afternoon sun." },
+  { id:157, word:"Yore", pron:"YOR", def:"Former times, especially when viewed nostalgically.", ex:"The blacksmith's forge was a reminder of days of yore." },
+  { id:158, word:"Zealotry", pron:"ZEL-uh-tree", def:"Excessive intolerance of opposing views; fanaticism.", ex:"His zealotry for the cause alienated potential allies." },
+  { id:159, word:"Anomalous", pron:"uh-NOM-uh-lus", def:"Deviating from what is standard, normal, or expected.", ex:"The anomalous result prompted the scientists to repeat the entire experiment." },
+  { id:160, word:"Bifurcate", pron:"BY-fer-kayt", def:"To divide into two branches or forks.", ex:"The road bifurcates just past the old mill — take the left path." },
+  { id:161, word:"Caustic", pron:"KAW-stik", def:"Sarcastic in a scathing and bitter way; able to burn or corrode.", ex:"Her caustic wit could reduce a pompous speaker to silence in seconds." },
+  { id:162, word:"Diatribe", pron:"DY-uh-tryb", def:"A forceful and bitter verbal attack against someone or something.", ex:"His diatribe against modern technology went on for nearly an hour." },
+  { id:163, word:"Evanescent", pron:"ev-uh-NES-ent", def:"Soon passing out of sight, memory, or existence; quickly fading.", ex:"The evanescent mist burned off as soon as the sun climbed above the hills." },
+  { id:164, word:"Fecund", pron:"FEE-kund", def:"Producing or capable of producing an abundance of offspring or new growth; fertile.", ex:"The fecund river valley has supported civilizations for thousands of years." },
+  { id:165, word:"Galvanize", pron:"GAL-vuh-nyz", def:"Shock or excite someone into taking action.", ex:"The coach's speech galvanized the team into an extraordinary second-half performance." },
+  { id:166, word:"Haptic", pron:"HAP-tik", def:"Relating to the sense of touch.", ex:"The haptic feedback of the new controller made gaming feel far more immersive." },
+  { id:167, word:"Imbue", pron:"im-BYOO", def:"To inspire or permeate with a feeling or quality.", ex:"Her mentors imbued her with a deep respect for the craft of writing." },
+  { id:168, word:"Jocund", pron:"JOK-und", def:"Cheerful and lighthearted.", ex:"A jocund mood settled over the party as the music picked up." },
+  { id:169, word:"Kudos", pron:"KYOO-dohz", def:"Praise and honor received for an achievement.", ex:"She received kudos from the entire department for her brilliant presentation." },
+  { id:170, word:"Lissome", pron:"LIS-um", def:"Supple and gracefully thin; lithe.", ex:"The lissome dancer moved across the stage as though gravity didn't apply." },
+  { id:171, word:"Mnemonic", pron:"neh-MON-ik", def:"A device such as a pattern or rhyme that aids memory.", ex:"She invented a mnemonic to remember the order of the planets." },
+  { id:172, word:"Nadir", pron:"NAY-deer", def:"The lowest or most unsuccessful point in a situation.", ex:"The company hit its nadir in 2010, nearly going bankrupt." },
+  { id:173, word:"Obfuscate", pron:"OB-fus-kayt", def:"To make unclear or confusing; to bewilder.", ex:"The jargon-filled report seemed designed to obfuscate rather than explain." },
+  { id:174, word:"Penumbra", pron:"peh-NUM-bruh", def:"The partially shaded outer region of a shadow; an outlying or subsidiary area.", ex:"In the penumbra of the solar eclipse, the light took on a ghostly quality." },
+  { id:175, word:"Quiescent", pron:"kwee-ES-ent", def:"In a state of quiet inactivity; dormant.", ex:"The volcano appeared quiescent but scientists monitored it closely." },
+  { id:176, word:"Ruminate", pron:"ROO-mih-nayt", def:"To think deeply about something; to meditate at length.", ex:"She ruminated for weeks before accepting the job offer." },
+  { id:177, word:"Salubrious", pron:"suh-LOO-bree-us", def:"Health-giving; healthy.", ex:"The salubrious mountain air improved his constitution within days." },
+  { id:178, word:"Trenchant", pron:"TREN-chant", def:"Vigorous or incisive in expression or style.", ex:"Her trenchant review exposed every flaw in the new policy." },
+  { id:179, word:"Unwieldy", pron:"un-WEEL-dee", def:"Difficult to carry or manage because of its size, shape, or weight.", ex:"The unwieldy piece of furniture refused to fit through the doorway." },
+  { id:180, word:"Vituperate", pron:"vy-TOO-per-ayt", def:"To blame or insult in strong or violent language.", ex:"He vituperated against the decision in language that shocked even his allies." },
+  { id:181, word:"Wayfarer", pron:"WAY-fair-er", def:"A person who travels on foot.", ex:"The weary wayfarer rested at the inn before continuing his journey." },
+  { id:182, word:"Xylophone", pron:"ZY-luh-fohn", def:"A musical instrument played by striking wooden bars of different lengths.", ex:"The child's eyes lit up the moment she played her first note on the xylophone." },
+  { id:183, word:"Yearning", pron:"YER-ning", def:"A feeling of intense longing for something.", ex:"There was a deep yearning in his voice whenever he spoke of home." },
+  { id:184, word:"Zymurgy", pron:"ZY-mer-jee", def:"The branch of applied chemistry dealing with fermentation, as in brewing.", ex:"His fascination with zymurgy led him to open an acclaimed craft brewery." },
+  { id:185, word:"Apotheosis", pron:"uh-poth-ee-OH-sis", def:"The highest point in the development of something; the perfect example.", ex:"That concert was the apotheosis of the band's twenty-year career." },
+  { id:186, word:"Brazen", pron:"BRAY-zen", def:"Bold and without shame.", ex:"The brazen thief stole the painting in broad daylight." },
+  { id:187, word:"Capitulate", pron:"kuh-PICH-uh-layt", def:"To cease to resist an opponent or an unwelcome demand; to yield.", ex:"After hours of negotiation, the company finally capitulated to the workers' demands." },
+  { id:188, word:"Dissemble", pron:"dih-SEM-bul", def:"To conceal or disguise one's true feelings or beliefs.", ex:"She had learned to dissemble her frustration behind a professional smile." },
+  { id:189, word:"Empathy", pron:"EM-puh-thee", def:"The ability to understand and share the feelings of another.", ex:"True leadership requires empathy as much as it requires strategy." },
+  { id:190, word:"Frugal", pron:"FROO-gul", def:"Sparing or economical with regard to money or food; simple and plain.", ex:"Her frugal habits allowed her to retire a decade earlier than most." },
+  { id:191, word:"Grandeur", pron:"GRAN-jer", def:"Splendor and impressiveness, especially of appearance or style.", ex:"The grandeur of the cathedral left every visitor speechless." },
+  { id:192, word:"Hedonism", pron:"HEE-duh-niz-um", def:"The pursuit of pleasure as the highest good and proper aim of human life.", ex:"He embraced hedonism after retirement, traveling and dining freely." },
+  { id:193, word:"Idyllic", pron:"y-DIL-ik", def:"Like an idyll; extremely happy, peaceful, or picturesque.", ex:"They spent an idyllic week in a remote cabin with no Wi-Fi and no worries." },
+  { id:194, word:"Juggernaut", pron:"JUG-er-nawt", def:"A huge, powerful, and overwhelming force or institution.", ex:"The tech giant had become a juggernaut, acquiring every competitor in its path." },
+  { id:195, word:"Kinship", pron:"KIN-ship", def:"A sharing of characteristics or origins; a feeling of being close or similar.", ex:"She felt an immediate kinship with the other writers at the retreat." },
+  { id:196, word:"Lambent", pron:"LAM-bent", def:"Glowing or flickering with a soft light; brilliantly playful.", ex:"The lambent candlelight gave the room a warm and intimate atmosphere." },
+  { id:197, word:"Mendacious", pron:"men-DAY-shus", def:"Not telling the truth; lying.", ex:"The mendacious report was later retracted after evidence contradicted every claim." },
+  { id:198, word:"Nocturnal", pron:"nok-TER-nul", def:"Done, occurring, or active at night.", ex:"Owls are nocturnal hunters, relying on exceptional hearing and sight in darkness." },
+  { id:199, word:"Oscillate", pron:"OS-ih-layt", def:"Move or swing back and forth at a regular speed; to waver between opinions.", ex:"He oscillated between confidence and doubt throughout the entire interview." },
+  { id:200, word:"Paradigm", pron:"PAR-uh-dym", def:"A typical example or pattern; a framework for thinking about something.", ex:"The internet represented a paradigm shift in how we access information." },
+  { id:201, word:"Querulous", pron:"KWER-yuh-lus", def:"Complaining in a petulant or whining manner.", ex:"The querulous tone of the review revealed more about the critic than the work." },
+  { id:202, word:"Redolent", pron:"RED-uh-lent", def:"Strongly reminiscent or suggestive of something; strongly scented.", ex:"The kitchen was redolent of cinnamon and warm bread on Sunday mornings." },
+  { id:203, word:"Sinuous", pron:"SIN-yoo-us", def:"Having many curves and turns; lithe and supple.", ex:"The sinuous river wound through the valley before reaching the sea." },
+  { id:204, word:"Temerity", pron:"teh-MAIR-ih-tee", def:"Excessive confidence or boldness; audacity.", ex:"He had the temerity to question the CEO's strategy in front of the entire board." },
+  { id:205, word:"Umbrageous", pron:"um-BRAY-jus", def:"Providing shade; inclined to take offense.", ex:"The umbrageous trees kept the garden cool even on the hottest days." },
+  { id:206, word:"Verdant", pron:"VER-dant", def:"Green with grass or other rich vegetation.", ex:"The verdant hillsides were dotted with sheep after the spring rains." },
+  { id:207, word:"Watershed", pron:"WAW-ter-shed", def:"An event or period marking a turning point in a situation.", ex:"The invention of the printing press was a watershed moment for human civilization." },
+  { id:208, word:"Xeric", pron:"ZEER-ik", def:"Extremely dry; adapted to dry conditions.", ex:"Only xeric plants survived the summer without irrigation." },
+  { id:209, word:"Yielding", pron:"YEEL-ding", def:"Producing a good or generous result; inclined to give way.", ex:"The yielding soil of the valley made it perfect for agriculture." },
+  { id:210, word:"Zenith", pron:"ZEE-nith", def:"The point in the sky directly overhead; the peak of something.", ex:"At the zenith of summer, the days felt impossibly long and golden." },
+  { id:211, word:"Ameliorate", pron:"uh-MEEL-yuh-rayt", def:"To make something bad or unsatisfactory better; to improve.", ex:"New policies were introduced to ameliorate conditions in the factory." },
+  { id:212, word:"Bravado", pron:"bruh-VAH-doh", def:"A bold manner or a show of boldness intended to impress.", ex:"His bravado masked a deep anxiety that only his closest friends knew about." },
+  { id:213, word:"Compunction", pron:"kum-PUNK-shun", def:"A feeling of guilt or moral scruple that follows wrongdoing.", ex:"She felt no compunction about leaving the toxic job behind." },
+  { id:214, word:"Deference", pron:"DEF-er-ence", def:"Humble submission and respect toward another.", ex:"He spoke with deference to the elders, always listening before responding." },
+  { id:215, word:"Effulgent", pron:"eh-FUL-jent", def:"Radiant; shining brightly.", ex:"The effulgent sunrise painted the mountains in shades of gold and pink." },
+  { id:216, word:"Forlorn", pron:"for-LORN", def:"Pitifully sad and abandoned or lonely.", ex:"The forlorn puppy sat at the shelter door, watching everyone walk past." },
+  { id:217, word:"Glean", pron:"GLEEN", def:"To gather information or material bit by bit.", ex:"From the scattered notes, she was able to glean the essentials of his theory." },
+  { id:218, word:"Hallow", pron:"HAL-oh", def:"To honor as holy; to make sacred.", ex:"The ancient battlefield had been hallowed by generations of remembrance." },
+  { id:219, word:"Inimitable", pron:"in-IM-ih-tuh-bul", def:"So good or unusual as to be impossible to copy; unique.", ex:"Her inimitable style influenced a generation of designers." },
+  { id:220, word:"Jubilee", pron:"JOO-bih-lee", def:"A special anniversary; a time of celebration and rejoicing.", ex:"The jubilee concert brought together musicians from five decades." },
+  { id:221, word:"Kaleidoscopic", pron:"kuh-ly-duh-SKOP-ik", def:"Constantly changing; multicolored; showing complex patterns.", ex:"The market was a kaleidoscopic blend of colors, sounds, and aromas." },
+  { id:222, word:"Languid", pron:"LANG-gwid", def:"Displaying or having a disinclination for physical exertion; slow.", ex:"The languid afternoon light made everyone in the garden drowsy." },
+  { id:223, word:"Muse", pron:"MYOOZ", def:"To be absorbed in thought; a person or personified force who is the source of inspiration.", ex:"He sat by the river to muse on the choices that had led him here." },
+  { id:224, word:"Nimble", pron:"NIM-bul", def:"Quick and light in movement or action; agile.", ex:"Her nimble fingers moved across the keyboard with practiced ease." },
+  { id:225, word:"Orison", pron:"OR-ih-zun", def:"A prayer.", ex:"She whispered a quiet orison before the dawn shift at the hospital." },
+  { id:226, word:"Palpable", pron:"PAL-puh-bul", def:"So intense as to seem almost tangible; perceptible by touch.", ex:"The tension in the boardroom was palpable from the moment he walked in." },
+  { id:227, word:"Querencia", pron:"keh-REN-see-uh", def:"A place where one feels safe, from which one's strength is drawn.", ex:"For her, the kitchen was querencia — the place where everything made sense." },
+  { id:228, word:"Replete", pron:"rih-PLEET", def:"Filled or well-supplied with something.", ex:"The museum was replete with artifacts from every period of the empire's history." },
+  { id:229, word:"Sanctum", pron:"SANK-tum", def:"A sacred place; a private place of retreat.", ex:"His study was his sanctum — no interruptions, no noise, just thought." },
+  { id:230, word:"Transcendent", pron:"tran-SEN-dent", def:"Beyond or above the range of normal or physical human experience.", ex:"The performance reached a transcendent quality that moved the audience to tears." },
+  { id:231, word:"Unalloyed", pron:"un-uh-LOYD", def:"Complete and unreserved; pure.", ex:"Watching her daughter graduate brought unalloyed joy to her face." },
+  { id:232, word:"Veridical", pron:"veh-RID-ih-kul", def:"Truthful; coinciding with reality.", ex:"Her account of events was later confirmed to be entirely veridical." },
+  { id:233, word:"Wisteria", pron:"wis-TEER-ee-uh", def:"A climbing plant with hanging clusters of fragrant flowers.", ex:"Wisteria draped the old stone wall, filling the garden with a violet cascade." },
+  { id:234, word:"Xenogenesis", pron:"zee-noh-JEN-eh-sis", def:"The supposed generation of offspring completely unlike the parent.", ex:"The concept of xenogenesis fascinated early naturalists attempting to explain variation." },
+  { id:235, word:"Yen", pron:"YEN", def:"A longing or yearning.", ex:"She had a yen for adventure that no amount of routine could satisfy." },
+  { id:236, word:"Zoetrope", pron:"ZOH-eh-trohp", def:"A 19th-century optical toy giving the impression of motion from a series of pictures.", ex:"The zoetrope fascinated visitors at the museum of early cinema." },
+  { id:237, word:"Ardor", pron:"AR-der", def:"Enthusiasm or passion.", ex:"She pursued the research with an ardor that inspired the entire lab." },
+  { id:238, word:"Beatific", pron:"bee-uh-TIF-ik", def:"Feeling or expressing blissful happiness.", ex:"He wore a beatific smile as he held his newborn for the first time." },
+  { id:239, word:"Clarity", pron:"KLAIR-ih-tee", def:"The quality of being clear and easy to understand; freedom from obscurity.", ex:"The clarity of her instructions prevented any confusion on the first day." },
+  { id:240, word:"Dulcet", pron:"DUL-sit", def:"Sweet and soothing, often referring to sound.", ex:"The dulcet tones of the harp drifted through the open window." },
+  { id:241, word:"Elixir", pron:"ih-LIK-ser", def:"A magical or medicinal potion; a thing regarded as a solution to all problems.", ex:"For her, a morning run was the elixir that made everything else manageable." },
+  { id:242, word:"Finesse", pron:"fih-NES", def:"Intricate and refined delicacy; skillful handling of a situation.", ex:"He handled the difficult client with remarkable finesse and tact." },
+  { id:243, word:"Glib", pron:"GLIB", def:"Fluent and voluble but insincere and shallow.", ex:"His glib answers during the press conference satisfied no one." },
+  { id:244, word:"Homogeneous", pron:"hoh-moh-JEE-nee-us", def:"Of the same kind; alike.", ex:"The classroom was surprisingly homogeneous given the diversity of the city." },
+  { id:245, word:"Inure", pron:"in-YOOR", def:"To accustom someone to something, especially something unpleasant.", ex:"Years of criticism had inured him to negative reviews." },
+  { id:246, word:"Juxtaposition", pron:"juk-stuh-puh-ZI-shun", def:"The fact of two things being seen or placed close together for contrasting effect.", ex:"The juxtaposition of old and new architecture gave the city its distinctive character." },
+  { id:247, word:"Kismet", pron:"KIZ-met", def:"Destiny; fate, especially seen as a force that pre-determines events.", ex:"They both reached for the same book at the library — it felt like kismet." },
+  { id:248, word:"Lucid", pron:"LOO-sid", def:"Expressed clearly; easy to understand; mentally sound.", ex:"Even on his most complex topics, his explanations remained refreshingly lucid." },
+  { id:249, word:"Melancholy", pron:"MEL-un-kol-ee", def:"A feeling of pensive sadness, typically with no obvious cause.", ex:"Autumn always brought a pleasant melancholy that he found strangely comforting." },
+  { id:250, word:"Nobility", pron:"noh-BIL-ih-tee", def:"The quality of having fine personal qualities or high moral principles.", ex:"She acted with such nobility that even her rivals respected her." },
+  { id:251, word:"Odious", pron:"OH-dee-us", def:"Extremely unpleasant; repulsive.", ex:"The odious behavior of the official was captured on video and spread widely." },
+  { id:252, word:"Panacea", pron:"pan-uh-SEE-uh", def:"A solution or remedy for all difficulties or diseases.", ex:"Technology is often hailed as a panacea, but it creates problems of its own." },
+  { id:253, word:"Quorum", pron:"KWOR-um", def:"The minimum number of members whose presence makes a meeting valid.", ex:"Without a quorum, the board could not formally vote on the proposal." },
+  { id:254, word:"Raucous", pron:"RAW-kus", def:"Making or constituting a harsh, loud noise; disorderly.", ex:"The raucous crowd at the stadium could be heard from blocks away." },
+  { id:255, word:"Seismic", pron:"SYZ-mik", def:"Of enormous proportions or effect.", ex:"The ruling had seismic consequences for the entire industry." },
+  { id:256, word:"Tacit", pron:"TAS-it", def:"Understood or implied without being stated.", ex:"There was a tacit agreement among the staff never to mention the incident again." },
+  { id:257, word:"Usurp", pron:"yoo-ZERP", def:"To take a position of power or importance illegally or by force.", ex:"The ambitious deputy tried to usurp the director's authority." },
+  { id:258, word:"Vivify", pron:"VIV-ih-fy", def:"To enliven or animate; to make more lively or striking.", ex:"Color and music vivified what had been a dull presentation." },
+  { id:259, word:"Wane", pron:"WAYN", def:"To decrease in vigor, power, or extent; to become less.", ex:"His enthusiasm for the project began to wane after the third major setback." },
+  { id:260, word:"Xerography", pron:"zee-ROG-ruh-fee", def:"A dry copying process in which powder adheres to parts of a surface — the basis of photocopying.", ex:"Xerography revolutionized office work when it became widely available." },
+  { id:261, word:"Yielding", pron:"YEEL-ding", def:"Tending to comply with the requests of others.", ex:"Her yielding attitude was misread as weakness by those who didn't know her." },
+  { id:262, word:"Zeal", pron:"ZEEL", def:"Great energy or enthusiasm in pursuit of a cause or objective.", ex:"She pursued every passion with equal zeal, whether cooking or coding." },
+  { id:263, word:"Altruism", pron:"AL-troo-iz-um", def:"Disinterested and selfless concern for the well-being of others.", ex:"His altruism was genuine — he gave without expecting recognition." },
+  { id:264, word:"Baroque", pron:"buh-ROHK", def:"Highly ornate and extravagant in style; relating to the 17th-century art movement.", ex:"The baroque ceiling of the palace left visitors overwhelmed with beauty." },
+  { id:265, word:"Clemency", pron:"KLEM-en-see", def:"Mercy and leniency shown toward offenders or enemies.", ex:"The judge showed clemency, sentencing him to community service instead." },
+  { id:266, word:"Dichotomy", pron:"dy-KOT-uh-mee", def:"A division or contrast between two things that are entirely different.", ex:"The novel explores the dichotomy between freedom and responsibility." },
+  { id:267, word:"Embolden", pron:"em-BOHL-den", def:"To give greater confidence or courage to.", ex:"Her mentor's words emboldened her to submit the manuscript she'd been sitting on." },
+  { id:268, word:"Fervent", pron:"FER-vent", def:"Having or displaying a passionate intensity.", ex:"He was a fervent advocate for environmental protection his entire life." },
+  { id:269, word:"Gracious", pron:"GRAY-shus", def:"Courteous, kind, and pleasant; showing kindness and courtesy.", ex:"The gracious hostess made every guest feel genuinely welcomed." },
+  { id:270, word:"Heedful", pron:"HEED-ful", def:"Paying close attention; mindful.", ex:"A heedful driver always anticipates the behavior of those around them." },
+  { id:271, word:"Intrepid", pron:"in-TREP-id", def:"Fearless; adventurous.", ex:"The intrepid journalist filed reports from some of the world's most dangerous regions." },
+  { id:272, word:"Jovial", pron:"JOH-vee-ul", def:"Cheerful and friendly.", ex:"His jovial manner put every new recruit immediately at ease." },
+  { id:273, word:"Keen", pron:"KEEN", def:"Enthusiastic and eager; having a sharp or penetrating quality.", ex:"She had a keen eye for detail that made her an excellent editor." },
+  { id:274, word:"Laudable", pron:"LAW-duh-bul", def:"Deserving praise and commendation.", ex:"Her laudable commitment to fairness earned her lasting respect." },
+  { id:275, word:"Munificent", pron:"myoo-NIF-ih-sent", def:"Larger or more generous than is usual or necessary.", ex:"The munificent donation funded the library's entire renovation." },
+  { id:276, word:"Nascence", pron:"NAY-sence", def:"The process of coming into existence; birth.", ex:"We are witnessing the nascence of an entirely new art form." },
+  { id:277, word:"Ostensible", pron:"os-TEN-sih-bul", def:"Apparently true but not necessarily so.", ex:"The ostensible reason for the meeting was budget review, but everyone knew the truth." },
+  { id:278, word:"Pensive", pron:"PEN-siv", def:"Engaged in, involving, or reflecting deep or serious thought.", ex:"She stood at the window with a pensive expression, lost in memory." },
+  { id:279, word:"Quirky", pron:"KWER-kee", def:"Characterized by peculiar or unexpected traits.", ex:"Her quirky sense of humor made her the most memorable teacher at the school." },
+  { id:280, word:"Rarefied", pron:"RAIR-ih-fyd", def:"Made less dense; belonging to or reserved for a small group of people.", ex:"The conference had a rarefied atmosphere — only the top researchers attended." },
+  { id:281, word:"Solace", pron:"SOL-is", def:"Comfort or consolation in a time of distress or sadness.", ex:"She found solace in long walks and quiet evenings with a good book." },
+  { id:282, word:"Temperate", pron:"TEM-per-it", def:"Showing moderation or self-restraint; mild in climate.", ex:"His temperate response to the criticism won him widespread admiration." },
+  { id:283, word:"Unfettered", pron:"un-FET-erd", def:"Not confined or restricted; free.", ex:"The startup gave its team unfettered freedom to experiment and fail." },
+  { id:284, word:"Venerable", pron:"VEN-er-uh-bul", def:"Accorded a great deal of respect, especially because of age, wisdom, or character.", ex:"The venerable professor had taught generations of students over fifty years." },
+  { id:285, word:"Welter", pron:"WEL-ter", def:"A confused multitude of things; a state of turmoil.", ex:"She was lost in a welter of competing demands and conflicting deadlines." },
+  { id:286, word:"Yonder", pron:"YON-der", def:"At some distance in the direction indicated; over there.", ex:"The old farmhouse yonder had stood for more than a hundred years." },
+  { id:287, word:"Aplomb", pron:"uh-PLOM", def:"Self-confidence or assurance, especially in a demanding situation.", ex:"She handled the hostile question with complete aplomb." },
+  { id:288, word:"Bulwark", pron:"BUL-werk", def:"A defensive wall; a person or thing that acts as a defense against unwanted things.", ex:"A free press is the greatest bulwark against political corruption." },
+  { id:289, word:"Confluence", pron:"KON-floo-ence", def:"The junction of two rivers; a coming together of people or things.", ex:"The city grew at the confluence of trade routes from three continents." },
+  { id:290, word:"Decorum", pron:"deh-KOR-um", def:"Behavior in keeping with good taste and propriety.", ex:"She maintained perfect decorum even in the most chaotic situations." },
+  { id:291, word:"Euphoria", pron:"yoo-FOR-ee-uh", def:"A feeling or state of intense excitement and happiness.", ex:"Crossing the finish line sent a wave of euphoria through her entire body." },
+  { id:292, word:"Fidelity", pron:"fih-DEL-ih-tee", def:"Faithfulness to a person, cause, or belief; accuracy in reproducing something.", ex:"His fidelity to the original text made the translation widely trusted." },
+  { id:293, word:"Gossamer", pron:"GOS-uh-mer", def:"A fine, delicate substance; light, thin, and insubstantial.", ex:"The morning light caught the gossamer threads of the spider's web." },
+  { id:294, word:"Hypnotic", pron:"hip-NOT-ik", def:"Having a compelling, fascinating quality; relating to hypnosis.", ex:"The hypnotic rhythm of the waves lulled everyone into silence." },
+  { id:295, word:"Impetus", pron:"IM-peh-tus", def:"A force that makes something happen or happen more quickly.", ex:"The grant provided the impetus needed to finally begin the research." },
+  { id:296, word:"Judicious", pron:"joo-DISH-us", def:"Having, showing, or done with good judgment or sense.", ex:"A judicious use of resources helped the team deliver on time and under budget." },
+  { id:297, word:"Languish", pron:"LANG-gwish", def:"To lose or lack vitality; to be kept in an unpleasant situation.", ex:"The proposal languished in committee for three years before being rejected." },
+  { id:298, word:"Mosaic", pron:"moh-ZAY-ik", def:"A picture or pattern made of small pieces; a combination of diverse elements.", ex:"The city was a mosaic of cultures, languages, and traditions." },
+  { id:299, word:"Nuanced", pron:"NOO-ahnst", def:"Characterized by subtle shades of meaning or expression.", ex:"Her nuanced performance captured both the joy and the grief of the character." },
+  { id:300, word:"Omniscient", pron:"om-NISH-ent", def:"Knowing everything; having complete or unlimited knowledge.", ex:"The narrator of the novel is omniscient, describing even private thoughts." },
+  { id:301, word:"Profound", pron:"pruh-FOWND", def:"Very great or intense; having or showing great knowledge or insight.", ex:"Her illness gave her a profound appreciation for the ordinary moments of life." },
+  { id:302, word:"Rapport", pron:"ruh-POR", def:"A close and harmonious relationship; a feeling of empathy and trust.", ex:"She quickly built rapport with clients by listening more than she spoke." },
+  { id:303, word:"Sublime", pron:"sub-LYM", def:"Of such excellence, grandeur, or beauty as to inspire great admiration.", ex:"The view from the summit was nothing short of sublime." },
+  { id:304, word:"Tenuous", pron:"TEN-yoo-us", def:"Too weak or uncertain; very slender or fine; insubstantial.", ex:"The connection between the two events was tenuous at best." },
+  { id:305, word:"Unwavering", pron:"un-WAY-ver-ing", def:"Steady or resolute; never changing or faltering.", ex:"Her unwavering belief in her team pulled them through the hardest months." },
+  { id:306, word:"Valor", pron:"VAL-er", def:"Great courage in the face of danger, especially in battle.", ex:"He was decorated for his valor during a mission that saved many lives." },
+  { id:307, word:"Whimsy", pron:"WIM-zee", def:"Playfully quaint or fanciful behavior or humor.", ex:"The architect added touches of whimsy that made visitors smile unexpectedly." },
+  { id:308, word:"Exquisite", pron:"EK-skwi-zit", def:"Extremely beautiful and delicate; intensely felt.", ex:"The jeweler's exquisite craftsmanship was evident in every piece." },
+  { id:309, word:"Yeoman", pron:"YOH-man", def:"A person who works hard and loyally; a member of a class of freeholders.", ex:"He did yeoman's work during the campaign, never seeking credit for himself." },
+  { id:310, word:"Zest", pron:"ZEST", def:"Great enthusiasm and energy; the outer peel of citrus used as flavoring.", ex:"She approached every challenge with a zest for life that was contagious." },
+  { id:311, word:"Ameliorate", pron:"uh-MEEL-yuh-rayt", def:"To make something bad better; to improve.", ex:"Community programs helped ameliorate the effects of the economic downturn." },
+  { id:312, word:"Brevity", pron:"BREV-ih-tee", def:"Concise and exact use of words in writing or speech.", ex:"The speech was praised for its brevity and directness." },
+  { id:313, word:"Coalesce", pron:"koh-uh-LES", def:"To come together to form one mass or whole.", ex:"The various protest groups coalesced into a single powerful movement." },
+  { id:314, word:"Durable", pron:"DYOOR-uh-bul", def:"Able to withstand wear, pressure, or damage; hard-wearing.", ex:"The durable bond between the two musicians survived decades of change." },
+  { id:315, word:"Effervescent", pron:"ef-er-VES-ent", def:"Vivacious and enthusiastic; giving off bubbles.", ex:"Her effervescent personality made every room feel brighter." },
+  { id:316, word:"Fortitude", pron:"FOR-tih-tood", def:"Courage in pain or adversity.", ex:"She faced the diagnosis with quiet fortitude that inspired those around her." },
+  { id:317, word:"Gilded", pron:"GIL-did", def:"Covered thinly with gold; made to seem attractive or precious.", ex:"Behind the gilded exterior was a structure in serious need of repair." },
+  { id:318, word:"Homage", pron:"HOM-ij", def:"Special honor or respect shown publicly.", ex:"The concert was a homage to the composers who shaped modern music." },
+  { id:319, word:"Inquisitive", pron:"in-KWIZ-ih-tiv", def:"Curious or inquiring; eager to know or learn.", ex:"An inquisitive mind is the best tool a scientist can possess." },
+  { id:320, word:"Judicious", pron:"joo-DISH-us", def:"Having, showing, or done with good judgment or sense.", ex:"His judicious handling of the crisis averted what could have been a disaster." },
+  { id:321, word:"Kinetic", pron:"kih-NET-ik", def:"Relating to or resulting from motion; vigorous, lively.", ex:"The kinetic sculpture moved with the wind, constantly changing shape." },
+  { id:322, word:"Lush", pron:"LUSH", def:"Growing luxuriantly; rich and abundant.", ex:"The lush rainforest canopy blocked out nearly all direct sunlight below." },
+  { id:323, word:"Mindful", pron:"MYND-ful", def:"Conscious or aware of something; focusing one's awareness on the present moment.", ex:"Being mindful of her words helped her communicate more effectively under pressure." },
+  { id:324, word:"Nurture", pron:"NER-cher", def:"Care for and encourage the growth or development of.", ex:"She nurtured her students' curiosity long after they had left her class." },
+  { id:325, word:"Opine", pron:"oh-PYN", def:"To hold and state as one's opinion.", ex:"The critic opined that the sequel surpassed the original in every way." },
+  { id:326, word:"Prudent", pron:"PROO-dent", def:"Acting with or showing care and thought for the future; wise.", ex:"It was prudent to save three months of expenses before leaving the stable job." },
+  { id:327, word:"Quell", pron:"KWEL", def:"To put an end to; to suppress; to calm.", ex:"A few honest words from the manager were enough to quell the rising panic." },
+  { id:328, word:"Radiant", pron:"RAY-dee-ant", def:"Sending out light; clearly emanating great joy or health.", ex:"Her radiant confidence was the first thing people noticed when she entered." },
+  { id:329, word:"Steadfast", pron:"STED-fast", def:"Resolutely or dutifully firm and unwavering.", ex:"Through every hardship, her steadfast commitment to justice never faltered." },
+  { id:330, word:"Timeless", pron:"TYM-less", def:"Not affected by the passage of time; eternal.", ex:"The design had a timeless quality that still looked modern fifty years later." },
+  { id:331, word:"Uplift", pron:"UP-lift", def:"To raise the level of; to inspire and improve spiritually or morally.", ex:"The unexpected letter of praise uplifted her during a difficult week." },
+  { id:332, word:"Vivid", pron:"VIV-id", def:"Producing powerful feelings or strong, clear images in the mind.", ex:"Her vivid description of the market transported readers to another world." },
+  { id:333, word:"Wisdom", pron:"WIZ-dum", def:"The quality of having experience, knowledge, and good judgment.", ex:"True wisdom is knowing not just what to say but when to stay silent." },
+  { id:334, word:"Exalt", pron:"ig-ZAWLT", def:"To hold someone or something in very high regard; to praise enthusiastically.", ex:"The biography exalted the scientist's contributions to medicine." },
+  { id:335, word:"Yearn", pron:"YERN", def:"To have an intense feeling of longing for something.", ex:"She yearned for the kind of stillness that only the countryside could offer." },
+  { id:336, word:"Zealous", pron:"ZEL-us", def:"Having or showing great energy or enthusiasm in pursuit of a cause.", ex:"A zealous student, he read every supplementary text his professors recommended." },
+  { id:337, word:"Adage", pron:"AD-ij", def:"A short, pithy statement expressing a general truth or piece of advice.", ex:"The adage 'less is more' guided her design philosophy for decades." },
+  { id:338, word:"Buoyant", pron:"BOY-ant", def:"Able to float; cheerful and optimistic.", ex:"Her buoyant outlook kept the whole team motivated through a difficult launch." },
+  { id:339, word:"Concise", pron:"kun-SYS", def:"Giving a lot of information clearly and in a few words; brief but comprehensive.", ex:"His concise summary saved the board two hours of unnecessary reading." },
+  { id:340, word:"Dexterous", pron:"DEK-ster-us", def:"Showing or having skill, especially with the hands.", ex:"The dexterous surgeon completed the procedure with minimal incision." },
+  { id:341, word:"Empyreal", pron:"em-PIR-ee-ul", def:"Of or relating to the sky; celestial.", ex:"The climbers were rewarded with an empyreal view at the summit." },
+  { id:342, word:"Flourish", pron:"FLUR-ish", def:"To grow or develop in a healthy or vigorous way; to wave dramatically.", ex:"With the right support, creativity can flourish even under pressure." },
+  { id:343, word:"Genuine", pron:"JEN-yoo-in", def:"Truly what something is said to be; authentic; sincere.", ex:"Her genuine interest in each person she met made her a remarkable teacher." },
+  { id:344, word:"Harmonious", pron:"har-MOH-nee-us", def:"Free from disagreement or dissent; forming a pleasing combination.", ex:"The team worked in harmonious collaboration to complete the mural on time." },
+  { id:345, word:"Illuminate", pron:"ih-LOO-mih-nayt", def:"To light up; to help to clarify or explain.", ex:"Her questions helped illuminate aspects of the problem no one had considered." },
+  { id:346, word:"Joyful", pron:"JOY-ful", def:"Feeling, expressing, or causing great pleasure and happiness.", ex:"The reunion was a joyful occasion that no one in the family would forget." },
+  { id:347, word:"Kindred", pron:"KIN-drid", def:"One's family and relations; similar in kind; related.", ex:"She felt an instant kindred spirit with her new colleague from the very first meeting." },
+  { id:348, word:"Legacy", pron:"LEG-uh-see", def:"Something handed down by a predecessor; a long-lasting impact.", ex:"Her greatest legacy was not the books she wrote but the students she inspired." },
+  { id:349, word:"Majestic", pron:"muh-JES-tik", def:"Having or showing impressive beauty or dignity.", ex:"The majestic eagle glided silently above the canyon without a single wing beat." },
+  { id:350, word:"Noble", pron:"NOH-bul", def:"Having or showing fine personal qualities and high moral principles.", ex:"His noble refusal to take credit for others' work earned him universal respect." },
+  { id:351, word:"Optimism", pron:"OP-tih-miz-um", def:"Hopefulness and confidence about the future or the success of something.", ex:"Her relentless optimism turned every setback into a lesson rather than a failure." },
+  { id:352, word:"Persevere", pron:"per-seh-VEER", def:"To continue in a course of action even in the face of difficulty.", ex:"Those who persevere through the early struggles often find the greatest rewards." },
+  { id:353, word:"Quest", pron:"KWEST", def:"A long or arduous search for something; a journey toward a goal.", ex:"His lifelong quest for meaning led him across five continents." },
+  { id:354, word:"Revere", pron:"reh-VEER", def:"Feel deep respect or admiration for.", ex:"She was revered as a pioneer in her field long before she received formal recognition." },
+  { id:355, word:"Serenity", pron:"seh-REN-ih-tee", def:"The state of being calm, peaceful, and untroubled.", ex:"The serenity of the mountain lake was exactly what she had been searching for." },
+  { id:356, word:"Triumph", pron:"TRY-umf", def:"A great victory or achievement.", ex:"Finishing the marathon was a personal triumph she had spent two years preparing for." },
+  { id:357, word:"Unique", pron:"yoo-NEEK", def:"Being the only one of its kind; unlike anything else.", ex:"Every fingerprint is unique — no two people share the same pattern." },
+  { id:358, word:"Vibrant", pron:"VY-brant", def:"Full of energy and enthusiasm; bright and striking.", ex:"The vibrant street market was a feast for all five senses." },
+  { id:359, word:"Wholesome", pron:"HOHL-sum", def:"Conducive to or promoting moral well-being; natural and beneficial.", ex:"A wholesome routine of sleep, exercise, and real food changed his life entirely." },
+  { id:360, word:"Exuberant", pron:"ig-ZOO-ber-ant", def:"Filled with or characterized by a lively energy and excitement.", ex:"The exuberant puppy greeted everyone with the same unbridled enthusiasm." },
+  { id:361, word:"Youthful", pron:"YOOTH-ful", def:"Remaining young at heart; having the freshness or vitality of youth.", ex:"Despite his age, his youthful curiosity kept his mind sharp and engaged." },
+  { id:362, word:"Zenith", pron:"ZEE-nith", def:"The highest point reached by a celestial body; the peak of achievement.", ex:"She reached the zenith of her influence during the decade she led the organization." },
+  { id:363, word:"Ardent", pron:"AR-dent", def:"Very enthusiastic or passionate.", ex:"An ardent reader since childhood, he had rarely been seen without a book in hand." },
+  { id:364, word:"Bountiful", pron:"BOWN-tih-ful", def:"Large in quantity; abundant.", ex:"The harvest that year was so bountiful that the town celebrated for three days." },
+  { id:365, word:"Culminate", pron:"KUL-mih-nayt", def:"To reach a climax or point of highest development.", ex:"Years of practice and sacrifice culminated in a gold medal performance." }
+];
+
+const IDIOMS = [
+  { id:1, idiom:"Hit the nail on the head", meaning:"To describe exactly what is causing a situation or problem; to be precisely correct.", ex:"When she said the project failed due to poor planning, she hit the nail on the head." },
+  { id:2, idiom:"Bite the bullet", meaning:"To endure a painful or difficult situation with courage and determination.", ex:"I didn't want to have the conversation, but I bit the bullet and called him anyway." },
+  { id:3, idiom:"Burn the midnight oil", meaning:"To work or study late into the night.", ex:"She burned the midnight oil to finish her thesis before the deadline." },
+  { id:4, idiom:"The ball is in your court", meaning:"It is up to you to make the next move or decision.", ex:"I've made my offer — the ball is in your court now." },
+  { id:5, idiom:"Let the cat out of the bag", meaning:"To accidentally reveal a secret or surprise.", ex:"He let the cat out of the bag by mentioning the party in front of the guest of honor." },
+  { id:6, idiom:"Once in a blue moon", meaning:"Very rarely; something that happens only on rare occasions.", ex:"We only visit that expensive restaurant once in a blue moon." },
+  { id:7, idiom:"Break a leg", meaning:"A way to wish someone good luck, especially before a performance.", ex:"Before she walked onto the stage, her director whispered, 'Break a leg!'" },
+  { id:8, idiom:"Spill the beans", meaning:"To reveal secret or confidential information unintentionally or carelessly.", ex:"Someone spilled the beans about the merger before the official announcement." },
+  { id:9, idiom:"The tip of the iceberg", meaning:"A small, visible part of a much larger problem or situation.", ex:"The reported fraud was just the tip of the iceberg." },
+  { id:10, idiom:"Under the weather", meaning:"Feeling ill or unwell.", ex:"I won't be attending today — I'm feeling a bit under the weather." },
+  { id:11, idiom:"Jump on the bandwagon", meaning:"To follow a trend or join a popular activity without much thought.", ex:"Many companies jumped on the bandwagon when sustainable packaging became popular." },
+  { id:12, idiom:"A blessing in disguise", meaning:"Something that seems bad at first, but turns out to be good.", ex:"Losing that job was a blessing in disguise — it led him to start his own company." },
+  { id:13, idiom:"The last straw", meaning:"The final problem in a series that causes someone to lose patience.", ex:"His constant lateness was the last straw — she ended the partnership." },
+  { id:14, idiom:"On the fence", meaning:"Undecided or neutral about something; not taking a side.", ex:"I'm still on the fence about whether to accept the job offer abroad." },
+  { id:15, idiom:"Steal someone's thunder", meaning:"To take attention or credit away from someone else.", ex:"He announced his own news right before hers, stealing her thunder at the party." },
+  { id:16, idiom:"Beat around the bush", meaning:"To avoid getting to the main point; to speak in a vague or indirect way.", ex:"Stop beating around the bush and just tell me what's bothering you." },
+  { id:17, idiom:"Bite off more than you can chew", meaning:"To take on a task that is too big or difficult to handle.", ex:"She bit off more than she could chew by leading three major projects at once." },
+  { id:18, idiom:"Cut corners", meaning:"To do something the easiest or cheapest way, sacrificing quality.", ex:"The contractor cut corners on the renovation, and it showed within months." },
+  { id:19, idiom:"Hit the ground running", meaning:"To start something quickly and with great energy and enthusiasm.", ex:"She hit the ground running on her first day, impressing everyone with her initiative." },
+  { id:20, idiom:"Keep your chin up", meaning:"Remain cheerful and hopeful in difficult times.", ex:"After the rejection, her mentor told her to keep her chin up and keep applying." },
+  { id:21, idiom:"Miss the boat", meaning:"To miss an opportunity; to be too late to take advantage of something.", ex:"He waited too long and missed the boat on the biggest opportunity of the decade." },
+  { id:22, idiom:"Costs an arm and a leg", meaning:"Something is extremely expensive.", ex:"That renovation costs an arm and a leg, but the results are worth every penny." },
+  { id:23, idiom:"Add fuel to the fire", meaning:"To make a bad or difficult situation even worse.", ex:"His sarcastic comment only added fuel to the fire during the tense meeting." },
+  { id:24, idiom:"Pull someone's leg", meaning:"To joke or tease someone; to say something untrue in a playful way.", ex:"Don't worry — I was just pulling your leg. I'm not actually leaving." },
+  { id:25, idiom:"See eye to eye", meaning:"To agree with someone; to share the same perspective.", ex:"They didn't always see eye to eye, but they respected each other greatly." },
+  { id:26, idiom:"Silver lining", meaning:"A positive or hopeful aspect found within an otherwise negative situation.", ex:"Losing the contract was painful, but the silver lining was the experience gained." },
+  { id:27, idiom:"Take it with a grain of salt", meaning:"To view something with healthy skepticism; not to accept it too literally.", ex:"Take his reviews with a grain of salt — he tends to exaggerate everything." },
+  { id:28, idiom:"The elephant in the room", meaning:"An obvious problem that everyone knows about but avoids discussing.", ex:"The budget shortfall was the elephant in the room throughout the entire board meeting." },
+  { id:29, idiom:"Wear your heart on your sleeve", meaning:"To openly show your emotions; to be very transparent about your feelings.", ex:"He always wore his heart on his sleeve, which is why everyone trusted him." },
+  { id:30, idiom:"Get out of hand", meaning:"To become uncontrollable or beyond reasonable management.", ex:"The situation got completely out of hand when both sides refused to compromise." },
+  { id:31, idiom:"Actions speak louder than words", meaning:"What you do is more important and revealing than what you say.", ex:"He promised to change, but actions speak louder than words, and nothing shifted." },
+  { id:32, idiom:"Back to the drawing board", meaning:"To start something again from the beginning after a failure.", ex:"The prototype failed every test, so it was back to the drawing board." },
+  { id:33, idiom:"Barking up the wrong tree", meaning:"To pursue a mistaken or misguided course of action.", ex:"If you think I took the report, you're barking up the wrong tree." },
+  { id:34, idiom:"Bend over backwards", meaning:"To make a great effort to do something, especially to please someone.", ex:"The hotel staff bent over backwards to make sure every guest was comfortable." },
+  { id:35, idiom:"Bite the hand that feeds you", meaning:"To act ungratefully toward someone who has helped or supported you.", ex:"Criticizing the sponsor publicly was biting the hand that feeds you." },
+  { id:36, idiom:"Blow hot and cold", meaning:"To keep changing one's attitude toward something; to be inconsistent.", ex:"He kept blowing hot and cold about the partnership, making planning impossible." },
+  { id:37, idiom:"Break the ice", meaning:"To do something to relieve tension or get conversation started in an uncomfortable situation.", ex:"He told a joke to break the ice at the start of the awkward team meeting." },
+  { id:38, idiom:"Bury the hatchet", meaning:"To end a quarrel and become friendly again.", ex:"After years of rivalry, the two companies finally buried the hatchet and merged." },
+  { id:39, idiom:"By the skin of your teeth", meaning:"By the narrowest of margins; just barely.", ex:"She caught the last flight of the night by the skin of her teeth." },
+  { id:40, idiom:"Call it a day", meaning:"To decide to stop working on something for the rest of the day.", ex:"After ten hours on the road, they found a motel and called it a day." },
+  { id:41, idiom:"Caught red-handed", meaning:"Caught in the act of doing something wrong.", ex:"The manager was caught red-handed accessing files she wasn't authorized to see." },
+  { id:42, idiom:"Come rain or shine", meaning:"Whatever the circumstances; no matter what happens.", ex:"He showed up to train every morning, come rain or shine." },
+  { id:43, idiom:"Cry wolf", meaning:"To raise a false alarm; to repeatedly warn of danger that doesn't exist.", ex:"Because she had cried wolf before, nobody believed her when the real problem arose." },
+  { id:44, idiom:"Cut to the chase", meaning:"To get to the main point without wasting time.", ex:"There's no time for small talk — let's cut to the chase." },
+  { id:45, idiom:"Don't judge a book by its cover", meaning:"Don't judge something or someone solely by their appearance.", ex:"She seemed quiet at first, but don't judge a book by its cover — she had remarkable depth." },
+  { id:46, idiom:"Don't put all your eggs in one basket", meaning:"Don't risk everything on a single plan or option.", ex:"Invest across multiple funds — don't put all your eggs in one basket." },
+  { id:47, idiom:"Drive someone up the wall", meaning:"To make someone very irritated or annoyed.", ex:"The constant background noise in the open office drove him up the wall." },
+  { id:48, idiom:"Drop the ball", meaning:"To make a mistake; to fail to follow through on a responsibility.", ex:"The communications team dropped the ball on announcing the event in time." },
+  { id:49, idiom:"Every cloud has a silver lining", meaning:"Every difficult or negative situation has at least one positive aspect.", ex:"She lost her flight but met her future business partner at the gate — every cloud has a silver lining." },
+  { id:50, idiom:"Face the music", meaning:"To accept the unpleasant consequences of one's actions.", ex:"He'd been avoiding the issue for months, but finally had to face the music." },
+  { id:51, idiom:"Fall on your sword", meaning:"To accept blame or punishment to protect others.", ex:"The minister fell on his sword rather than letting his team take the blame." },
+  { id:52, idiom:"Fit as a fiddle", meaning:"In excellent physical health.", ex:"Despite his age, he was fit as a fiddle after decades of daily hiking." },
+  { id:53, idiom:"Fly off the handle", meaning:"To suddenly become very angry.", ex:"He flew off the handle when he discovered the report had been deleted." },
+  { id:54, idiom:"Get a taste of your own medicine", meaning:"To experience the same unpleasant treatment that one has given to others.", ex:"After years of being rude to staff, he got a taste of his own medicine when his team quit." },
+  { id:55, idiom:"Get the ball rolling", meaning:"To start an activity or process.", ex:"She proposed the first agenda item to get the ball rolling in the meeting." },
+  { id:56, idiom:"Give the benefit of the doubt", meaning:"To trust someone despite some uncertainty about their motives.", ex:"She had no proof, but she gave him the benefit of the doubt and let him explain." },
+  { id:57, idiom:"Go back to basics", meaning:"To return to the fundamental principles of a subject or activity.", ex:"When the team was struggling, the coach told them to go back to basics." },
+  { id:58, idiom:"Go the extra mile", meaning:"To put in more effort than is required.", ex:"The nurse always went the extra mile, staying late to comfort anxious patients." },
+  { id:59, idiom:"Good things come to those who wait", meaning:"Patience is eventually rewarded.", ex:"It took five years, but the business finally took off — good things come to those who wait." },
+  { id:60, idiom:"Have a chip on your shoulder", meaning:"To carry a long-standing grievance; to feel resentful.", ex:"He still had a chip on his shoulder about being passed over for promotion." },
+  { id:61, idiom:"Have your head in the clouds", meaning:"To be out of touch with reality; to daydream.", ex:"Her plans sound wonderful, but she has her head in the clouds about the cost." },
+  { id:62, idiom:"Hit the books", meaning:"To study hard.", ex:"Exams are next week — it's time to hit the books." },
+  { id:63, idiom:"Hit the nail on the head", meaning:"To identify the exact problem or provide the precisely correct answer.", ex:"His analysis hit the nail on the head — everyone in the room nodded in agreement." },
+  { id:64, idiom:"Hold your horses", meaning:"To slow down; to wait and be patient.", ex:"Hold your horses — we haven't finished reviewing the proposal yet." },
+  { id:65, idiom:"Ignorance is bliss", meaning:"Not knowing about something unpleasant can mean you are happier not knowing.", ex:"She decided not to read the reviews before opening night — ignorance is bliss." },
+  { id:66, idiom:"In hot water", meaning:"In a difficult situation; in trouble.", ex:"He found himself in hot water after the email was accidentally sent to the whole company." },
+  { id:67, idiom:"In the heat of the moment", meaning:"While feeling very emotional; without thinking carefully first.", ex:"She said things in the heat of the moment that she later deeply regretted." },
+  { id:68, idiom:"In the same boat", meaning:"In the same difficult or unpleasant situation as others.", ex:"None of us had experienced this before — we were all in the same boat." },
+  { id:69, idiom:"It takes two to tango", meaning:"Both people involved in a situation are equally responsible for it.", ex:"Don't blame only him — it takes two to tango." },
+  { id:70, idiom:"Kill two birds with one stone", meaning:"To accomplish two things with a single action.", ex:"By cycling to work, she killed two birds with one stone: saving money and staying fit." },
+  { id:71, idiom:"Leave no stone unturned", meaning:"To try every possible course of action in order to achieve something.", ex:"The detective left no stone unturned in her search for the missing evidence." },
+  { id:72, idiom:"Let sleeping dogs lie", meaning:"To avoid bringing up old problems or conflicts that have been forgotten.", ex:"The issue had been resolved years ago — he thought it best to let sleeping dogs lie." },
+  { id:73, idiom:"Like a fish out of water", meaning:"Uncomfortable in one's situation; not fitting in.", ex:"Moving from a small town to the capital, she felt like a fish out of water for months." },
+  { id:74, idiom:"Look before you leap", meaning:"Think carefully before acting; consider consequences in advance.", ex:"Before resigning without another job lined up, look before you leap." },
+  { id:75, idiom:"Lose your train of thought", meaning:"To forget what you were saying or thinking.", ex:"The interruption caused him to lose his train of thought completely." },
+  { id:76, idiom:"Make ends meet", meaning:"To have just enough money to cover one's expenses.", ex:"With two part-time jobs, she barely made ends meet each month." },
+  { id:77, idiom:"Make hay while the sun shines", meaning:"Take advantage of a favorable situation while it lasts.", ex:"Business is booming right now, so make hay while the sun shines." },
+  { id:78, idiom:"Mend fences", meaning:"To repair a damaged relationship.", ex:"After the argument, he called his brother to mend fences." },
+  { id:79, idiom:"Move the goalposts", meaning:"To change the rules or aims of a process in an unfair way.", ex:"Every time they met the target, the client moved the goalposts." },
+  { id:80, idiom:"Neck and neck", meaning:"Two competitors who are very close or equal in a race or contest.", ex:"The candidates were neck and neck in every poll leading up to election day." },
+  { id:81, idiom:"No pain, no gain", meaning:"You must suffer or work hard to achieve something worthwhile.", ex:"She pushed through every difficult training session knowing no pain, no gain." },
+  { id:82, idiom:"Not my cup of tea", meaning:"Something that is not to one's taste or preference.", ex:"Loud parties are really not my cup of tea — I prefer a quiet dinner with friends." },
+  { id:83, idiom:"Off the beaten path", meaning:"In an unfamiliar or unusual location; away from typical places.", ex:"They discovered a charming village completely off the beaten path." },
+  { id:84, idiom:"Off the top of your head", meaning:"Said immediately, without thinking carefully or checking facts.", ex:"Off the top of my head, I'd say the project will take about three months." },
+  { id:85, idiom:"On thin ice", meaning:"In a risky or precarious situation.", ex:"After two warnings, he knew he was on thin ice with the new management." },
+  { id:86, idiom:"Once bitten, twice shy", meaning:"After a bad experience you are more careful to avoid similar situations.", ex:"She invested cautiously after her earlier losses — once bitten, twice shy." },
+  { id:87, idiom:"Out of the blue", meaning:"Suddenly and unexpectedly; without any warning.", ex:"Out of the blue, he called to say he'd be flying in that weekend." },
+  { id:88, idiom:"Out of the frying pan into the fire", meaning:"Moving from a bad situation directly into an even worse one.", ex:"He left the difficult job only to find himself out of the frying pan into the fire." },
+  { id:89, idiom:"Penny wise, pound foolish", meaning:"Careful with small amounts of money but wasteful with large amounts.", ex:"Buying cheap tools that broke quickly was penny wise, pound foolish." },
+  { id:90, idiom:"Pick up the slack", meaning:"To do the work that someone else is not doing.", ex:"When the team leader was ill, everyone pitched in to pick up the slack." },
+  { id:91, idiom:"Play your cards right", meaning:"To take advantage of opportunities cleverly to achieve a desired result.", ex:"If you play your cards right, this meeting could lead to a promotion." },
+  { id:92, idiom:"Pour cold water on", meaning:"To discourage or douse enthusiasm for an idea or plan.", ex:"He poured cold water on every idea she suggested without offering alternatives." },
+  { id:93, idiom:"Put your best foot forward", meaning:"To make a good impression; to start something as well as possible.", ex:"It's your first day — put your best foot forward and make it count." },
+  { id:94, idiom:"Put your foot in your mouth", meaning:"To say something embarrassing, hurtful, or inappropriate by mistake.", ex:"He really put his foot in his mouth by forgetting the client's name mid-sentence." },
+  { id:95, idiom:"Read between the lines", meaning:"To understand the hidden or implicit meaning of something.", ex:"She never said she was unhappy, but if you read between the lines it was obvious." },
+  { id:96, idiom:"Rub someone the wrong way", meaning:"To irritate or annoy someone.", ex:"His condescending tone rubbed everyone in the room the wrong way immediately." },
+  { id:97, idiom:"Run circles around someone", meaning:"To be far more skillful than someone else.", ex:"The intern ran circles around some of the senior developers." },
+  { id:98, idiom:"Saved by the bell", meaning:"Rescued from a difficult situation just in time.", ex:"He hadn't finished the report, but the meeting was postponed — saved by the bell." },
+  { id:99, idiom:"Shoot yourself in the foot", meaning:"To do something that harms your own interests.", ex:"By antagonizing the press, the campaign shot itself in the foot." },
+  { id:100, idiom:"Sitting on the fence", meaning:"Refusing to commit to a position on a controversial issue.", ex:"With the vote approaching, he could no longer afford to keep sitting on the fence." },
+  { id:101, idiom:"Skeleton in the closet", meaning:"A hidden, embarrassing fact or secret from someone's past.", ex:"Every family has at least one skeleton in the closet, whether they admit it or not." },
+  { id:102, idiom:"Speak volumes", meaning:"To convey a great deal without using words; to be very significant.", ex:"The way she handled the crisis spoke volumes about her character." },
+  { id:103, idiom:"Spanner in the works", meaning:"Something or someone that prevents a plan from succeeding.", ex:"The new regulation threw a spanner in the works of their expansion plans." },
+  { id:104, idiom:"Start from scratch", meaning:"To begin something again from the very beginning.", ex:"The data was lost, so the team had to start from scratch." },
+  { id:105, idiom:"Steal a march on someone", meaning:"To gain an advantage over a rival by acting before they do.", ex:"By launching in Q1, they stole a march on every competitor." },
+  { id:106, idiom:"Step up to the plate", meaning:"To take on a challenge or responsibility willingly.", ex:"When the team needed leadership, she stepped up to the plate without hesitation." },
+  { id:107, idiom:"Stick to your guns", meaning:"To maintain your position even when under pressure to change it.", ex:"Despite the criticism, she stuck to her guns and the results proved her right." },
+  { id:108, idiom:"Straight from the horse's mouth", meaning:"From the original or most reliable source.", ex:"I heard it straight from the horse's mouth — the CEO confirmed the restructuring." },
+  { id:109, idiom:"Strike while the iron is hot", meaning:"To take advantage of a favorable opportunity immediately.", ex:"He had the investor's attention, so he struck while the iron was hot." },
+  { id:110, idiom:"Take the bull by the horns", meaning:"To tackle a difficult situation directly and with confidence.", ex:"Instead of worrying, she took the bull by the horns and confronted the problem." },
+  { id:111, idiom:"Teach someone a lesson", meaning:"To make someone experience the consequences of their bad behavior.", ex:"Losing the account taught them a lesson about ignoring client feedback." },
+  { id:112, idiom:"The best of both worlds", meaning:"Enjoying two different advantages simultaneously.", ex:"Working from home gave her the best of both worlds — flexibility and focus." },
+  { id:113, idiom:"The bigger the better", meaning:"Larger versions of something are preferred.", ex:"When it comes to concert venues, he always said the bigger the better." },
+  { id:114, idiom:"The devil is in the detail", meaning:"Seemingly minor details can cause major problems if overlooked.", ex:"The contract looked simple, but the devil is in the detail — read every clause." },
+  { id:115, idiom:"The early bird catches the worm", meaning:"Those who start early or act promptly gain an advantage.", ex:"She arrived an hour before the sale opened — the early bird catches the worm." },
+  { id:116, idiom:"The grass is always greener", meaning:"Other people's situations always seem more desirable than one's own.", ex:"He kept wanting a different career, but the grass is always greener on the other side." },
+  { id:117, idiom:"The proof is in the pudding", meaning:"The true value of something can only be judged by trying it or seeing its results.", ex:"The product was promising, but the proof would be in the pudding after launch." },
+  { id:118, idiom:"The whole nine yards", meaning:"Everything possible; the full extent of something.", ex:"She decorated the house for the party — fairy lights, banners, the whole nine yards." },
+  { id:119, idiom:"Think outside the box", meaning:"To think creatively and unconventionally; to consider solutions beyond the obvious.", ex:"The challenge required them to think outside the box to find a viable solution." },
+  { id:120, idiom:"Through thick and thin", meaning:"Under all circumstances, both good and bad.", ex:"They had supported each other through thick and thin for thirty years." },
+  { id:121, idiom:"Throw caution to the wind", meaning:"To do something without worrying about the risk.", ex:"She threw caution to the wind and booked a one-way ticket." },
+  { id:122, idiom:"Throw in the towel", meaning:"To admit defeat; to give up.", ex:"After months of struggle, he threw in the towel and closed the business." },
+  { id:123, idiom:"Tie the knot", meaning:"To get married.", ex:"After a five-year engagement, they finally tied the knot in a small ceremony." },
+  { id:124, idiom:"Time flies", meaning:"Time passes much more quickly than one expects.", ex:"It's already your tenth anniversary? Time flies when you're building something great." },
+  { id:125, idiom:"To each their own", meaning:"Everyone has different tastes and preferences, which should be respected.", ex:"She preferred working nights; to each their own." },
+  { id:126, idiom:"Tongue in cheek", meaning:"Stated or done in a way that is not meant to be taken seriously; humorously ironic.", ex:"His complaints about being too successful were entirely tongue in cheek." },
+  { id:127, idiom:"Turn a blind eye", meaning:"To pretend not to notice something; to deliberately ignore wrongdoing.", ex:"Management turned a blind eye to the toxic culture for far too long." },
+  { id:128, idiom:"Turn over a new leaf", meaning:"To change one's behavior for the better; to make a fresh start.", ex:"After the health scare, he turned over a new leaf and gave up junk food entirely." },
+  { id:129, idiom:"Two heads are better than one", meaning:"Collaborating with others produces better results than working alone.", ex:"They struggled alone for weeks, then paired up — two heads are better than one." },
+  { id:130, idiom:"Under someone's thumb", meaning:"Controlled by someone else.", ex:"She felt completely under her boss's thumb and unable to make decisions independently." },
+  { id:131, idiom:"Up in the air", meaning:"Uncertain; not yet decided.", ex:"The merger is still up in the air — no decision has been made." },
+  { id:132, idiom:"Upset the apple cart", meaning:"To disturb a satisfactory situation; to cause problems unexpectedly.", ex:"His sudden resignation upset the apple cart just days before the product launch." },
+  { id:133, idiom:"Wait for the other shoe to drop", meaning:"To wait for an expected event — often unpleasant — to happen.", ex:"The company had made several cuts, so everyone was waiting for the other shoe to drop." },
+  { id:134, idiom:"Walk on eggshells", meaning:"To be very careful about what you say or do to avoid upsetting someone.", ex:"Ever since the argument, she had been walking on eggshells around him." },
+  { id:135, idiom:"Water under the bridge", meaning:"Events that are in the past and should no longer be a source of concern.", ex:"They had their differences, but that was all water under the bridge now." },
+  { id:136, idiom:"We'll cross that bridge when we come to it", meaning:"We'll deal with that problem if and when it arises.", ex:"Worrying about expansion right now is pointless — we'll cross that bridge when we come to it." },
+  { id:137, idiom:"When pigs fly", meaning:"Something will never happen.", ex:"He'll apologize when pigs fly — he never admits he's wrong." },
+  { id:138, idiom:"Win hands down", meaning:"To win easily and by a large margin.", ex:"Their product won hands down in every user satisfaction survey." },
+  { id:139, idiom:"Wolf in sheep's clothing", meaning:"A person who appears friendly but is actually dangerous or deceptive.", ex:"The charming consultant turned out to be a wolf in sheep's clothing." },
+  { id:140, idiom:"Work your fingers to the bone", meaning:"To work extremely hard.", ex:"She worked her fingers to the bone for years before the business became profitable." },
+  { id:141, idiom:"Wrap your head around something", meaning:"To understand something complex.", ex:"It took her a week to wrap her head around the new accounting system." },
+  { id:142, idiom:"You can't have your cake and eat it too", meaning:"You can't have everything; you must choose between two incompatible options.", ex:"He wanted a high salary and full flexibility — you can't have your cake and eat it too." },
+  { id:143, idiom:"You can't judge a book by its cover", meaning:"Outward appearances are not a reliable guide to character.", ex:"He seemed unassuming, but you can't judge a book by its cover — he was extraordinary." },
+  { id:144, idiom:"You reap what you sow", meaning:"Your actions and decisions determine your outcomes.", ex:"He had neglected relationships for years, and he reaped what he sowed when no one came to help." },
+  { id:145, idiom:"Your guess is as good as mine", meaning:"I have no idea; I know as little as you about this topic.", ex:"What the new policy means for us? Your guess is as good as mine." },
+  { id:146, idiom:"Zero in on", meaning:"To focus closely on a specific target or issue.", ex:"The investigation zeroed in on a single transaction that changed everything." },
+  { id:147, idiom:"A blessing in disguise", meaning:"An apparent misfortune that leads to an unexpectedly good outcome.", ex:"Missing the promotion was a blessing in disguise — the role he got instead was far better." },
+  { id:148, idiom:"A drop in the bucket", meaning:"A very small amount compared to the overall requirement.", ex:"The fundraiser raised a lot, but it was a drop in the bucket compared to the project cost." },
+  { id:149, idiom:"A hard nut to crack", meaning:"A difficult problem to solve or a difficult person to understand.", ex:"Convincing the committee was a hard nut to crack, but she managed it." },
+  { id:150, idiom:"A hot potato", meaning:"A controversial issue that is difficult to deal with.", ex:"Immigration policy is always a political hot potato during election season." },
+  { id:151, idiom:"A leopard can't change its spots", meaning:"People cannot change their fundamental nature.", ex:"He promised to be more organized, but a leopard can't change its spots." },
+  { id:152, idiom:"A picture is worth a thousand words", meaning:"A visual can convey meaning more effectively than a lengthy description.", ex:"Instead of a report, she used one infographic — a picture is worth a thousand words." },
+  { id:153, idiom:"A penny for your thoughts", meaning:"Used to ask someone what they're thinking about.", ex:"You've been quiet for ages — a penny for your thoughts." },
+  { id:154, idiom:"A piece of cake", meaning:"Something that is very easy to do.", ex:"After all the preparation, the presentation was a piece of cake." },
+  { id:155, idiom:"A rolling stone gathers no moss", meaning:"A person who keeps moving won't accumulate obligations or responsibilities.", ex:"He'd lived in ten cities — a rolling stone gathers no moss." },
+  { id:156, idiom:"A stitch in time saves nine", meaning:"Dealing with a problem promptly prevents it from becoming much worse.", ex:"She fixed the small leak immediately — a stitch in time saves nine." },
+  { id:157, idiom:"Against all odds", meaning:"Despite very low probability; in circumstances where success was very unlikely.", ex:"Against all odds, the small startup outperformed every industry giant." },
+  { id:158, idiom:"All bark and no bite", meaning:"Threatening or aggressive in words but not in actions.", ex:"He always shouted in meetings, but he was all bark and no bite." },
+  { id:159, idiom:"All in the same boat", meaning:"In the same difficult situation as everyone else.", ex:"When the system crashed, the whole department was all in the same boat." },
+  { id:160, idiom:"All roads lead to Rome", meaning:"There are many different ways to achieve the same goal.", ex:"Whether you use code or no-code tools, all roads lead to Rome in software." },
+  { id:161, idiom:"All that glitters is not gold", meaning:"Outwardly attractive things are not always as valuable as they seem.", ex:"The deal looked perfect on paper, but all that glitters is not gold." },
+  { id:162, idiom:"An apple a day keeps the doctor away", meaning:"Eating healthily helps maintain good health; taking preventive measures avoids problems.", ex:"She followed her doctor's advice on diet, believing an apple a day keeps the doctor away." },
+  { id:163, idiom:"At the drop of a hat", meaning:"Without hesitation; immediately.", ex:"She'd travel to a new city at the drop of a hat if an opportunity arose." },
+  { id:164, idiom:"Back to square one", meaning:"Back to the beginning; starting over after a failure.", ex:"The merger fell through, and they were back to square one." },
+  { id:165, idiom:"Bad blood", meaning:"Feelings of hostility or resentment between people.", ex:"There's bad blood between those two divisions over a decade-old turf war." },
+  { id:166, idiom:"Ball and chain", meaning:"Something that restricts freedom or weighs one down.", ex:"Debt became the ball and chain that prevented him from taking risks." },
+  { id:167, idiom:"Bark worse than your bite", meaning:"To be less severe in action than in words.", ex:"The professor seemed harsh in emails, but her bark was worse than her bite." },
+  { id:168, idiom:"Be on the ball", meaning:"To be alert, quick to understand, and competent.", ex:"She was always on the ball — you never had to explain anything twice." },
+  { id:169, idiom:"Beat around the bush", meaning:"To avoid addressing a difficult topic directly.", ex:"Rather than beating around the bush, he said directly that the project was cancelled." },
+  { id:170, idiom:"Bite off more than you can chew", meaning:"To take on more than you can realistically handle.", ex:"Three clients, two courses, and a blog — she had bitten off more than she could chew." },
+  { id:171, idiom:"Blow your own trumpet", meaning:"To talk proudly about your own achievements.", ex:"He was excellent at his job but never one to blow his own trumpet." },
+  { id:172, idiom:"Break new ground", meaning:"To be innovative; to do something that has not been done before.", ex:"The research team broke new ground with a method no other lab had attempted." },
+  { id:173, idiom:"Bring home the bacon", meaning:"To earn money to support one's family.", ex:"She worked two jobs to bring home the bacon while her partner studied." },
+  { id:174, idiom:"Burn bridges", meaning:"To permanently damage a relationship, making it impossible to return.", ex:"He burned bridges with every employer he ever had, which caught up with him." },
+  { id:175, idiom:"By hook or by crook", meaning:"By any means possible; using whatever methods are necessary.", ex:"She was determined to finish the project by hook or by crook." },
+  { id:176, idiom:"Catch someone off guard", meaning:"To surprise someone when they are unprepared.", ex:"The unexpected question caught him completely off guard." },
+  { id:177, idiom:"Change of heart", meaning:"A change in one's feelings, attitude, or decision.", ex:"She had a change of heart and decided to stay with the company." },
+  { id:178, idiom:"Chase your tail", meaning:"To spend a lot of effort without achieving anything.", ex:"Without a clear strategy, the team was just chasing its tail." },
+  { id:179, idiom:"Clean slate", meaning:"A fresh start, free from past mistakes.", ex:"A new city gave him a clean slate and the chance to reinvent himself." },
+  { id:180, idiom:"Clip someone's wings", meaning:"To limit someone's freedom or potential.", ex:"Over-regulation can clip entrepreneurs' wings before they even get off the ground." },
+  { id:181, idiom:"Close call", meaning:"A narrow escape from danger or disaster.", ex:"The team avoided a costly error by a close call — one missed signature away from disaster." },
+  { id:182, idiom:"Come full circle", meaning:"To return to the original position or situation after a period of change.", ex:"Her career had come full circle — she was now teaching what she had once been taught." },
+  { id:183, idiom:"Come up trumps", meaning:"To produce a better result than expected; to succeed.", ex:"Against expectations, the small team came up trumps with the best proposal." },
+  { id:184, idiom:"Compare apples and oranges", meaning:"To compare two fundamentally different things.", ex:"Judging a novel against a documentary is comparing apples and oranges." },
+  { id:185, idiom:"Cook the books", meaning:"To falsify financial records.", ex:"The auditors discovered that someone had been cooking the books for years." },
+  { id:186, idiom:"Cost a pretty penny", meaning:"To be very expensive.", ex:"That renovation cost a pretty penny, but the value of the home doubled." },
+  { id:187, idiom:"Crack under pressure", meaning:"To fail or break down when faced with stress or difficulties.", ex:"She remained steady when others cracked under pressure." },
+  { id:188, idiom:"Cutting edge", meaning:"The most advanced stage of development; at the forefront of something.", ex:"The laboratory was working on cutting-edge research in gene therapy." },
+  { id:189, idiom:"Dark horse", meaning:"A candidate or competitor about whom little is known but who may do surprisingly well.", ex:"She was the dark horse of the tournament, reaching the final with no prior ranking." },
+  { id:190, idiom:"Dead ringer", meaning:"A person or thing that is a perfect likeness of another.", ex:"He was a dead ringer for the actor — strangers kept stopping him for autographs." },
+  { id:191, idiom:"Devil's advocate", meaning:"A person who argues against a position not necessarily their own, to stimulate debate.", ex:"She played devil's advocate to stress-test the team's reasoning before the board meeting." },
+  { id:192, idiom:"Diamond in the rough", meaning:"A person or thing with great potential that is not yet fully developed.", ex:"The coach saw a diamond in the rough in the quiet kid who never played a full game." },
+  { id:193, idiom:"Die hard", meaning:"Something that is very difficult to change or eliminate.", ex:"Old habits die hard — he still woke at six even on weekends." },
+  { id:194, idiom:"Dig your own grave", meaning:"To do something that causes your own downfall.", ex:"By lying to the auditors, he dug his own grave." },
+  { id:195, idiom:"Down to earth", meaning:"Practical, realistic, and unpretentious.", ex:"Despite her celebrity status, she was completely down to earth and easy to talk to." },
+  { id:196, idiom:"Draw a blank", meaning:"To be unable to recall or come up with something.", ex:"He drew a blank when asked to name the capital — the question caught him off guard." },
+  { id:197, idiom:"Drive a hard bargain", meaning:"To negotiate fiercely and very skillfully.", ex:"She drove a hard bargain and got the fee she wanted." },
+  { id:198, idiom:"Drink like a fish", meaning:"To drink excessive amounts of alcohol.", ex:"The stories say he drank like a fish, though he was always sharp at work." },
+  { id:199, idiom:"Easy does it", meaning:"To do something gently and carefully, without rushing.", ex:"Easy does it — the frame is fragile and the screws are already stripped." },
+  { id:200, idiom:"Eat humble pie", meaning:"To admit one was wrong and act in a humble way.", ex:"After his bold prediction failed, he had to eat humble pie in front of the whole team." },
+  { id:201, idiom:"Elbow room", meaning:"Space to move freely; freedom to act.", ex:"The new office gave the creative team the elbow room they needed to think differently." },
+  { id:202, idiom:"Eleventh hour", meaning:"At the last possible moment; narrowly avoiding a deadline.", ex:"The deal was saved at the eleventh hour by a last-minute compromise." },
+  { id:203, idiom:"Every dog has its day", meaning:"Everyone will have a moment of success or good luck at some point.", ex:"He was overlooked for years, but every dog has its day — his moment finally came." },
+  { id:204, idiom:"Fall by the wayside", meaning:"To fail to progress; to be abandoned or forgotten.", ex:"Many startup ideas fall by the wayside without proper funding or execution." },
+  { id:205, idiom:"Fall flat", meaning:"To fail to produce the intended effect; to have no impact.", ex:"His attempt at humor fell flat in the serious atmosphere of the meeting." },
+  { id:206, idiom:"Feather in your cap", meaning:"An achievement or distinction that brings honor or recognition.", ex:"Winning the national award was a real feather in her cap." },
+  { id:207, idiom:"Feel under the weather", meaning:"To feel slightly ill or not entirely well.", ex:"She took the day off feeling under the weather and was back to full strength the next day." },
+  { id:208, idiom:"Fine-tooth comb", meaning:"To examine something very carefully and in great detail.", ex:"Every clause in the contract was reviewed with a fine-tooth comb." },
+  { id:209, idiom:"Fire on all cylinders", meaning:"To perform at full capability; to work with maximum effort.", ex:"The team was firing on all cylinders in the final weeks before the launch." },
+  { id:210, idiom:"Fit the bill", meaning:"To be exactly right or suitable for a particular purpose.", ex:"The venue was perfect — it fit the bill in every way." },
+  { id:211, idiom:"Flash in the pan", meaning:"Something that shows great initial promise but ultimately fails to deliver.", ex:"His first film was a flash in the pan — the follow-up was universally panned." },
+  { id:212, idiom:"Fly in the ointment", meaning:"A minor irritation that spoils the success or enjoyment of something.", ex:"The one fly in the ointment was the unexpected fee that emerged on signing day." },
+  { id:213, idiom:"Follow suit", meaning:"To follow someone else's example; to do the same thing.", ex:"When the market leader cut prices, every competitor followed suit." },
+  { id:214, idiom:"Food for thought", meaning:"Something worth thinking about carefully.", ex:"Her presentation gave the whole committee food for thought well beyond the meeting." },
+  { id:215, idiom:"Foot the bill", meaning:"To pay the cost of something.", ex:"The company footed the bill for every employee's professional development." },
+  { id:216, idiom:"Get cold feet", meaning:"To lose one's nerve; to become hesitant or afraid.", ex:"He got cold feet the night before the presentation and nearly called in sick." },
+  { id:217, idiom:"Get in on the ground floor", meaning:"To join a venture at the very beginning before it becomes successful.", ex:"Early investors got in on the ground floor when the share price was just a dollar." },
+  { id:218, idiom:"Get into the swing of things", meaning:"To become accustomed to and enjoy what you are doing.", ex:"It took a few weeks, but she eventually got into the swing of things at the new company." },
+  { id:219, idiom:"Get off on the right foot", meaning:"To start something in a positive and successful way.", ex:"She sent a thank-you note after the interview to get off on the right foot." },
+  { id:220, idiom:"Get the show on the road", meaning:"To begin an activity; to set things in motion.", ex:"Everyone was ready — it was time to get the show on the road." },
+  { id:221, idiom:"Get your ducks in a row", meaning:"To organize oneself and prepare properly before doing something.", ex:"Before approaching investors, make sure you have your ducks in a row." },
+  { id:222, idiom:"Give credit where credit is due", meaning:"To acknowledge the genuine contribution of someone.", ex:"Give credit where credit is due — this was her idea from the very beginning." },
+  { id:223, idiom:"Give someone a run for their money", meaning:"To make something a real contest; to compete seriously with someone.", ex:"The underdog team gave the champions a real run for their money." },
+  { id:224, idiom:"Give the green light", meaning:"To give permission or approval to proceed.", ex:"The board gave the green light to the new project after months of review." },
+  { id:225, idiom:"Go back to square one", meaning:"To start over from the beginning.", ex:"The client rejected the entire proposal, forcing the team to go back to square one." },
+  { id:226, idiom:"Go down in flames", meaning:"To fail spectacularly.", ex:"Without proper testing, the launch went down in flames in front of the whole industry." },
+  { id:227, idiom:"Go for broke", meaning:"To risk everything in an all-or-nothing attempt.", ex:"With the contract on the line, they decided to go for broke with a bold proposal." },
+  { id:228, idiom:"Go with the flow", meaning:"To accept a situation rather than trying to fight against it.", ex:"Rather than stressing about the schedule change, she just decided to go with the flow." },
+  { id:229, idiom:"Grasp the nettle", meaning:"To tackle a difficult problem boldly and decisively.", ex:"She grasped the nettle and had the difficult conversation she had been avoiding." },
+  { id:230, idiom:"Have a lot on your plate", meaning:"To have many responsibilities or tasks to deal with at one time.", ex:"She declined the extra assignment — she already had a lot on her plate." },
+  { id:231, idiom:"Have the last laugh", meaning:"To succeed or be proven right after others doubted you.", ex:"Everyone dismissed the idea, but she had the last laugh when it became a bestseller." },
+  { id:232, idiom:"Have your work cut out", meaning:"To face a particularly difficult task.", ex:"Turning around a company this broken — he has his work cut out for him." },
+  { id:233, idiom:"Head and shoulders above", meaning:"Considerably superior to others.", ex:"Her portfolio was head and shoulders above every other candidate's." },
+  { id:234, idiom:"Head in the sand", meaning:"To deliberately refuse to acknowledge an obvious problem.", ex:"Pretending the data breach didn't happen was putting your head in the sand." },
+  { id:235, idiom:"High and dry", meaning:"Left in a difficult position without help or resources.", ex:"When her business partner withdrew, she was left high and dry with no funding." },
+  { id:236, idiom:"Hit a wall", meaning:"To reach a point where no further progress seems possible.", ex:"After months of creativity, the team hit a wall and needed a complete reset." },
+  { id:237, idiom:"Hit the jackpot", meaning:"To have a big success; to win a lot or find something very valuable.", ex:"They hit the jackpot when their app was featured by the biggest platform in the space." },
+  { id:238, idiom:"Hold all the cards", meaning:"To be in a position of complete control or advantage.", ex:"In the negotiation, the landlord held all the cards and knew it." },
+  { id:239, idiom:"In a nutshell", meaning:"Briefly and concisely summarizing the most important points.", ex:"In a nutshell, the plan is to expand east before the competition does." },
+  { id:240, idiom:"In the long run", meaning:"Over a long period of time; eventually.", ex:"The investment is costly now, but in the long run it will save millions." },
+  { id:241, idiom:"In the nick of time", meaning:"Just in time; at the last possible moment.", ex:"The backup arrived in the nick of time, saving the corrupted project file." },
+  { id:242, idiom:"In the pipeline", meaning:"Being planned or developed; coming in the future.", ex:"Several new products are in the pipeline and will launch next quarter." },
+  { id:243, idiom:"In your element", meaning:"In a situation where you feel completely comfortable and happy.", ex:"Give him an engineering problem and he is completely in his element." },
+  { id:244, idiom:"Jump to conclusions", meaning:"To make a decision or form a judgment too quickly, without enough evidence.", ex:"Let's not jump to conclusions before we have the full picture." },
+  { id:245, idiom:"Keep something at bay", meaning:"To prevent something from coming closer or having a harmful effect.", ex:"Regular exercise helped keep stress at bay during the most demanding periods." },
+  { id:246, idiom:"Keep the ball rolling", meaning:"To maintain the progress of something.", ex:"She kept the ball rolling with weekly check-ins while the manager was away." },
+  { id:247, idiom:"Keep your cards close to your chest", meaning:"To keep one's plans or intentions secret.", ex:"He kept his cards close to his chest during the negotiation, revealing nothing." },
+  { id:248, idiom:"Kick the bucket", meaning:"To die — usually said humorously.", ex:"He planned to travel the world before he kicked the bucket." },
+  { id:249, idiom:"Know which way the wind is blowing", meaning:"To have a sense of how a situation is developing; to be alert to changing conditions.", ex:"She knew which way the wind was blowing and updated her CV before the layoffs." },
+  { id:250, idiom:"Larger than life", meaning:"Having an exaggerated, very vivid personality that stands out.", ex:"She was a larger-than-life character who dominated every room she walked into." },
+  { id:251, idiom:"Lay your cards on the table", meaning:"To be honest and open about your intentions or situation.", ex:"Rather than hinting, she laid her cards on the table and asked for a raise directly." },
+  { id:252, idiom:"Leave someone in the lurch", meaning:"To abandon someone in a time of need.", ex:"He quit without notice, leaving his colleagues in the lurch with a major deadline." },
+  { id:253, idiom:"Lend a hand", meaning:"To help someone with a task.", ex:"She stayed late to lend a hand preparing for the next day's presentation." },
+  { id:254, idiom:"Like two peas in a pod", meaning:"Very similar in appearance or character.", ex:"The twins were like two peas in a pod — finishing each other's sentences." },
+  { id:255, idiom:"Long shot", meaning:"Something unlikely to succeed; a remote chance.", ex:"Applying for the senior role was a long shot, but it paid off." },
+  { id:256, idiom:"Loose cannon", meaning:"A person who is unpredictable and may cause problems.", ex:"They were reluctant to hire him — he had a reputation as a loose cannon." },
+  { id:257, idiom:"Make a mountain out of a molehill", meaning:"To exaggerate a minor problem.", ex:"She's making a mountain out of a molehill — it was just a small typo." },
+  { id:258, idiom:"Make the cut", meaning:"To meet the required standard; to be selected.", ex:"Only three candidates out of two hundred made the cut for the final round." },
+  { id:259, idiom:"Mend your ways", meaning:"To improve your behavior and correct past mistakes.", ex:"After the complaint, he was told firmly to mend his ways or face termination." },
+  { id:260, idiom:"Nail in the coffin", meaning:"An action or event that ensures the failure of something already struggling.", ex:"The third data breach was the final nail in the coffin for the company's reputation." },
+  { id:261, idiom:"Nitpick", meaning:"To look for and criticize very minor faults.", ex:"He nitpicked every element of the report instead of focusing on the big picture." },
+  { id:262, idiom:"Not see the wood for the trees", meaning:"To fail to understand the overall situation because of focus on small details.", ex:"She was so busy perfecting slides that she couldn't see the wood for the trees." },
+  { id:263, idiom:"Nothing ventured, nothing gained", meaning:"You can't achieve anything without taking risks.", ex:"She was nervous to apply, but nothing ventured, nothing gained." },
+  { id:264, idiom:"Off the cuff", meaning:"Said or done without preparation.", ex:"His off-the-cuff remark at the conference became the most-quoted line of the year." },
+  { id:265, idiom:"Off the record", meaning:"Not for publication; said in confidence.", ex:"Off the record, she admitted the project was in serious trouble." },
+  { id:266, idiom:"On a roll", meaning:"Experiencing a period of success.", ex:"After three great results in a row, the team was clearly on a roll." },
+  { id:267, idiom:"On the mend", meaning:"Recovering from an illness or a difficult situation.", ex:"Sales are on the mend after a difficult first quarter." },
+  { id:268, idiom:"On the same page", meaning:"In agreement; with the same understanding of a situation.", ex:"Before the meeting, she called to make sure everyone was on the same page." },
+  { id:269, idiom:"On the tip of my tongue", meaning:"Something you are on the verge of remembering but can't quite recall.", ex:"Her name is on the tip of my tongue — I'll remember it in a moment." },
+  { id:270, idiom:"Open a can of worms", meaning:"To create a complicated new problem while trying to solve an existing one.", ex:"Revisiting that contract opens a can of worms — every clause will be challenged." },
+  { id:271, idiom:"Out of the loop", meaning:"Not aware of the latest news or developments in a situation.", ex:"He returned from vacation to find he was completely out of the loop." },
+  { id:272, idiom:"Over the moon", meaning:"Extremely happy and delighted.", ex:"She was over the moon when she got the call that she'd been accepted." },
+  { id:273, idiom:"Over the top", meaning:"Excessively exaggerated or extreme.", ex:"The celebration was perhaps over the top, but no one complained." },
+  { id:274, idiom:"Pass the buck", meaning:"To shift responsibility for something to another person.", ex:"Rather than addressing the complaint, he kept passing the buck to other departments." },
+  { id:275, idiom:"Pay through the nose", meaning:"To pay an excessively high price for something.", ex:"She paid through the nose for a last-minute flight home." },
+  { id:276, idiom:"Pick someone's brain", meaning:"To ask for advice or information from someone knowledgeable.", ex:"Could I pick your brain about the best approach to this marketing challenge?" },
+  { id:277, idiom:"Pie in the sky", meaning:"A plan that is pleasant to imagine but unlikely to become real.", ex:"Launching in every country by Q4 was just pie in the sky." },
+  { id:278, idiom:"Pinch of salt", meaning:"A degree of skepticism when hearing a claim; same as 'grain of salt'.", ex:"Take everything he says with a pinch of salt — he tends to dramatize." },
+  { id:279, idiom:"Play hardball", meaning:"To act tough and uncompromising to get what you want.", ex:"When the talks stalled, management decided it was time to play hardball." },
+  { id:280, idiom:"Play it by ear", meaning:"To improvise; to deal with a situation as it develops rather than planning ahead.", ex:"They didn't book a hotel — they decided to play it by ear and see where the day led." },
+  { id:281, idiom:"Pull strings", meaning:"To secretly use influence to gain an advantage.", ex:"He pulled strings to secure an interview for his niece." },
+  { id:282, idiom:"Push the envelope", meaning:"To test the limits of what is possible; to go beyond established boundaries.", ex:"The design team pushed the envelope with a concept unlike anything seen before." },
+  { id:283, idiom:"Put on the back burner", meaning:"To delay dealing with something until a more convenient time.", ex:"The new product idea was put on the back burner during the reorganization." },
+  { id:284, idiom:"Put your money where your mouth is", meaning:"To support what you say with action, especially by investing money.", ex:"If you believe in the project, put your money where your mouth is." },
+  { id:285, idiom:"Rain on someone's parade", meaning:"To spoil someone's happiness or excitement.", ex:"I don't want to rain on your parade, but this plan needs more research first." },
+  { id:286, idiom:"Raise the bar", meaning:"To set a higher standard for performance.", ex:"Her research raised the bar for the entire field." },
+  { id:287, idiom:"Ride roughshod over", meaning:"To treat someone in an arrogant or domineering way.", ex:"He rode roughshod over every suggestion in the meeting." },
+  { id:288, idiom:"Rob Peter to pay Paul", meaning:"To solve one problem by creating another; to take from one to give to another.", ex:"Taking a loan to cover the rent was just robbing Peter to pay Paul." },
+  { id:289, idiom:"Rock the boat", meaning:"To disturb an existing situation and potentially cause problems.", ex:"She had concerns but hesitated to rock the boat right before the big launch." },
+  { id:290, idiom:"Rolling in it", meaning:"To be very wealthy.", ex:"After the company went public, she was absolutely rolling in it." },
+  { id:291, idiom:"Rome wasn't built in a day", meaning:"Important work takes time; patience is required for major achievements.", ex:"Stop expecting overnight success — Rome wasn't built in a day." },
+  { id:292, idiom:"Run of the mill", meaning:"Ordinary; not special or exceptional.", ex:"The presentation was run of the mill — nothing stood out." },
+  { id:293, idiom:"Safe and sound", meaning:"Free from harm; in a safe and healthy condition.", ex:"The team returned from the expedition safe and sound." },
+  { id:294, idiom:"Sell like hotcakes", meaning:"To be sold very quickly and in large quantities.", ex:"On launch day the product sold like hotcakes — stock was gone by noon." },
+  { id:295, idiom:"Set the record straight", meaning:"To correct a misunderstanding or false impression.", ex:"She called a press conference to set the record straight on the allegations." },
+  { id:296, idiom:"Shake things up", meaning:"To make changes that disrupt the existing order.", ex:"The new director came in to shake things up and nobody was sure what to expect." },
+  { id:297, idiom:"Show your true colors", meaning:"To behave in a way that reveals one's real nature, usually negatively.", ex:"He showed his true colors when he took sole credit for the team's work." },
+  { id:298, idiom:"Sit on the fence", meaning:"To remain neutral; to avoid committing to a side.", ex:"You can't sit on the fence forever — you need to take a position." },
+  { id:299, idiom:"Sleep on it", meaning:"To delay making a decision until the following day after careful thought.", ex:"Don't sign anything tonight — sleep on it and decide with a fresh mind." },
+  { id:300, idiom:"Slow and steady wins the race", meaning:"Consistent, careful effort leads to success more reliably than haste.", ex:"She didn't rush the manuscript — slow and steady wins the race." },
+  { id:301, idiom:"Smooth sailing", meaning:"Easy progress without any difficulties.", ex:"Once the approvals came through, the rest was smooth sailing." },
+  { id:302, idiom:"Speak of the devil", meaning:"Said when the person you were just discussing appears unexpectedly.", ex:"We were just talking about you — speak of the devil!" },
+  { id:303, idiom:"Split hairs", meaning:"To make unnecessarily fine distinctions; to argue about minor points.", ex:"We're splitting hairs at this stage — the difference is less than 0.1 percent." },
+  { id:304, idiom:"Stab someone in the back", meaning:"To betray someone who trusted you.", ex:"He stabbed her in the back by sharing her ideas without credit." },
+  { id:305, idiom:"Stand your ground", meaning:"To maintain your position even when challenged.", ex:"She stood her ground when the committee tried to water down her proposal." },
+  { id:306, idiom:"Start the ball rolling", meaning:"To begin an activity or process.", ex:"Let me start the ball rolling with a brief overview of the project goals." },
+  { id:307, idiom:"Stir up a hornet's nest", meaning:"To cause a lot of trouble or controversy.", ex:"His memo stirred up a hornet's nest among long-term employees." },
+  { id:308, idiom:"Straighten up and fly right", meaning:"To improve one's behavior and start acting responsibly.", ex:"After the performance review, he was told to straighten up and fly right." },
+  { id:309, idiom:"Take a back seat", meaning:"To take a less active or dominant role.", ex:"She took a back seat during the meeting to let her team present their work." },
+  { id:310, idiom:"Take a leaf out of someone's book", meaning:"To imitate or learn from someone's behavior or methods.", ex:"Take a leaf out of her book — she handles deadlines like no one else." },
+  { id:311, idiom:"Take center stage", meaning:"To become the most important or prominent element in a situation.", ex:"Sustainability has taken center stage in every major strategic conversation." },
+  { id:312, idiom:"Take someone under your wing", meaning:"To guide, mentor, and protect someone less experienced.", ex:"The senior designer took the graduate under her wing from day one." },
+  { id:313, idiom:"Take the heat", meaning:"To withstand criticism or pressure.", ex:"As team lead, she was prepared to take the heat when things went wrong." },
+  { id:314, idiom:"Take the plunge", meaning:"To decide to do something bold or risky after hesitating.", ex:"After years of planning, he finally took the plunge and quit his job to travel." },
+  { id:315, idiom:"Talk the talk", meaning:"To speak about something convincingly without necessarily backing it with action.", ex:"He could talk the talk, but the real test was whether he could walk the walk." },
+  { id:316, idiom:"Tear your hair out", meaning:"To feel extreme frustration or stress.", ex:"She was tearing her hair out trying to debug the server issue before the demo." },
+  { id:317, idiom:"Thick and fast", meaning:"Quickly and in large quantities.", ex:"Orders came in thick and fast once the product was featured in the press." },
+  { id:318, idiom:"Throw someone under the bus", meaning:"To sacrifice someone else to save yourself.", ex:"Under pressure, he threw his colleague under the bus to protect his own position." },
+  { id:319, idiom:"Tighten your belt", meaning:"To spend less money; to live more economically.", ex:"The economic downturn forced the whole family to tighten their belts." },
+  { id:320, idiom:"Touch and go", meaning:"Uncertain; potentially dangerous, with an uncertain outcome.", ex:"It was touch and go for hours, but the deal finally went through." },
+  { id:321, idiom:"Turn the tables", meaning:"To reverse a situation to gain an advantage over someone.", ex:"In the second half of negotiations, she turned the tables completely." },
+  { id:322, idiom:"Under one's belt", meaning:"Having experience or achievement gained.", ex:"With three successful launches under her belt, she was the obvious choice to lead." },
+  { id:323, idiom:"Up the ante", meaning:"To increase the stakes or demands in a situation.", ex:"When rivals cut their prices again, the company had to up the ante." },
+  { id:324, idiom:"Venture into uncharted territory", meaning:"To enter a new and unknown area without prior experience.", ex:"Launching in Asia was venturing into uncharted territory for the small brand." },
+  { id:325, idiom:"Vicious circle", meaning:"A sequence of events where one problem causes another, which makes the first worse.", ex:"Lack of sleep led to poor focus, which led to longer hours — a vicious circle." },
+  { id:326, idiom:"Walk the talk", meaning:"To demonstrate through action what you claim to believe.", ex:"Leaders who walk the talk earn far more respect than those who merely speak well." },
+  { id:327, idiom:"Watch your back", meaning:"To be cautious about potential threats or betrayal.", ex:"In that competitive environment, you always had to watch your back." },
+  { id:328, idiom:"Weather the storm", meaning:"To survive a difficult period or situation.", ex:"They weathered the storm of bad reviews and came out stronger on the other side." },
+  { id:329, idiom:"Wet blanket", meaning:"A person who dampens the enthusiasm or fun of others.", ex:"Don't be a wet blanket — it's one night out with the whole team." },
+  { id:330, idiom:"What goes around comes around", meaning:"The good or bad things you do to others will eventually happen to you.", ex:"He treated his staff poorly for years — what goes around comes around." },
+  { id:331, idiom:"Win the battle but lose the war", meaning:"To succeed in a small conflict but fail in the larger struggle.", ex:"Getting the concession helped short-term, but she won the battle and lost the war on pricing." },
+  { id:332, idiom:"With flying colors", meaning:"With great success; passing a test or challenge decisively.", ex:"She passed the bar exam with flying colors on her first attempt." },
+  { id:333, idiom:"With open arms", meaning:"To welcome someone very warmly and enthusiastically.", ex:"The community welcomed the new teacher with open arms." },
+  { id:334, idiom:"Work your socks off", meaning:"To work extremely hard.", ex:"The team worked their socks off for six months to meet the deadline." },
+  { id:335, idiom:"Wouldn't touch it with a ten-foot pole", meaning:"To refuse to get involved in something regarded as unpleasant or risky.", ex:"Given the legal exposure, most investors wouldn't touch the deal with a ten-foot pole." },
+  { id:336, idiom:"Write something off", meaning:"To regard something as a total loss; to dismiss something as a failure.", ex:"After two failed quarters, analysts began to write off the venture." },
+  { id:337, idiom:"Year in, year out", meaning:"Happening consistently every year without change.", ex:"Year in, year out, she submitted her taxes on January first." },
+  { id:338, idiom:"You can't please everyone", meaning:"It is impossible to satisfy all people; not everyone will agree.", ex:"The redesign drew mixed reviews, but you can't please everyone." },
+  { id:339, idiom:"You live and you learn", meaning:"Experiences, especially negative ones, teach valuable lessons.", ex:"He made the same mistake twice, then shrugged: you live and you learn." },
+  { id:340, idiom:"Zero hour", meaning:"The time at which a planned operation or action is set to begin.", ex:"At zero hour, the team was ready with the product fully prepared for launch." },
+  { id:341, idiom:"Ahead of the curve", meaning:"In advance of current thinking or trends; more progressive than others.", ex:"Their investment in renewable energy put them well ahead of the curve." },
+  { id:342, idiom:"An uphill battle", meaning:"A task that requires great effort because of the obstacles involved.", ex:"Changing public perception after a scandal is always an uphill battle." },
+  { id:343, idiom:"At a crossroads", meaning:"At a point where an important decision must be made.", ex:"At forty, he found himself at a crossroads — stay in his career or start over." },
+  { id:344, idiom:"At loggerheads", meaning:"In strong disagreement; in a state of conflict.", ex:"The two departments have been at loggerheads over the budget for months." },
+  { id:345, idiom:"Bite the dust", meaning:"To fail, end, or be defeated.", ex:"Three more startups bit the dust during the economic downturn." },
+  { id:346, idiom:"Blow someone away", meaning:"To impress someone greatly.", ex:"Her pitch completely blew away the investors — they funded her on the spot." },
+  { id:347, idiom:"Bold as brass", meaning:"Very confident and unashamed, perhaps to a surprising degree.", ex:"Bold as brass, he asked for a 40% raise in the middle of the company's worst quarter." },
+  { id:348, idiom:"Bring to the table", meaning:"To contribute something useful to a discussion or situation.", ex:"Every candidate must demonstrate what unique value they bring to the table." },
+  { id:349, idiom:"Burn your boats", meaning:"To take an irreversible action that removes the option of retreat.", ex:"By announcing the resignation publicly before confirming the new role, she burned her boats." },
+  { id:350, idiom:"Cast a shadow over", meaning:"To make something less pleasant or positive.", ex:"The data breach cast a long shadow over an otherwise successful year." },
+  { id:351, idiom:"Cream of the crop", meaning:"The best of a group.", ex:"Only the cream of the crop advance to the final stage of the selection." },
+  { id:352, idiom:"Cross that bridge", meaning:"To deal with a problem when and if it actually arises.", ex:"We'll cross that bridge if it comes to it — no point worrying now." },
+  { id:353, idiom:"Cut from the same cloth", meaning:"To have a similar character or background to someone else.", ex:"The two leaders were cut from the same cloth — principled, direct, and relentless." },
+  { id:354, idiom:"Different kettle of fish", meaning:"A completely different matter or type of thing.", ex:"Running a department is a different kettle of fish from managing a single project." },
+  { id:355, idiom:"Dot the i's and cross the t's", meaning:"To pay careful attention to every small detail.", ex:"Before the contract goes out, dot the i's and cross the t's — every clause matters." },
+  { id:356, idiom:"Double-edged sword", meaning:"A situation with both advantages and disadvantages.", ex:"Fame is a double-edged sword — it opens doors but destroys privacy." },
+  { id:357, idiom:"Drag your feet", meaning:"To delay action; to work too slowly.", ex:"He was dragging his feet on the decision, and it was costing the company money." },
+  { id:358, idiom:"Drop someone a line", meaning:"To contact someone briefly, especially in writing.", ex:"If you're ever in the city, drop me a line and we'll catch up." },
+  { id:359, idiom:"Dutch courage", meaning:"Confidence gained from drinking alcohol.", ex:"He needed a little Dutch courage before getting up to speak." },
+  { id:360, idiom:"Eager beaver", meaning:"A person who is very enthusiastic and hard-working.", ex:"He was such an eager beaver — always first in, last out, full of ideas." },
+  { id:361, idiom:"Elbow grease", meaning:"Physical effort and hard work.", ex:"The old machine worked perfectly with a bit of elbow grease and patience." },
+  { id:362, idiom:"Fall into place", meaning:"To happen or develop naturally and successfully.", ex:"Once the funding was secured, everything else fell into place quickly." },
+  { id:363, idiom:"From rags to riches", meaning:"Moving from extreme poverty to great wealth.", ex:"His from-rags-to-riches story inspired everyone who heard it." },
+  { id:364, idiom:"Full steam ahead", meaning:"With maximum effort and speed; nothing holding back progress.", ex:"With the green light from the board, it was full steam ahead on the launch." },
+  { id:365, idiom:"Get your act together", meaning:"To organize yourself and start behaving in a more competent or responsible way.", ex:"The team needed to get their act together before the client review." }
+];
+
+/* ============================================================
+   STATE
+============================================================ */
+let currentWord   = null;
+let currentIdiom  = null;
+let streak        = 0;
+let longestStreak = 0;
+let totalMissed   = 0;
+let favorites     = [];
+let isPreviewMode = false;
+let activeTab     = 'home';
+let isDark        = false;
+
+/* ============================================================
+   LOCALSTORAGE HELPERS
+============================================================ */
+const LS = {
+  get(k, fallback = null) {
+    try {
+      const v = localStorage.getItem(k);
+      return v !== null ? JSON.parse(v) : fallback;
+    } catch { return fallback; }
+  },
+  set(k, v) {
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch {}
+  }
+};
+
+/* ============================================================
+   DATE HELPERS  — all dates in Asia/Manila timezone
+============================================================ */
+const TZ = 'Asia/Manila';
+
+/** Returns today's date string in Manila as "YYYY-MM-DD" */
+function todayStr() {
+  return new Date().toLocaleDateString('en-CA', { timeZone: TZ }); // en-CA = YYYY-MM-DD
+}
+
+/** Returns yesterday's date string in Manila as "YYYY-MM-DD" */
+function yesterdayStr() {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return d.toLocaleDateString('en-CA', { timeZone: TZ });
+}
+
+/** Number of full calendar days between two "YYYY-MM-DD" strings */
+function daysBetween(aStr, bStr) {
+  const msPerDay = 86400000;
+  return Math.round((new Date(bStr) - new Date(aStr)) / msPerDay);
+}
+
+/** Friendly date label in Manila time */
+function displayDate() {
+  return new Date().toLocaleDateString('en-US', {
+    timeZone: TZ,
+    weekday: 'long', month: 'long', day: 'numeric'
+  });
+}
+
+/* ============================================================
+   SHUFFLE  (Fisher-Yates)
+============================================================ */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ============================================================
+   DAILY CONTENT LOGIC
+   Non-repetitive: shuffled queue stored in localStorage.
+   Each new calendar day pops the front ID.
+   When queue empties, it refills with a fresh shuffle —
+   so all 30 entries appear before any repeat.
+============================================================ */
+function pickNextWord() {
+  let q = LS.get('wordQueue', []);
+  if (!q.length) q = shuffle(WORDS.map(w => w.id));
+  const id = q.shift();
+  LS.set('wordQueue', q);
+  return WORDS.find(w => w.id === id) || WORDS[0];
+}
+
+function pickNextIdiom() {
+  let q = LS.get('idiomQueue', []);
+  if (!q.length) q = shuffle(IDIOMS.map(i => i.id));
+  const id = q.shift();
+  LS.set('idiomQueue', q);
+  return IDIOMS.find(i => i.id === id) || IDIOMS[0];
+}
+
+// Peek without consuming — used for Preview Next
+function peekNextWord() {
+  const q = LS.get('wordQueue', []);
+  const src = q.length ? q : shuffle(WORDS.map(w => w.id));
+  return WORDS.find(w => w.id === src[0]) || WORDS[0];
+}
+
+function peekNextIdiom() {
+  const q = LS.get('idiomQueue', []);
+  const src = q.length ? q : shuffle(IDIOMS.map(i => i.id));
+  return IDIOMS.find(i => i.id === src[0]) || IDIOMS[0];
+}
+
+function refreshDailyContentIfNeeded() {
+  const today    = todayStr();
+  const lastDate = LS.get('lastContentDate', '');
+
+  if (lastDate !== today) {
+    // New calendar day — pick fresh content
+    currentWord  = pickNextWord();
+    currentIdiom = pickNextIdiom();
+    LS.set('lastContentDate', today);
+    LS.set('currentWordId',   currentWord.id);
+    LS.set('currentIdiomId',  currentIdiom.id);
+  } else {
+    // Same day — restore what was already chosen
+    const wId = LS.get('currentWordId',  0);
+    const iId = LS.get('currentIdiomId', 0);
+    currentWord  = WORDS.find(w => w.id === wId)  || pickNextWord();
+    currentIdiom = IDIOMS.find(i => i.id === iId) || pickNextIdiom();
+  }
+}
+
+/* ============================================================
+   STREAK LOGIC
+   - currentStreak : consecutive days opened
+   - longestStreak : highest streak ever
+   - totalMissed   : cumulative missed days across all time
+============================================================ */
+function updateStreak() {
+  const today      = todayStr();
+  const lastDate   = LS.get('lastStreakDate', '');
+  const savedCount = LS.get('streakCount',    0);
+
+  longestStreak = LS.get('longestStreak', 0);
+  totalMissed   = LS.get('totalMissed',   0);
+
+  if (!lastDate) {
+    // Very first open ever
+    streak = 1;
+  } else if (lastDate === today) {
+    // Same day revisit — no change
+    streak = Math.max(savedCount, 1);
+  } else {
+    const gap = daysBetween(lastDate, today); // how many days since last visit
+    if (gap === 1) {
+      // Consecutive day ✓
+      streak = savedCount + 1;
+    } else {
+      // Missed one or more days — count them
+      const missed = gap - 1;
+      totalMissed += missed;
+      LS.set('totalMissed', totalMissed);
+      streak = 1;
+    }
+  }
+
+  // Update longest if current beats it
+  if (streak > longestStreak) {
+    longestStreak = streak;
+    LS.set('longestStreak', longestStreak);
+  }
+
+  LS.set('streakCount',    streak);
+  LS.set('lastStreakDate', today);
+}
+
+/* ============================================================
+   FAVORITES
+============================================================ */
+function loadFavorites() {
+  favorites = LS.get('favorites', []);
+}
+
+function saveFavorites() {
+  LS.set('favorites', favorites);
+}
+
+function isWordFav() {
+  return currentWord && favorites.some(f => f.type === 'word' && f.entryId === currentWord.id);
+}
+
+function isIdiomFav() {
+  return currentIdiom && favorites.some(f => f.type === 'idiom' && f.entryId === currentIdiom.id);
+}
+
+function toggleWordFav() {
+  if (!currentWord) return;
+  const idx = favorites.findIndex(f => f.type === 'word' && f.entryId === currentWord.id);
+  if (idx >= 0) {
+    favorites.splice(idx, 1);
+    showToast('Removed from favorites');
+  } else {
+    favorites.unshift({ type: 'word', entryId: currentWord.id, title: currentWord.word, sub: currentWord.def });
+    showToast('Saved to favorites ❤️');
+  }
+  saveFavorites();
+  updateFavBtn('word');
+  if (activeTab === 'fav') renderFavorites();
+  popBtn('word-fav-btn');
+}
+
+function toggleIdiomFav() {
+  if (!currentIdiom) return;
+  const idx = favorites.findIndex(f => f.type === 'idiom' && f.entryId === currentIdiom.id);
+  if (idx >= 0) {
+    favorites.splice(idx, 1);
+    showToast('Removed from favorites');
+  } else {
+    favorites.unshift({ type: 'idiom', entryId: currentIdiom.id, title: currentIdiom.idiom, sub: currentIdiom.meaning });
+    showToast('Saved to favorites ❤️');
+  }
+  saveFavorites();
+  updateFavBtn('idiom');
+  if (activeTab === 'fav') renderFavorites();
+  popBtn('idiom-fav-btn');
+}
+
+function deleteFav(type, entryId) {
+  favorites = favorites.filter(f => !(f.type === type && f.entryId === entryId));
+  saveFavorites();
+  updateFavBtn('word');
+  updateFavBtn('idiom');
+  renderFavorites();
+  showToast('Removed');
+}
+
+/* ============================================================
+   PREVIEW NEXT  (testing only — does not consume the queue)
+============================================================ */
+function previewNext() {
+  isPreviewMode = true;
+  currentWord   = peekNextWord();
+  currentIdiom  = peekNextIdiom();
+  renderCards(true);
+  document.getElementById('preview-badge').classList.add('visible');
+  document.getElementById('back-btn').style.display = 'inline-flex';
+}
+
+function backToToday() {
+  isPreviewMode = false;
+  const wId = LS.get('currentWordId',  0);
+  const iId = LS.get('currentIdiomId', 0);
+  currentWord  = WORDS.find(w => w.id === wId)  || currentWord;
+  currentIdiom = IDIOMS.find(i => i.id === iId) || currentIdiom;
+  renderCards(true);
+  document.getElementById('preview-badge').classList.remove('visible');
+  document.getElementById('back-btn').style.display = 'none';
+}
+
+/* ============================================================
+   SHARE
+============================================================ */
+function shareWord() {
+  if (!currentWord) return;
+  const text = `📖 Word of the Day: ${currentWord.word}\n🔊 ${currentWord.pron}\n\n${currentWord.def}\n\n"${currentWord.ex}"\n\n— Ken's Daily Dose of Knowledge`;
+  doShare(text);
+}
+
+function shareIdiom() {
+  if (!currentIdiom) return;
+  const text = `💬 Idiom of the Day: ${currentIdiom.idiom}\n\n${currentIdiom.meaning}\n\n"${currentIdiom.ex}"\n\n— Ken's Daily Dose of Knowledge`;
+  doShare(text);
+}
+
+function doShare(text) {
+  if (navigator.share) {
+    navigator.share({ text }).catch(() => {});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast('Copied to clipboard!'))
+      .catch(() => showToast('Unable to copy'));
+  } else {
+    showToast('Sharing not supported');
+  }
+}
+
+/* ============================================================
+   THEME
+============================================================ */
+function initTheme() {
+  const saved = LS.get('theme', null);
+  isDark = saved !== null
+    ? saved === 'dark'
+    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(false);
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (LS.get('theme', null) === null) { isDark = e.matches; applyTheme(); }
+  });
+}
+
+function toggleTheme() {
+  isDark = !isDark;
+  LS.set('theme', isDark ? 'dark' : 'light');
+  applyTheme(true);
+}
+
+function applyTheme(animate = true) {
+  if (!animate) document.body.style.transition = 'none';
+  document.body.classList.toggle('dark', isDark);
+  document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+  document.getElementById('theme-meta').setAttribute('content', isDark ? '#0D1E1E' : '#1D5C5C');
+  if (!animate) requestAnimationFrame(() => document.body.style.transition = '');
+}
+
+/* ============================================================
+   TAB NAVIGATION
+============================================================ */
+function switchTab(tab) {
+  if (activeTab === tab) return;
+
+  const fromPane = document.getElementById(`${activeTab}-pane`);
+  const toPane   = document.getElementById(`${tab}-pane`);
+  const fromBtn  = document.getElementById(`nav-${activeTab}`);
+  const toBtn    = document.getElementById(`nav-${tab}`);
+
+  fromPane.classList.add('exit-left');
+  fromPane.classList.remove('active');
+
+  setTimeout(() => fromPane.classList.remove('exit-left'), 280);
+
+  toPane.classList.add('active');
+  fromBtn.classList.remove('active');
+  toBtn.classList.add('active');
+
+  activeTab = tab;
+  if (tab === 'fav') renderFavorites();
+}
+
+/* ============================================================
+   TOAST
+============================================================ */
+let toastTimer = null;
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+/* ============================================================
+   RENDER  —  HEADER
+============================================================ */
+function renderHeader() {
+  const s = streak;
+  // Streak badge in header
+  document.getElementById('streak-text').textContent = `${s} day${s !== 1 ? 's' : ''}`;
+  document.getElementById('streak-fire').textContent = s > 1 ? '🔥' : '🕯️';
+  document.getElementById('date-label').textContent  = displayDate();
+  document.getElementById('day-pill').textContent    = `Day ${s}`;
+  // Stats chips
+  document.getElementById('stat-current').textContent = s;
+  document.getElementById('stat-longest').textContent  = longestStreak;
+  document.getElementById('stat-missed').textContent   = totalMissed;
+}
+
+/* ============================================================
+   RENDER  —  CARDS
+============================================================ */
+function renderCards(reAnimate = false) {
+  if (!currentWord || !currentIdiom) return;
+
+  // Word
+  document.getElementById('word-title').textContent = currentWord.word;
+  document.getElementById('word-pron').textContent  = currentWord.pron;
+  document.getElementById('word-def').textContent   = currentWord.def;
+  document.getElementById('word-ex').textContent    = currentWord.ex;
+
+  // Idiom
+  document.getElementById('idiom-title').textContent   = `"${currentIdiom.idiom}"`;
+  document.getElementById('idiom-meaning').textContent = currentIdiom.meaning;
+  document.getElementById('idiom-ex').textContent      = currentIdiom.ex;
+
+  updateFavBtn('word');
+  updateFavBtn('idiom');
+
+  if (reAnimate) triggerCardAnimation();
+}
+
+function triggerCardAnimation() {
+  ['word-card', 'idiom-card'].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('in');
+    void el.offsetWidth; // force reflow
+    el.classList.add('in');
+  });
+}
+
+function updateFavBtn(type) {
+  const btn  = document.getElementById(`${type}-fav-btn`);
+  const fav  = type === 'word' ? isWordFav() : isIdiomFav();
+  btn.textContent = fav ? '♥' : '♡';
+  btn.classList.toggle('fav-on', fav);
+}
+
+/* ============================================================
+   RENDER  —  FAVORITES TAB
+============================================================ */
+function renderFavorites() {
+  const container = document.getElementById('fav-content');
+  if (!favorites.length) {
+    container.innerHTML = `
+      <div class="fav-empty">
+        <span class="fav-empty-icon">💔</span>
+        <div class="fav-empty-title">No favorites yet</div>
+        <div class="fav-empty-sub">Tap ♡ on any card<br>to save it here.</div>
+      </div>`;
+    return;
+  }
+
+  const words  = favorites.filter(f => f.type === 'word');
+  const idioms = favorites.filter(f => f.type === 'idiom');
+  let html = '';
+
+  if (words.length) {
+    html += `<div class="fav-sec-hdr">📖 Words <span class="fav-count">${words.length}</span></div>`;
+    words.forEach(f => { html += favItemHTML(f); });
+  }
+  if (idioms.length) {
+    html += `<div class="fav-sec-hdr" style="margin-top:${words.length ? '4px' : '0'}">💬 Idioms <span class="fav-count">${idioms.length}</span></div>`;
+    idioms.forEach(f => { html += favItemHTML(f); });
+  }
+
+  container.innerHTML = html;
+}
+
+function favItemHTML(f) {
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return `
+    <div class="fav-item">
+      <div class="fav-icon fav-icon-${f.type}">${f.type === 'word' ? '📖' : '💬'}</div>
+      <div class="fav-body">
+        <div class="fav-title">${esc(f.title)}</div>
+        <div class="fav-sub">${esc(f.sub)}</div>
+      </div>
+      <button class="fav-del"
+              data-type="${f.type}"
+              data-id="${f.entryId}"
+              onclick="deleteFav(this.dataset.type, +this.dataset.id)"
+              title="Remove">✕</button>
+    </div>`;
+}
+
+/* ============================================================
+   HEART POP ANIMATION HELPER
+============================================================ */
+function popBtn(id) {
+  const el = document.getElementById(id);
+  el.classList.remove('pop');
+  void el.offsetWidth;
+  el.classList.add('pop');
+}
+
+
+/* ============================================================
+   TEXT-TO-SPEECH
+   Uses Web Speech API (SpeechSynthesis).
+   Stops any in-progress speech before starting a new one.
+   Falls back gracefully if unsupported.
+============================================================ */
+const TTS = {
+  supported: typeof window !== 'undefined' && 'speechSynthesis' in window,
+  speaking:  false,
+
+  speak(text, btnId) {
+    if (!this.supported) {
+      showToast('Text-to-speech not supported on this device');
+      return;
+    }
+
+    // Stop anything already playing
+    window.speechSynthesis.cancel();
+
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'en-US';
+    utter.rate  = 0.88;   // slightly slower — clearer for vocabulary
+    utter.pitch = 1.0;
+
+    const btn = btnId ? document.getElementById(btnId) : null;
+
+    utter.onstart = () => {
+      this.speaking = true;
+      if (btn) btn.classList.add('tts-active');
+    };
+
+    utter.onend = utter.onerror = () => {
+      this.speaking = false;
+      if (btn) btn.classList.remove('tts-active');
+    };
+
+    // Small delay improves reliability on iOS Safari
+    setTimeout(() => window.speechSynthesis.speak(utter), 120);
+  }
+};
+
+function speakWord() {
+  if (!currentWord) return;
+  // Speak word + pronunciation for max clarity
+  const text = `${currentWord.word}. ${currentWord.pron}. ${currentWord.word}.`;
+  TTS.speak(text, 'word-tts-btn');
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+function init() {
+  initTheme();
+  loadFavorites();
+  updateStreak();
+  refreshDailyContentIfNeeded();
+  renderHeader();
+  renderCards(false);
+  // Trigger card entrance animations after a short delay
+  setTimeout(triggerCardAnimation, 60);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

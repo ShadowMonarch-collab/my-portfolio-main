@@ -1,0 +1,100 @@
+:root {
+  /* ── Design tokens — Cinematic Noir instrument-cluster palette ── */
+  --accent: #38BDF8;
+  --accent-soft: rgba(56, 189, 248, 0.12);
+  --accent-line: rgba(56, 189, 248, 0.35);
+
+  /* Layered surfaces: cool blue-black depth + top edge light */
+  --card: linear-gradient(165deg, #151C28 0%, #0F141D 100%);
+  --card-line: rgba(151, 197, 255, 0.10);
+  --card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 28px -14px rgba(0, 0, 0, 0.55);
+  --card-hero: radial-gradient(130% 140% at 88% -25%, rgba(56, 189, 248, 0.16) 0%, transparent 48%),
+               linear-gradient(160deg, #18202D 0%, #0F141C 100%);
+  --field: #0B1018;
+  --field-line: rgba(255, 255, 255, 0.10);
+  --sheet: #141B25;
+}
+
+body { margin: 0; background: #05070B; font-family: 'Barlow', sans-serif; }
+a { color: var(--accent); }
+a:hover { color: #7DD3FC; }
+*::-webkit-scrollbar { width: 0; height: 0; }
+input, select, textarea { color-scheme: dark; }
+select option { background: #151B23; color: #EDF1F6; }
+
+/* ── Motion ── */
+@keyframes mcSheet { from { transform: translateY(64px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes mcFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes mcToast { from { transform: translateY(-14px) scale(0.97); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fabPulse {
+  0%, 100% { box-shadow: 0 8px 24px rgba(56, 189, 248, 0.35), 0 0 0 0 rgba(56, 189, 248, 0.30); }
+  50% { box-shadow: 0 10px 30px rgba(56, 189, 248, 0.45), 0 0 0 10px rgba(56, 189, 248, 0); }
+}
+.riseIn { animation: riseIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.fab { animation: fabPulse 2.8s ease-in-out infinite; }
+.fab:hover { transform: scale(1.07); }
+
+/* Tactile press feedback on every control */
+button { transition: transform 0.12s ease, filter 0.15s ease; }
+button:active { transform: scale(0.96); }
+
+/* Visible keyboard focus */
+button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* hover / focus states from the design's style-hover / style-focus attrs */
+.hovA:hover { background: rgba(56, 189, 248, 0.22) !important; }
+.hovB:hover { border-color: var(--accent) !important; color: var(--accent) !important; }
+.hovC:hover { background: #5FCBFA !important; }
+.hovD:hover { border-color: var(--accent) !important; }
+.inp:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.14); }
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(1200px 800px at 50% -10%, #0E1520, #05070A);
+}
+
+.phone {
+  position: relative;
+  width: 100%;
+  max-width: 402px;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(140% 60% at 50% -8%, #131B28 0%, #0B0F16 48%, #07090D 100%);
+  font-family: 'Barlow', sans-serif;
+  color: #EDF1F6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* desktop: present inside a phone-shaped frame like the design comp */
+@media (min-width: 440px) and (min-height: 700px) {
+  #root { padding: 36px 20px; box-sizing: border-box; }
+  .phone {
+    height: min(874px, calc(100vh - 72px));
+    border-radius: 44px;
+    border: 1px solid rgba(151, 197, 255, 0.14);
+    box-shadow:
+      0 40px 100px -20px rgba(0, 0, 0, 0.8),
+      0 0 90px -32px rgba(56, 189, 248, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* Accessibility: honor reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

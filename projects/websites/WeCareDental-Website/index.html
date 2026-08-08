@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fbf8f3">
+  <meta name="description" content="Havenwell Dental provides modern, comfort-first dental care with clear guidance for individuals and families.">
+  <title>Havenwell Dental | Modern Care Designed Around Comfort</title>
+  <link rel="icon" href="assets/wecare-logo-mark.svg" type="image/svg+xml">
+
+  <meta property="og:title" content="Havenwell Dental | Modern Care Designed Around Comfort">
+  <meta property="og:description" content="Havenwell Dental provides modern, comfort-first dental care with clear guidance for individuals and families.">
+  <meta property="og:image" content="assets/wecare-hero.png">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <svg class="icon-library" aria-hidden="true">
+    <symbol id="icon-phone" viewBox="0 0 24 24"><path d="M22 17.1v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.3 19.3 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.4 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2.1.7 3a2 2 0 0 1-.4 2.1L8.1 10.1a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c1 .4 2 .6 3.1.7a2 2 0 0 1 1.4 2Z"/></symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4M3 10h18"/><rect x="3" y="4" width="18" height="18" rx="3"/><path d="m9 16 2 2 4-5"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 4.4-3 7.3-8 9-5-1.7-8-4.6-8-9V6l8-3Z"/><path d="m9 12 2 2 4-5"/></symbol>
+    <symbol id="icon-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="m8 12-2 9 6-3 6 3-2-9"/></symbol>
+    <symbol id="icon-scan" viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/></symbol>
+    <symbol id="icon-heart" viewBox="0 0 24 24"><path d="M20.8 4.8a5.5 5.5 0 0 0-7.8 0L12 5.9l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.4a5.5 5.5 0 0 0 0-7.8Z"/></symbol>
+    <symbol id="icon-message" viewBox="0 0 24 24"><path d="M21 11.5a8.3 8.3 0 0 1-9 8.3 9 9 0 0 1-4-.9L3 21l1.4-4.2A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 10h8M8 14h5"/></symbol>
+    <symbol id="icon-wallet" viewBox="0 0 24 24"><path d="M3 7a3 3 0 0 1 3-3h12v4"/><path d="M3 7h17a1 1 0 0 1 1 1v10a2 2 0 0 1-2 2H6a3 3 0 0 1-3-3V7Z"/><path d="M16 13h2"/></symbol>
+    <symbol id="icon-tooth" viewBox="0 0 24 24"><path d="M12 4.4C9.9 2.8 6.3 3.1 4.9 5.2 3 8 4.3 11 5.4 13.4c.8 1.8.7 6.6 3 6.6 1.5 0 1.5-4.8 3.6-4.8s2.1 4.8 3.6 4.8c2.3 0 2.2-4.8 3-6.6C19.7 11 21 8 19.1 5.2 17.7 3.1 14.1 2.8 12 4.4Z"/></symbol>
+    <symbol id="icon-sparkle" viewBox="0 0 24 24"><path d="M12 3v5M12 16v5M3 12h5M16 12h5"/><path d="M12 8c.8 2.1 1.9 3.2 4 4-2.1.8-3.2 1.9-4 4-.8-2.1-1.9-3.2-4-4 2.1-.8 3.2-1.9 4-4Z"/></symbol>
+    <symbol id="icon-bolt" viewBox="0 0 24 24"><path d="m13 2-9 12h8l-1 8 9-12h-8l1-8Z"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M20 10c0 5.5-8 12-8 12s-8-6.5-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header" data-header>
+    <div class="container navigation">
+      <a class="brand" href="#home" aria-label="Havenwell Dental home">
+        <img src="assets/wecare-logo-mark.svg" alt="">
+        <span>Havenwell <strong>Dental</strong></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="main-navigation" data-menu-toggle>
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" id="main-navigation" aria-label="Primary navigation" data-nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#team">Meet Dr. Reyes</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Appointments</a>
+        <a class="mobile-booking" href="#appointment">Book Appointment</a>
+      </nav>
+      <a class="button nav-cta" href="#appointment">
+        <svg><use href="#icon-calendar"></use></svg>
+        Book Appointment
+      </a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <p class="eyebrow">Modern family and cosmetic dentistry</p>
+          <h1>A dental visit you can feel ready for.</h1>
+          <p class="hero-copy">When booking has been sitting on your list, start somewhere calm. At Havenwell Dental, you will be heard, guided clearly, and cared for at a pace that feels manageable.</p>
+          <div class="hero-actions">
+            <a class="button" href="#appointment">
+              <svg><use href="#icon-calendar"></use></svg>
+              Book Appointment
+            </a>
+            <a class="text-link" href="#services">
+              Explore Services
+              <svg><use href="#icon-arrow"></use></svg>
+            </a>
+          </div>
+          <div class="hero-signature" aria-label="The Havenwell approach">
+            <span>Listen first</span>
+            <span>Explain clearly</span>
+            <span>Plan together</span>
+          </div>
+        </div>
+        <div class="hero-visual reveal">
+          <img src="assets/wecare-hero.png" alt="A smiling patient in a bright treatment room at a welcoming dental clinic.">
+          <div class="visual-note">
+            <span class="rating" aria-label="Five out of five stars">★★★★★</span>
+            <p><strong>Comfort comes first.</strong> Gentle care with time for your questions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust" aria-label="Why patients trust Havenwell Dental">
+      <div class="container trust-grid">
+        <article class="trust-card reveal"><svg><use href="#icon-award"></use></svg><div><strong>Dr. Maya Reyes, DMD</strong><span>Lead dentist</span></div></article>
+        <article class="trust-card reveal"><svg><use href="#icon-shield"></use></svg><div><strong>General Dentistry</strong><span>Everyday smile care</span></div></article>
+        <article class="trust-card reveal"><svg><use href="#icon-scan"></use></svg><div><strong>Thoughtful Assessment</strong><span>Care planned clearly</span></div></article>
+        <article class="trust-card reveal"><svg><use href="#icon-heart"></use></svg><div><strong>Comfort Focused</strong><span>Designed for ease</span></div></article>
+        <article class="trust-card reveal"><svg><use href="#icon-message"></use></svg><div><strong>Clear Guidance</strong><span>Understand each choice</span></div></article>
+        <article class="trust-card reveal"><svg><use href="#icon-calendar"></use></svg><div><strong>Request A Visit</strong><span>Simple appointment requests</span></div></article>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="container about-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">About Havenwell Dental</p>
+          <h2>A practice built around your comfort and confidence.</h2>
+        </div>
+        <div class="about-copy reveal">
+          <p>We believe excellent dentistry begins with listening. Every visit gives you space to ask questions, share concerns, and understand your dental health without being rushed.</p>
+          <p>From preventive visits to complete smile care, our team pairs modern treatment with a warm environment and straightforward communication.</p>
+          <div class="values">
+            <span><svg><use href="#icon-check"></use></svg>Care plans explained simply</span>
+            <span><svg><use href="#icon-check"></use></svg>Support for nervous patients</span>
+            <span><svg><use href="#icon-check"></use></svg>Options shaped around your goals</span>
+          </div>
+          <div class="care-conversation" aria-label="The Havenwell conversation">
+            <p class="conversation-title">The Havenwell Conversation</p>
+            <div class="conversation-line"><strong>You share</strong><span>What you have been postponing, wondering about, or hoping for.</span></div>
+            <div class="conversation-line"><strong>We explain</strong><span>What we see and what each option would mean for you.</span></div>
+            <div class="conversation-line"><strong>We plan</strong><span>A clear next step that fits your priorities and schedule.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section services" id="services">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <p class="eyebrow">Our Services</p>
+          <h2>Comprehensive care for healthy, confident smiles.</h2>
+          <p class="intro">Explore the type of care you need today, or begin with a consultation and let us help you find the right path.</p>
+        </div>
+        <div class="services-grid">
+          <article class="service-card reveal">
+            <span class="service-icon"><svg><use href="#icon-tooth"></use></svg></span>
+            <h3>General Dentistry</h3>
+            <p>Everyday dental care that keeps your smile comfortable, functional, and understood.</p>
+            <a href="#appointment">Request a visit <svg><use href="#icon-arrow"></use></svg></a>
+          </article>
+          <article class="service-card reveal">
+            <span class="service-icon"><svg><use href="#icon-shield"></use></svg></span>
+            <h3>Preventive Care</h3>
+            <p>Cleanings, exams, and guidance that help protect long-term oral health.</p>
+            <a href="#appointment">Request a visit <svg><use href="#icon-arrow"></use></svg></a>
+          </article>
+          <article class="service-card reveal">
+            <span class="service-icon"><svg><use href="#icon-sparkle"></use></svg></span>
+            <h3>Cosmetic Dentistry</h3>
+            <p>Natural-looking improvements designed around the smile you envision.</p>
+            <a href="#appointment">Explore options <svg><use href="#icon-arrow"></use></svg></a>
+          </article>
+          <article class="service-card reveal">
+            <span class="service-icon"><svg><use href="#icon-heart"></use></svg></span>
+            <h3>Restorative Dentistry</h3>
+            <p>Restore strength and comfort with treatment choices explained clearly.</p>
+            <a href="#appointment">Request a visit <svg><use href="#icon-arrow"></use></svg></a>
+          </article>
+          <article class="service-card reveal">
+            <span class="service-icon"><svg><use href="#icon-sparkle"></use></svg></span>
+            <h3>Teeth Whitening</h3>
+            <p>Brighten your smile safely with professionally guided whitening care.</p>
+            <a href="#appointment">Explore options <svg><use href="#icon-arrow"></use></svg></a>
+          </article>
+          <article class="service-card reveal">
+            <span class="service-icon"><svg><use href="#icon-bolt"></use></svg></span>
+            <h3>Emergency Dental Care</h3>
+            <p>Timely support when pain, damage, or a sudden concern needs attention.</p>
+            <a href="#appointment">Get support <svg><use href="#icon-arrow"></use></svg></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section team" id="team">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <p class="eyebrow">Meet Dr. Reyes</p>
+          <h2>Care guided by experience and conversation.</h2>
+        </div>
+        <div class="team-grid">
+          <article class="team-card featured-provider reveal">
+            <img class="team-photo" src="assets/wecare-doctor.png" alt="Dr. Maya Reyes smiling in a bright Havenwell Dental consultation room." loading="lazy" decoding="async">
+            <div class="team-info">
+              <p class="role">Lead Dentist</p>
+              <h3>Dr. Maya Reyes, DMD</h3>
+              <p>Dr. Reyes believes the most reassuring visits begin with listening. Her approach combines thoughtful examination, clear treatment planning, and time for patients to feel confident in each decision.</p>
+              <div class="credential-tags" aria-label="Dr. Reyes clinical focus">
+                <span>General and cosmetic care</span>
+                <span>Comfort-focused visits</span>
+              </div>
+            </div>
+          </article>
+          <aside class="team-promises reveal" aria-label="Clinical focus and care standard">
+            <p class="role">Clinical Focus</p>
+            <h3>A five-star standard of care</h3>
+            <p class="promise-intro">Warm welcome, unhurried explanation, and a clear plan before you leave.</p>
+            <div class="promise-item"><svg><use href="#icon-tooth"></use></svg><span><strong>Doctor of Dental Medicine</strong>Comprehensive patient-centered dentistry</span></div>
+            <div class="promise-item"><svg><use href="#icon-sparkle"></use></svg><span><strong>General and cosmetic care</strong>Natural-looking treatment planning</span></div>
+            <div class="promise-item"><svg><use href="#icon-heart"></use></svg><span><strong>Comfort-focused approach</strong>Clear explanations for nervous patients</span></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section experience" aria-label="Patient experience">
+      <div class="container experience-grid">
+        <div class="experience-content reveal">
+          <p class="eyebrow">Your First Visit</p>
+          <h2>Know what to expect, from hello to next steps.</h2>
+          <p class="intro">Whether it has been six months or several years, your visit begins with kindness and a plan that moves at a comfortable pace.</p>
+          <a class="text-link" href="#faq">Read common questions <svg><use href="#icon-arrow"></use></svg></a>
+        </div>
+        <div class="visit-steps">
+          <article class="visit-step reveal">
+            <span>01</span>
+            <div><h3>A welcoming check-in</h3><p>Share your history, preferences, and any concerns before treatment begins.</p></div>
+          </article>
+          <article class="visit-step reveal">
+            <span>02</span>
+            <div><h3>A comfortable assessment</h3><p>We evaluate your smile using modern tools and explain what we notice.</p></div>
+          </article>
+          <article class="visit-step reveal">
+            <span>03</span>
+            <div><h3>A clear conversation</h3><p>Leave with practical options, costs to explore, and no-pressure next steps.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section testimonials" id="testimonials">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <p class="eyebrow">Patient Stories</p>
+          <h2>What patients appreciate about their visits.</h2>
+          <p class="intro">Thoughtful explanations, an unhurried experience, and a clear next step.</p>
+        </div>
+        <div class="testimonial-grid">
+          <figure class="review reveal">
+            <div class="stars" aria-label="Five out of five stars"><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg></div>
+            <blockquote>"I had delayed scheduling for months. The team explained each part of the visit clearly, and I left knowing exactly what came next."</blockquote>
+            <figcaption>Melissa R. <span>New patient consultation</span></figcaption>
+          </figure>
+          <figure class="review reveal">
+            <div class="stars" aria-label="Five out of five stars"><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg></div>
+            <blockquote>"Everything felt organized and unhurried. I appreciated being able to ask questions and understand my options before deciding."</blockquote>
+            <figcaption>Daniel C. <span>Restorative care visit</span></figcaption>
+          </figure>
+          <figure class="review reveal">
+            <div class="stars" aria-label="Five out of five stars"><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg><svg><use href="#icon-star"></use></svg></div>
+            <blockquote>"The clinic is bright and welcoming, and the people are genuinely kind. Booking my next cleaning now feels simple."</blockquote>
+            <figcaption>Ariana S. <span>Cleaning appointment</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq">
+      <div class="container faq-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">FAQ</p>
+          <h2>Questions are always welcome.</h2>
+          <p class="intro">Find answers about first visits, payment options, comfort, and scheduling.</p>
+        </div>
+        <div class="accordion reveal" data-accordion>
+          <details open>
+            <summary>What should I expect on my first visit?</summary>
+            <p>You will begin with a conversation about your health history and goals, followed by an appropriate exam and any recommended imaging. We explain findings and next steps clearly before planning care.</p>
+          </details>
+          <details>
+            <summary>Do you accept insurance?</summary>
+            <p>Our team can help you review coverage questions and available payment options when arranging your visit.</p>
+          </details>
+          <details>
+            <summary>Is financing available?</summary>
+            <p>Ask our team about payment arrangements that may be available for your recommended care.</p>
+          </details>
+          <details>
+            <summary>What if I am nervous about dental visits?</summary>
+            <p>Please tell us when you book. We can allow time for questions, explain procedures step by step, and discuss comfort options suited to your visit.</p>
+          </details>
+          <details>
+            <summary>How long do appointments take?</summary>
+            <p>A first visit typically lasts 45 to 60 minutes. Routine visits and specific treatments vary, and we will share expected timing when scheduling.</p>
+          </details>
+          <details>
+            <summary>Can I reschedule?</summary>
+            <p>Yes. If plans change, reach out to the clinic team and we will help you find another available time.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <p class="eyebrow">Appointments</p>
+          <h2>Let your next visit begin with clarity.</h2>
+          <p class="intro">Share your preferred timing and reason for visiting. Our team will follow up to confirm a convenient appointment time.</p>
+        </div>
+        <div class="contact-grid" id="appointment">
+          <form action="#" method="post" class="appointment-form reveal" data-form novalidate>
+            <div class="form-heading">
+              <h3>Request your visit</h3>
+              <p>Share a few details to begin your appointment request.</p>
+            </div>
+            <div class="hp-field" aria-hidden="true">
+              <label for="website">Leave this field blank
+                <input id="website" type="text" name="_gotcha" tabindex="-1" autocomplete="off" data-honeypot>
+              </label>
+            </div>
+            <div class="form-row">
+              <label for="full-name">Full name
+                <input id="full-name" type="text" name="name" autocomplete="name" placeholder="Your name" minlength="2" aria-describedby="full-name-error" required>
+                <span class="field-error" id="full-name-error"></span>
+              </label>
+              <label for="phone-number">Mobile number
+                <input id="phone-number" type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="20" title="Enter a valid mobile number." aria-describedby="phone-number-error" required>
+                <span class="field-error" id="phone-number-error"></span>
+              </label>
+            </div>
+            <div class="form-row">
+              <label for="patient-type">Patient type
+                <select id="patient-type" name="patientType" aria-describedby="patient-type-error" required>
+                  <option value="">Select one</option>
+                  <option>New patient</option>
+                  <option>Returning patient</option>
+                </select>
+                <span class="field-error" id="patient-type-error"></span>
+              </label>
+              <label for="visit-reason">Reason for visit
+                <select id="visit-reason" name="visitReason" aria-describedby="visit-reason-error" required>
+                  <option value="">Select one</option>
+                  <option>Checkup or cleaning</option>
+                  <option>Cosmetic consultation</option>
+                  <option>Restorative concern</option>
+                  <option>Urgent concern</option>
+                  <option>Not sure yet</option>
+                </select>
+                <span class="field-error" id="visit-reason-error"></span>
+              </label>
+            </div>
+            <div class="form-row">
+              <label for="preferred-date">Preferred day
+                <input id="preferred-date" type="date" name="preferredDate" data-preferred-date aria-describedby="preferred-date-error" required>
+                <span class="field-error" id="preferred-date-error"></span>
+              </label>
+              <label for="preferred-time">Preferred time
+                <select id="preferred-time" name="preferredTime" aria-describedby="preferred-time-error" required>
+                  <option value="">Select one</option>
+                  <option>Morning</option>
+                  <option>Afternoon</option>
+                  <option>First available</option>
+                </select>
+                <span class="field-error" id="preferred-time-error"></span>
+              </label>
+            </div>
+            <label for="visit-notes">Anything you would like us to know? <span class="optional">(optional)</span>
+              <textarea id="visit-notes" name="message" rows="4" maxlength="500" placeholder="Questions, scheduling needs, or anything that would help you feel prepared."></textarea>
+            </label>
+            <label class="consent" for="contact-consent"><input id="contact-consent" type="checkbox" name="consent" aria-describedby="contact-consent-error" required><span>I agree to be contacted about this appointment request.</span></label>
+            <span class="field-error consent-error" id="contact-consent-error"></span>
+            <button class="button" type="submit"><svg><use href="#icon-calendar"></use></svg>Book My Appointment</button>
+            <p class="booking-note">Submitting a request does not confirm an appointment time.</p>
+            <p class="guarantee">
+              <span class="guarantee__label">Our promise</span>
+              If your first visit doesn&rsquo;t feel calm and clearly explained, tell the front desk before you go and we won&rsquo;t charge you for it.
+            </p>
+            <p class="form-status" role="status" data-form-status></p>
+          </form>
+
+          <aside class="clinic-details reveal" aria-label="Clinic information">
+            <h3>What happens next</h3>
+            <div class="request-assurances">
+              <p><svg><use href="#icon-check"></use></svg>Tell us what brings you in, even if you are unsure which service you need.</p>
+              <p><svg><use href="#icon-check"></use></svg>Share a preferred day and time so scheduling starts simply.</p>
+              <p><svg><use href="#icon-check"></use></svg>Our team follows up to confirm your available appointment time.</p>
+            </div>
+            <div class="support-card">
+              <strong>Need help choosing a visit?</strong>
+              <p>Begin with an appointment request and share what brings you in. We will help guide the right next step.</p>
+            </div>
+            <div class="map-placeholder" aria-label="Patient support message">
+              <svg><use href="#icon-heart"></use></svg>
+              <strong>Comfort-first care</strong>
+              <span>Questions and concerns are always welcome.</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#home">
+          <img src="assets/wecare-logo-mark.svg" alt="">
+          <span>Havenwell <strong>Dental</strong></span>
+        </a>
+        <p>Modern dental care centered on comfort, clarity, and lasting relationships.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <h2>Explore</h2>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#team">Meet Dr. Reyes</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="footer-links">
+        <h2>Appointment Requests</h2>
+        <a href="#appointment">Book Appointment</a>
+        <p class="footer-note">A request does not confirm an appointment time.</p>
+        <p class="footer-note">Our team will follow up regarding availability.</p>
+      </div>
+      <div class="footer-links">
+        <h2>Patient Care</h2>
+        <a href="#services">Explore Services</a>
+        <a href="#faq">Common Questions</a>
+        <a href="#team">Meet Dr. Reyes</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; <span data-year></span> Havenwell Dental. All rights reserved.</span>
+      <span><a href="privacy.html">Privacy</a></span>
+      <span>Great dental care starts with a great relationship.</span>
+    </div>
+  </footer>
+</body>
+</html>

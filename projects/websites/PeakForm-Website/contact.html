@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact &amp; Book a Free Consultation | PeakForm Coaching</title>
+  <meta name="description" content="Book a free, no-pressure consultation with PeakForm Coaching. Tell us your goals and schedule and we'll reply within one business day. Email, phone, and hours included.">
+  <link rel="icon" href="assets/logo-peakform-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <div class="scrollbar" aria-hidden="true"></div>
+
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a class="nav__logo" href="index.html" aria-label="PeakForm Coaching home">
+        <svg viewBox="0 0 232 64" role="img" aria-label="PeakForm Coaching" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="6" width="52" height="52" rx="12" fill="#E0379E"/>
+          <path d="M15 47 L28 24 L41 47 L33 47 L28 37 L23 47 Z" fill="#F4E04D"/>
+          <path d="M25 30 L28 24 L31 30 L28 27 Z" fill="#F4E04D"/>
+          <text x="66" y="46" font-family="'Anton','Arial Narrow',sans-serif" font-size="30" fill="#2B2A4A">PEAK</text>
+          <text x="152" y="46" font-family="'Anton','Arial Narrow',sans-serif" font-size="30" fill="#E0379E">FORM</text>
+        </svg>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="programs.html">Programs</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="results.html">Results</a>
+        <a href="contact.html" aria-current="page">Contact</a>
+      </nav>
+      <a class="btn btn--magenta nav__cta" href="#consult">Book Free Consult</a>
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav__drawer">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="results.html">Results</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn--magenta u-label-reset-lg" href="#consult">Book Free Consult</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- PAGE HERO -->
+    <section class="pagehero">
+      <div class="pagehero__media"><img src="assets/photos/nutrition-bowl.jpg" alt="A fresh, balanced meal bowl"></div>
+      <div class="pagehero__scrim" aria-hidden="true"></div>
+      <div class="container pagehero__inner animate-in">
+        <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Contact</span></div>
+        <h1>Let's find out if we're a fit.</h1>
+        <p>Book a free, no-pressure consultation. Tell us your goals and your week, and we'll get back to you within one business day.</p>
+      </div>
+    </section>
+
+    <!-- CONSULT FORM + INFO -->
+    <section class="section" id="consult">
+      <div class="container split">
+        <!-- Form -->
+        <div class="reveal">
+          <h2>Book your free consultation</h2>
+          <p class="lede" style="margin-bottom:1.6rem;">A relaxed conversation about where you are, where you want to be, and whether PeakForm is the right way to get there.</p>
+
+          <form action="#" method="post" class="form" data-contact-form novalidate>
+            <div class="field--row">
+              <div class="field">
+                <label for="name">Your name</label>
+                <input id="name" name="name" type="text" autocomplete="name" placeholder="Daniel Reyes" data-label="your name" required>
+              </div>
+              <div class="field">
+                <label for="age">Your age</label>
+                <input id="age" name="age" type="number" min="18" max="99" placeholder="38">
+              </div>
+            </div>
+            <div class="field--row">
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@email.com" data-label="a valid email" required>
+              </div>
+              <div class="field">
+                <label for="phone">Phone (optional)</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 000-0000">
+              </div>
+            </div>
+
+            <div class="field">
+              <label>What's your main goal?</label>
+              <div class="chips" data-chips role="group" aria-label="Main goal">
+                <button type="button" class="chip is-active" aria-pressed="true">Lose fat</button>
+                <button type="button" class="chip" aria-pressed="false">Get stronger</button>
+                <button type="button" class="chip" aria-pressed="false">Stay consistent</button>
+                <button type="button" class="chip" aria-pressed="false">Not sure yet</button>
+              </div>
+              <input type="hidden" name="goal" value="Lose fat">
+            </div>
+
+            <div class="field">
+              <label for="time">How much time can you realistically give a workout?</label>
+              <select id="time" name="time">
+                <option>20 to 30 minutes</option>
+                <option>About 45 minutes</option>
+                <option>An hour or more</option>
+                <option>It changes every week</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="message">Anything we should know? (optional)</label>
+              <textarea id="message" name="message" placeholder="Old injuries, past programs, your schedule, what's gotten in the way before..."></textarea>
+            </div>
+
+            <p class="form__error" role="alert" hidden></p>
+            <button type="submit" class="btn btn--magenta btn--block btn--big">Request my free consultation</button>
+            <p class="form__note">By submitting, you agree to be contacted about coaching. We never share your details.</p>
+          </form>
+
+          <div class="form-success" role="status" aria-live="polite">
+            <div class="card__icon" style="margin-inline:auto;background:var(--volt);color:var(--indigo);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></div>
+            <h3>Request received</h3>
+            <p>Thanks for reaching out. We'll review your info and reply within one business day with the next step.</p>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="reveal" style="--d:120ms">
+          <div class="grid" style="gap:1rem;">
+            <div class="infocard"><div class="infocard__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m3 6 9 6 9-6"/></svg></div><div><h4>Email</h4><a href="mailto:support@peakformcoaching.com">support@peakformcoaching.com</a></div></div>
+            <div class="infocard"><div class="infocard__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg></div><div><h4>Phone</h4><a href="tel:+16125550164">(612) 555-0164</a></div></div>
+            <div class="infocard"><div class="infocard__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><h4>Hours</h4><p>Mon to Fri: 9AM-6PM<br>Sat: 10AM-2PM · Sun: closed</p></div></div>
+            <div class="infocard"><div class="infocard__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><h4>Where we coach</h4><p>100% online, serving busy men across the United States.</p></div></div>
+          </div>
+
+          <div class="card" style="margin-top:1.5rem;background:var(--lavender);border-color:transparent;">
+            <h3 style="color:var(--indigo);margin-bottom:1rem;">What happens next</h3>
+            <div class="valuelist">
+              <div class="valuerow" style="padding:0.9rem 0;"><div class="valuerow__k">1</div><div><h4 class="u-label-reset-dark">We review your request</h4><p style="font-size:0.9rem;">Usually the same day, always within one business day.</p></div></div>
+              <div class="valuerow" style="padding:0.9rem 0;"><div class="valuerow__k">2</div><div><h4 class="u-label-reset-dark">You book a call</h4><p style="font-size:0.9rem;">A relaxed 20-minute chat about your goals and schedule.</p></div></div>
+              <div class="valuerow" style="padding:0.9rem 0;"><div class="valuerow__k">3</div><div><h4 class="u-label-reset-dark">We map your first plan</h4><p style="font-size:0.9rem;">If we're a fit, you'll leave the call knowing your starting point.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHORT FAQ -->
+    <section class="section section--lavender">
+      <div class="container--narrow">
+        <div class="section-head reveal"><h2>Before you reach out</h2></div>
+        <div class="faq">
+          <details class="faq__item reveal"><summary>Do I need to be in shape to start?</summary><div class="faq__answer"><p>No. The first weeks meet you at your current level and build from there. Being the most out of shape you've ever been is exactly who this is built for.</p></div></details>
+          <details class="faq__item reveal"><summary>Is the consultation really free?</summary><div class="faq__answer"><p>Yes, for qualified applicants. It's a genuine conversation with no obligation to sign up for anything.</p></div></details>
+          <details class="faq__item reveal"><summary>How quickly will you get back to me?</summary><div class="faq__answer"><p>Within one business day. If your request looks like a fit, we'll reach out to schedule your call.</p></div></details>
+          <details class="faq__item reveal"><summary>Can I train from home?</summary><div class="faq__answer"><p>Absolutely. We build your plan around your equipment, whether that's a home setup, a gym, or a mix of both.</p></div></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <svg viewBox="0 0 232 64" role="img" aria-label="PeakForm Coaching" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="6" width="52" height="52" rx="12" fill="#F4E04D"/>
+            <path d="M15 47 L28 24 L41 47 L33 47 L28 37 L23 47 Z" fill="#2B2A4A"/>
+            <path d="M25 30 L28 24 L31 30 L28 27 Z" fill="#2B2A4A"/>
+            <text x="66" y="46" font-family="'Anton','Arial Narrow',sans-serif" font-size="30" fill="#FFFFFF">PEAK</text>
+            <text x="152" y="46" font-family="'Anton','Arial Narrow',sans-serif" font-size="30" fill="#F4E04D">FORM</text>
+          </svg>
+          <p>Online fitness coaching for busy men, available across the United States. Real plans, real coaches, real accountability.</p>
+          <div class="footer__social">
+            <a href="https://instagram.com/peakformcoaching" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://facebook.com/peakformcoaching" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H8v3h3v7h3v-7h3l1-3h-4V9c0-.6.4-1 1-1z"/></svg></a>
+            <a href="https://youtube.com/@peakformcoaching" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg></a>
+          </div>
+        </div>
+        <div><h4>Explore</h4><ul class="footer__links"><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="results.html">Success stories</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div><h4>Contact</h4><ul class="footer__links"><li><a href="mailto:support@peakformcoaching.com">support@peakformcoaching.com</a></li><li><a href="tel:+16125550164">(612) 555-0164</a></li><li>Mon to Fri: 9AM-6PM</li><li>Sat: 10AM-2PM</li></ul></div>
+        <div><h4>Ready to start?</h4><p class="u-lede-sm">Book a free consultation and get a plan built around your week.</p><a class="btn btn--magenta u-label-reset" href="#consult">Book Free Consult</a></div>
+      </div>
+      <div class="footer__legal">
+        <p>&copy; <span data-year>2026</span> PeakForm Coaching · <a href="privacy.html" class="u-muted-light">Privacy Policy</a> · <a href="terms.html" class="u-muted-light">Terms</a></p>
+        <p>Made for busy men who are done starting over.</p>
+      </div>
+      <p class="footer__disclaimer">Results vary based on starting point, effort, consistency, nutrition adherence, and individual factors. Fitness and nutrition guidance is educational and not medical advice. Consult a physician before beginning any exercise or nutrition program.</p>
+    </div>
+  </footer>
+
+  <button class="totop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="js/main.js"></script>
+</body>
+</html>

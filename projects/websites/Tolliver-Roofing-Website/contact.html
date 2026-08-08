@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact &amp; Booking | Tolliver Roofing &amp; Exteriors, Des Moines</title>
+  <meta name="description" content="Book a free 45-minute Roof Report in the Des Moines metro, or call (515) 555-0147. Active leaks get same-day slots. We text you time windows to choose from and follow up exactly once.">
+  <meta name="theme-color" content="#1C2226">
+  <link rel="icon" href="assets/logo/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<a class="skip" href="#book">Skip to the booking form</a>
+
+<header class="nav" id="top">
+  <div class="nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="Tolliver Roofing and Exteriors, home">
+      <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <rect width="44" height="44" fill="#2A3237"/>
+        <path d="M8 25.5 22 12l14 13.5" fill="none" stroke="#6ECBB0" stroke-width="3.2" stroke-linejoin="miter"/>
+        <path d="M8 33h28" stroke="#6ECBB0" stroke-width="3.2"/>
+      </svg>
+      <span class="nav__word"><b>TOLLIVER</b><i>Roofing &amp; Exteriors</i></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="storm.html">Storm Damage</a>
+      <a href="roof-report.html">Roof Report</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+    <a class="btn btn--sm nav__cta" href="#book">Book the Roof Report</a>
+    <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav__drawer" id="drawer">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="storm.html">Storm Damage</a>
+    <a href="roof-report.html">Roof Report</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" aria-current="page">Contact</a>
+    <a class="btn" href="#book">Book the Roof Report</a>
+  </div>
+</header>
+
+<main id="main" class="page">
+
+  <section class="hero hero--page">
+    <div class="hero__media"><img data-parallax="0.06" src="assets/photos/tearoff-roofline.jpg" alt="A roofer at the ridge of a brick house with the old shingles peeled back to bare decking" width="1400" height="933" fetchpriority="high"></div>
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <h1>Book the inspection.</h1>
+        <p class="hero__sub">Free, about forty-five minutes, and the report lands the same day. If the honest answer is that your roof has years left, that is what it will say.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BOOKING ============ -->
+  <section class="band" id="book">
+    <div class="container">
+      <div class="split">
+
+        <div class="split__copy reveal">
+          <h2>Tell us where the roof is.</h2>
+          <p>We text you two or three time windows to choose from, usually within the hour on a weekday. We do not sell your address, and we follow up exactly once.</p>
+
+          <form class="form" data-contact-form action="#" method="post" novalidate style="margin-top:2rem">
+            <div class="form__row">
+              <div class="field">
+                <label for="b-name">First name</label>
+                <input id="b-name" name="name" type="text" autocomplete="given-name" data-label="your first name" data-greet required>
+              </div>
+              <div class="field">
+                <label for="b-phone">Mobile number</label>
+                <input id="b-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" data-label="a 10 digit mobile number" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="b-address">Street address or ZIP</label>
+              <input id="b-address" name="address" type="text" autocomplete="street-address" data-label="a street address or ZIP" required>
+            </div>
+
+            <div class="field">
+              <span class="field-legend" id="reason-label" style="font-size:0.78rem;font-weight:600;letter-spacing:0.055em;text-transform:uppercase;color:var(--ink-soft)">What is going on</span>
+              <div class="chips" data-chips role="group" aria-labelledby="reason-label">
+                <button class="chip" type="button" aria-pressed="false">Storm went through</button>
+                <button class="chip" type="button" aria-pressed="false">There is a leak</button>
+                <button class="chip" type="button" aria-pressed="false">Roof is just old</button>
+                <button class="chip" type="button" aria-pressed="false">Buying or selling</button>
+                <button class="chip" type="button" aria-pressed="false">Second opinion</button>
+              </div>
+              <input type="hidden" name="reason" value="">
+            </div>
+
+            <div class="field">
+              <label for="b-notes">Anything else (optional)</label>
+              <textarea id="b-notes" name="notes" rows="3"></textarea>
+            </div>
+
+            <p class="form__error" role="alert" hidden></p>
+            <button class="btn btn--block" type="submit">Book the Roof Report</button>
+            <p class="form__fine">No deposit, no card, no obligation. If the roof is actively leaking, call instead and we will move you up today.</p>
+          </form>
+
+          <div class="form-success">
+            <b data-greet-slot>You are on the schedule.</b>
+            <span>We will text you two or three time windows within the hour. If the roof is actively leaking, call (515) 555-0147 and we will get somebody out today.</span>
+          </div>
+        </div>
+
+        <div class="split__copy reveal reveal--d1">
+          <h3>Or just call</h3>
+          <p style="margin-top:0.75rem"><a href="tel:+15155550147" style="font-size:1.5rem;font-weight:700;font-stretch:110%;letter-spacing:-0.02em;text-decoration:none">(515) 555-0147</a></p>
+          <p style="margin-top:0.5rem">Weekdays 7am to 5pm. Dale usually answers on Saturday mornings too.</p>
+
+          <div class="note" style="margin-top:2rem">
+            <b>Leaking right now?</b> Call, do not use the form. We hold slots every week for active leaks and we would rather tarp your roof tonight and do the paperwork tomorrow.
+          </div>
+
+          <h3 style="margin-top:2.5rem">The shop</h3>
+          <p style="margin-top:0.75rem">3140 Delaware Avenue<br>Des Moines, Iowa 50313</p>
+          <p style="margin-top:0.75rem"><a href="mailto:office@tolliverroofing.com">office@tolliverroofing.com</a></p>
+
+          <h3 style="margin-top:2.5rem">Where we work</h3>
+          <p style="margin-top:0.75rem">Polk, Dallas and Warren counties, plus Jasper and Madison. Des Moines, Beaverdale, Ankeny, Johnston, Urbandale, Waukee, Clive, West Des Moines, Norwalk, Altoona and Grimes.</p>
+          <p style="margin-top:0.75rem">Outside that ring, call anyway and we will point you at somebody reputable near you.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT HAPPENS NEXT ============ -->
+  <section class="band band--mist">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>What happens after you hit send.</h2>
+      </div>
+      <ol class="steps reveal">
+        <li>
+          <span class="steps__n">1</span>
+          <h3>A text, usually within the hour</h3>
+          <p>Two or three windows to pick from. A real person, on a weekday, not an automated booking bot.</p>
+        </li>
+        <li>
+          <span class="steps__n">2</span>
+          <h3>We walk the roof</h3>
+          <p>Around forty-five minutes. You do not have to be home. We knock before the ladder goes up.</p>
+        </li>
+        <li>
+          <span class="steps__n">3</span>
+          <h3>The report lands</h3>
+          <p>Photographs, findings and the itemized estimate, in your inbox by end of day.</p>
+        </li>
+        <li>
+          <span class="steps__n">4</span>
+          <h3>One follow-up</h3>
+          <p>About a week later. If it is a no, that is genuinely the last you hear from us.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="band">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Quick answers.</h2>
+      </div>
+      <div class="faq reveal">
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">Is the inspection really free?</button>
+          <div class="faq__a"><p>Yes. No deposit, no card, no service fee, and no charge if you decide to do nothing at all. There is more on why we can afford that on <a href="roof-report.html">the Roof Report page</a>.</p></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">How soon can somebody come out?</button>
+          <div class="faq__a"><p>Usually within three business days. In the couple of weeks after a big hail event it stretches, and we will tell you honestly where you sit rather than promising tomorrow and missing it. Active leaks get moved up the same day.</p></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">Do you work outside the Des Moines metro?</button>
+          <div class="faq__a"><p>Not past about forty-five minutes from the shop, even in a hail year. If we cannot get a truck back to your house on a Tuesday morning in year six of the warranty, that warranty is not worth much. Call anyway and we will name somebody good near you.</p></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">What do you do with my details?</button>
+          <div class="faq__a"><p>We book the visit with them and nothing else. No lead brokers, no shared marketing lists, and nobody calling you about solar six weeks later because they bought your address from a roofer.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <div class="foot__top">
+      <div>
+        <a class="foot__logo" href="index.html" aria-label="Tolliver Roofing and Exteriors, home">
+          <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" fill="#2A3237"/>
+            <path d="M8 25.5 22 12l14 13.5" fill="none" stroke="#6ECBB0" stroke-width="3.2" stroke-linejoin="miter"/>
+            <path d="M8 33h28" stroke="#6ECBB0" stroke-width="3.2"/>
+          </svg>
+          <span class="nav__word"><b>TOLLIVER</b><i>Roofing &amp; Exteriors</i></span>
+        </a>
+        <p class="foot__blurb">Family owned in Des Moines since 1996. Roofing, gutters and exteriors across the metro.</p>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="storm.html">Storm damage</a></li>
+          <li><a href="roof-report.html">The Roof Report</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Service area</h4>
+        <ul>
+          <li><p>Des Moines and Beaverdale</p></li>
+          <li><p>Ankeny, Johnston, Urbandale</p></li>
+          <li><p>Waukee, Clive, West Des Moines</p></li>
+          <li><p>Norwalk, Altoona, Grimes</p></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Reach us</h4>
+        <ul>
+          <li><a href="tel:+15155550147">(515) 555-0147</a></li>
+          <li><a href="mailto:office@tolliverroofing.com">office@tolliverroofing.com</a></li>
+          <li><p>3140 Delaware Avenue<br>Des Moines, Iowa 50313</p></li>
+          <li><p>Weekdays 7am to 5pm</p></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__bottom">
+      <p>&copy; <span data-year>2026</span> Tolliver Roofing &amp; Exteriors. Licensed and insured in the State of Iowa. &middot; <a href="privacy.html">Privacy</a></p>
+    </div>
+  </div>
+</footer>
+
+<button class="totop" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script src="js/site.js"></script>
+</body>
+</html>

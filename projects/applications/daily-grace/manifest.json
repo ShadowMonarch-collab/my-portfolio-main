@@ -1,0 +1,19 @@
+{
+  "name": "DailyGrace",
+  "short_name": "DailyGrace",
+  "description": "A peaceful Christian wellness companion for daily Scripture, emotional check-ins, prayer, and quiet encouragement.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFF6EF",
+  "theme_color": "#FFD6C2",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

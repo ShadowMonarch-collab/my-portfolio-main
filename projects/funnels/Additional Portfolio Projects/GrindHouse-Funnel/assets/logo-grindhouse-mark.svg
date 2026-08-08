@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Grind House Athletics">
+  <rect width="48" height="48" rx="11" fill="#1A1816"/>
+  <rect x="4.5" y="4.5" width="39" height="39" rx="7.5" fill="none" stroke="#B8824F" stroke-width="1.5"/>
+  <text x="24" y="32" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="21" font-weight="600" letter-spacing="-0.5" fill="#B8824F">GH</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg width="220" height="64" viewBox="0 0 220 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Arctic Home</title>
+  <desc id="desc">Arctic Home logo, reversed for dark backgrounds.</desc>
+  <rect width="64" height="64" rx="12" fill="#2b333a"/>
+  <path d="M15 42L31.4 19L39.2 31.4L44.7 24.7L53 42H15Z" fill="#FBFAF7"/>
+  <path d="M20 44.5H49" stroke="#C6A45D" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M29.6 31.4L34.6 38.4" stroke="#9CCBFF" stroke-width="2.2" stroke-linecap="round"/>
+  <text x="80" y="29" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="0">Arctic</text>
+  <text x="80" y="50" fill="#b6bdc4" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="600" letter-spacing="0">Home</text>
+</svg>

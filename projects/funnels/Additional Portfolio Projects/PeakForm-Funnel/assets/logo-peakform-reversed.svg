@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 232 64" role="img" aria-label="PeakForm Coaching">
+  <rect x="2" y="6" width="52" height="52" rx="12" fill="#F4E04D"/>
+  <path d="M15 47 L28 24 L41 47 L33 47 L28 37 L23 47 Z" fill="#2B2A4A"/>
+  <path d="M25 30 L28 24 L31 30 L28 27 Z" fill="#2B2A4A"/>
+  <text x="66" y="46" font-family="'Anton','Arial Narrow',sans-serif" font-size="30" letter-spacing="0.5" fill="#FFFFFF">PEAK</text>
+  <text x="152" y="46" font-family="'Anton','Arial Narrow',sans-serif" font-size="30" letter-spacing="0.5" fill="#F4E04D">FORM</text>
+</svg>

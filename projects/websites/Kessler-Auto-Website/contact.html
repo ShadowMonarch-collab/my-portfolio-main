@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact &amp; Booking | Kessler Auto Works, Grand Rapids</title>
+  <meta name="description" content="Book the $29 Vehicle Health Scan at Kessler Auto Works, 1180 Godfrey Ave SW, Grand Rapids. Call (616) 555-0173. Free loaners, and we'll text you open times.">
+  <link rel="icon" href="assets/logo/logo-kessler-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900;1,400&family=Chivo+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a class="nav__logo" href="index.html" aria-label="Kessler Auto Works home">
+        <img src="assets/logo/logo-kessler.svg" alt="Kessler Auto Works" width="268" height="48">
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" aria-current="page">Contact</a>
+      </nav>
+      <a class="btn btn--sm nav__cta" href="#book">Book the $29 Scan</a>
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav__drawer">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+      <a class="btn" href="#book">Book the $29 Scan</a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="page-hero">
+      <div class="page-hero__bg" role="presentation" style="background-image: url('assets/photos/bay-empty.jpg');"></div>
+      <div class="page-hero__scrim" role="presentation"></div>
+      <div class="container">
+        <p class="crumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Contact</p>
+        <h1>Book it, or just call and ask.</h1>
+        <p>We&rsquo;ll text you two or three open times to pick from. That&rsquo;s the entire follow-up &mdash; no sales calls, no newsletter, no drip campaign.</p>
+      </div>
+    </section>
+
+    <!-- ============ BOOKING ============ -->
+    <section class="section" id="book">
+      <div class="container split">
+        <div class="reveal">
+          <h2>Book the $29 scan.</h2>
+          <p class="lead" style="margin-top: 0.9rem;">Forty-seven points, about ninety minutes, photographed and sent to your phone. The $29 comes off the first repair you approve &mdash; and if you approve nothing, you still keep the whole report.</p>
+
+          <div style="margin-top: 2rem;">
+            <div class="info">
+              <h4>Rather just talk to someone?</h4>
+              <p>Priya answers the phone at <a href="tel:+16165550173">(616) 555-0173</a> between 7:00 and 6:00 on weekdays. She&rsquo;d genuinely rather tell you on the phone that you don&rsquo;t need us than have you drive over for nothing.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <form action="#" method="post" class="form" id="book-form" data-validate-form novalidate>
+            <div class="field">
+              <label for="f-name">First name</label>
+              <input id="f-name" name="name" type="text" autocomplete="given-name" data-rule="name" required>
+              <p class="err"></p>
+            </div>
+            <div class="field">
+              <label for="f-phone">Mobile number</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" data-rule="phone" required>
+              <p class="err"></p>
+            </div>
+            <div class="field field--wide">
+              <label for="f-vehicle">Year, make and model</label>
+              <input id="f-vehicle" name="vehicle" type="text" placeholder="2018 Honda CR-V" data-rule="vehicle" required>
+              <p class="err"></p>
+            </div>
+            <div class="field field--wide">
+              <label for="f-when">When suits you</label>
+              <select id="f-when" name="when">
+                <option>As soon as you can fit me in</option>
+                <option>A weekday morning</option>
+                <option>A weekday afternoon</option>
+                <option>Saturday morning</option>
+                <option>I&rsquo;ll need a loaner car</option>
+              </select>
+            </div>
+            <div class="field field--wide">
+              <label for="f-symptom">What&rsquo;s it doing? <span class="opt">Optional</span></label>
+              <textarea id="f-symptom" name="symptom" rows="4" placeholder="Grinding when I brake, worse when it&rsquo;s cold&hellip;"></textarea>
+            </div>
+            <button class="btn btn--lg btn--wide" type="submit">Book My $29 Scan</button>
+            <p class="form__micro">We&rsquo;ll text you within the hour with a few open times. Nothing else, ever.</p>
+            <p class="guarantee">
+              <span class="guarantee__label">Our promise</span>
+              Nothing gets done without your say-so. The $29 comes off anything you approve. Approve nothing and you owe the $29 and not a dollar more &mdash; no diagnostic add-ons, no shop fees.
+            </p>
+          </form>
+
+          <div class="form-success" id="book-done" hidden>
+            <p class="form-success__mark" aria-hidden="true">&#10003;</p>
+            <h3>You&rsquo;re on the board.</h3>
+            <p>We&rsquo;ll text <strong data-echo-phone></strong> within the hour with a few open times. Bring the car and whatever you know about the noise &mdash; even &ldquo;it does it more when it&rsquo;s cold&rdquo; helps us a lot.</p>
+            <p class="form-success__note" style="margin-top: 1rem; font-size: 0.9rem;">Need it sooner? Call the shop at <a href="tel:+16165550173">(616) 555-0173</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FIND US ============ -->
+    <section class="section section--deep">
+      <div class="container">
+        <div class="reveal" style="margin-bottom: clamp(2rem, 4vw, 3rem);">
+          <h2>Finding the place.</h2>
+        </div>
+
+        <div class="info-grid">
+          <div class="info reveal">
+            <h4>Address</h4>
+            <p>1180 Godfrey Ave SW<br>Grand Rapids, MI 49503</p>
+            <p>Two blocks south of Hall Street, on the west side of Godfrey. The building is the long grey one with eight bay doors and a hand-painted price list in the window.</p>
+          </div>
+
+          <div class="info reveal">
+            <h4>Hours</h4>
+            <ul class="hours">
+              <li><span>Monday&ndash;Friday</span><span>7:00 AM &ndash; 6:00 PM</span></li>
+              <li><span>Saturday</span><span>8:00 AM &ndash; 2:00 PM</span></li>
+              <li class="is-closed"><span>Sunday</span><span>Closed</span></li>
+            </ul>
+            <p style="margin-top: 0.8rem;">Key drop box by the office door for early drop-offs and after-hours pickup.</p>
+          </div>
+
+          <div class="info reveal">
+            <h4>Parking &amp; drop-off</h4>
+            <p>Customer parking is the marked row along the north fence &mdash; not the lot in front of the bays, which we need to keep clear for moving cars in and out.</p>
+            <p>Waiting? The front room has coffee, wifi and a window into the shop floor. Stand at it as long as you like.</p>
+          </div>
+
+          <div class="info reveal">
+            <h4>Loaners &amp; rides</h4>
+            <p>Four free loaner cars for jobs we keep overnight, first come first served &mdash; say so when you book and we&rsquo;ll hold one.</p>
+            <p>Otherwise we&rsquo;ll drop you anywhere within about five miles: Eastown, Wyoming, downtown, or the airport shuttle lot.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GENERAL ENQUIRY ============ -->
+    <section class="section">
+      <div class="container split">
+        <div class="reveal">
+          <h2>Not booking &mdash; just asking.</h2>
+          <p class="lead" style="margin-top: 0.9rem;">Second opinion on somebody else&rsquo;s quote, a question about whether we handle your make, fleet servicing, or anything else. We answer these ourselves, usually same day.</p>
+          <div class="prose" style="margin-top: 1.2rem;">
+            <p>If you&rsquo;ve got an estimate from another shop, attach the figure and what they said was wrong. We&rsquo;ll tell you honestly whether it sounds fair &mdash; including the times it does.</p>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <form action="#" method="post" class="form" id="ask-form" data-validate-form novalidate>
+            <div class="field">
+              <label for="a-name">Name</label>
+              <input id="a-name" name="name" type="text" autocomplete="name" data-rule="name" required>
+              <p class="err"></p>
+            </div>
+            <div class="field">
+              <label for="a-email">Email</label>
+              <input id="a-email" name="email" type="email" autocomplete="email" data-rule="email" required>
+              <p class="err"></p>
+            </div>
+            <div class="field field--wide">
+              <label for="a-message">What can we help with?</label>
+              <textarea id="a-message" name="message" rows="5" data-rule="message" placeholder="Another shop quoted me $1,400 for&hellip;" required></textarea>
+              <p class="err"></p>
+            </div>
+            <button class="btn btn--wide" type="submit">Send It Over</button>
+            <p class="form__micro">Straight to the front desk. We don&rsquo;t add you to anything.</p>
+          </form>
+
+          <div class="form-success" id="ask-done" hidden>
+            <p class="form-success__mark" aria-hidden="true">&#10003;</p>
+            <h3>Got it.</h3>
+            <p>Priya will come back to you, usually the same day and always with a real answer rather than a request to &ldquo;come in for an evaluation.&rdquo;</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section section--dark">
+      <div class="container" style="max-width: 900px;">
+        <div class="reveal" style="margin-bottom: clamp(1.8rem, 4vw, 2.6rem);">
+          <h2>Before you come in</h2>
+        </div>
+        <div class="faq__list reveal">
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">Do I need an appointment?</button>
+            <div class="faq__a"><p>For the scan, yes &mdash; it ties up a lift and a tech for ninety minutes, so we book it. For an oil change, a flat repair or a quick look at a warning light, walk in any weekday morning and we&rsquo;ll usually get you in the same day. Saturdays fill up fast.</p></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">What should I bring, or tell you?</button>
+            <div class="faq__a"><p>Just the car and whatever you&rsquo;ve noticed, in your own words. &ldquo;It clunks over the tracks on Wealthy&rdquo; is genuinely more useful to a technician than a self-diagnosis from a forum. If another shop gave you a written estimate, bring that too.</p></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">Can I drop the car off before you open?</button>
+            <div class="faq__a"><p>Yes. There&rsquo;s a key drop box beside the office door. Fill in the envelope with your number and what&rsquo;s going on, and you&rsquo;ll get a text when we&rsquo;ve had a look. Same box for after-hours pickup once you&rsquo;ve paid over the phone.</p></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">Do you take fleet or small business accounts?</button>
+            <div class="faq__a"><p>We do, and we run about forty vehicles for local trades and non-profits. Same reports, same prices, monthly invoicing, and a standing rule that nothing gets approved without a named person signing off. Ask for Priya.</p></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q" type="button" aria-expanded="false">My car isn&rsquo;t drivable. Can you tow it?</button>
+            <div class="faq__a"><p>We don&rsquo;t run trucks ourselves, but call us before you call anyone else &mdash; we&rsquo;ll get a local operator we trust out to you, usually at a better rate than a roadside app, and they&rsquo;ll bring it straight here. Tell us where you are and we&rsquo;ll handle the arranging.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <img class="footer__logo" src="assets/logo/logo-kessler-reversed.svg" alt="Kessler Auto Works" width="268" height="48">
+      <div class="footer__cols">
+        <div>
+          <h4>The shop</h4>
+          <p>1180 Godfrey Ave SW<br>Grand Rapids, MI 49503</p>
+          <p><a href="tel:+16165550173">(616) 555-0173</a><br><a href="mailto:front@kesslerautoworks.com">front@kesslerautoworks.com</a></p>
+        </div>
+        <div>
+          <h4>Hours</h4>
+          <p>Mon&ndash;Fri &nbsp;7:00 AM &ndash; 6:00 PM<br>Saturday &nbsp;8:00 AM &ndash; 2:00 PM<br>Sunday &nbsp;Closed</p>
+        </div>
+        <div>
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer__fine">&copy; <span data-year>2026</span> Kessler Auto Works. ASE Blue Seal shop. Family owned since 1994 &mdash; still on the same corner. &middot; <a href="privacy.html">Privacy</a></p>
+    </div>
+  </footer>
+
+  <button class="totop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <script src="js/site.js"></script>
+</body>
+</html>

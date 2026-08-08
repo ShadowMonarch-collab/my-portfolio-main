@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268 48" role="img" aria-label="Kessler Auto Works">
+  <path d="M22 3.4 38.4 12.7v18.6L22 40.6 5.6 31.3V12.7z" fill="none" stroke="#3FCB7E" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M14.6 21.8 19.9 27.2 29.6 16.6" fill="none" stroke="#3FCB7E" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="50" y="23" font-family="Chivo, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="800" letter-spacing="-0.4" fill="#F4F6F4">KESSLER</text>
+  <text x="50.5" y="37" font-family="'Chivo Mono', 'SFMono-Regular', Consolas, monospace" font-size="8.4" font-weight="500" letter-spacing="3.5" fill="#9BA5A8">AUTO WORKS</text>
+</svg>

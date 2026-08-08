@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f8f5">
+  <meta name="description" content="Havenwell Dental offers calm, relationship-first dental visits with clear explanations and thoughtful care.">
+  <title>Havenwell Dental | Dental Care That Meets You Gently</title>
+  <link rel="icon" href="assets/wecare-logo-mark.svg" type="image/svg+xml">
+  <meta property="og:title" content="Havenwell Dental | Dental Care That Meets You Gently">
+  <meta property="og:description" content="Havenwell Dental offers calm, relationship-first dental visits with clear explanations and thoughtful care.">
+  <meta property="og:image" content="assets/wecare-hero.png">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --canvas: #f7f8f5;
+      --surface: #ffffff;
+      --surface-soft: #eef3f0;
+      --ink: #193337;
+      --ink-muted: #53676a;
+      --teal: #1d6965;
+      --teal-dark: #13504e;
+      --sage: #d7e3dc;
+      --line: #dbe4df;
+      --warm: #f6f1eb;
+      --blush: #faeee9;
+      --clay: #bc6758;
+      --sun: #d1ae67;
+      --shadow: 0 18px 45px rgba(25, 51, 55, 0.08);
+      --radius: 8px;
+      --max: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      letter-spacing: 0;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    p,
+    h1,
+    h2,
+    h3,
+    blockquote {
+      margin: 0;
+    }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: var(--teal);
+      font-size: 0.79rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .eyebrow::before {
+      width: 28px;
+      height: 1px;
+      content: "";
+      background: var(--teal);
+    }
+
+    .topbar {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding-top: 26px;
+    }
+
+    .topbar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .topbar-phone {
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 0.96rem;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .topbar-phone:hover,
+    .topbar-phone:focus-visible { text-decoration: underline; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      font-size: 1.13rem;
+      font-weight: 650;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      flex: none;
+    }
+
+    /* Centred hero. Every other funnel in this set opens with a left-aligned
+       column and the image pushed right; a symmetrical, unhurried composition
+       suits a practice whose whole promise is calm. */
+    .hero {
+      position: relative;
+      display: grid;
+      min-height: min(750px, 100svh);
+      place-items: center;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 62% center;
+    }
+
+    .hero::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      /* vertical scrim rather than left-to-right, so the image reads behind
+         the whole column instead of being shoved to one side */
+      background:
+        linear-gradient(180deg, rgba(247, 248, 245, 0.94) 0%, rgba(247, 248, 245, 0.80) 44%, rgba(247, 248, 245, 0.88) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: min(680px, 100%);
+      padding: 132px 0 84px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      max-width: 16ch;
+      color: #173136;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.55rem, 5vw, 4.35rem);
+      font-weight: 400;
+      line-height: 1.08;
+    }
+
+    .hero-copy {
+      max-width: 52ch;
+      margin: 22px auto 32px;
+      color: var(--ink-muted);
+      font-size: 1.08rem;
+    }
+
+    .cta {
+      display: inline-flex;
+      min-height: 54px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 29px;
+      border-radius: var(--radius);
+      color: #fff;
+      background: var(--teal);
+      box-shadow: 0 9px 22px rgba(29, 105, 101, 0.2);
+      font-weight: 650;
+      text-decoration: none;
+      transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .cta:hover {
+      background: var(--teal-dark);
+      box-shadow: 0 12px 26px rgba(19, 80, 78, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .cta:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid rgba(29, 105, 101, 0.3);
+      outline-offset: 3px;
+    }
+
+    .microcopy {
+      margin-top: 15px;
+      color: #52686a;
+      font-size: 0.91rem;
+    }
+
+    .hero-signature {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 31px;
+    }
+
+    .hero-signature span {
+      padding: 8px 13px;
+      border: 1px solid rgba(29, 105, 101, 0.12);
+      border-radius: 999px;
+      color: var(--teal-dark);
+      background: rgba(255, 255, 255, 0.62);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    section {
+      padding: 78px 0;
+    }
+
+    .center-heading {
+      max-width: 690px;
+      margin: 0 auto 44px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem, 3.4vw, 2.75rem);
+      font-weight: 400;
+      line-height: 1.18;
+    }
+
+    .lead {
+      color: var(--ink-muted);
+      font-size: 1.04rem;
+    }
+
+    .recognition {
+      background: var(--surface);
+    }
+
+    .thoughts {
+      display: grid;
+      gap: 17px;
+    }
+
+    .thought {
+      position: relative;
+      padding: 26px 27px 26px 42px;
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--canvas);
+      color: #304c50;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.16rem;
+      line-height: 1.45;
+    }
+
+    .thought::before {
+      position: absolute;
+      top: 22px;
+      left: 18px;
+      color: var(--clay);
+      content: "\201C";
+      font-size: 2.1rem;
+      line-height: 1;
+    }
+
+    .thought::after {
+      position: absolute;
+      bottom: -9px;
+      left: 30px;
+      width: 18px;
+      height: 18px;
+      content: "";
+      background: var(--canvas);
+      transform: rotate(45deg);
+    }
+
+    .bridge-grid {
+      display: grid;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .care-conversation {
+      padding: 30px 27px 27px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .conversation-title {
+      margin-bottom: 22px;
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .conversation-line {
+      position: relative;
+      display: grid;
+      grid-template-columns: 94px 1fr;
+      gap: 17px;
+      padding: 0 0 23px 21px;
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+    }
+
+    .conversation-line:not(:last-child)::before {
+      position: absolute;
+      top: 13px;
+      bottom: 0;
+      left: 5px;
+      width: 1px;
+      content: "";
+      background: var(--sage);
+    }
+
+    .conversation-line::after {
+      position: absolute;
+      top: 6px;
+      left: 0;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      content: "";
+      background: var(--teal);
+    }
+
+    .conversation-line:nth-child(3)::after {
+      background: var(--clay);
+    }
+
+    .conversation-line:last-child {
+      padding-bottom: 0;
+    }
+
+    .conversation-step {
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .benefits {
+      position: relative;
+      background: var(--surface);
+    }
+
+    .benefits::before {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(180px, 38vw);
+      height: 28px;
+      border-bottom: 2px solid var(--sage);
+      border-radius: 0 0 100px 100px;
+      content: "";
+      transform: translateX(-50%);
+    }
+
+    .benefit-grid,
+    .service-grid,
+    .testimonial-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .quote-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .benefit {
+      min-height: 208px;
+      padding: 27px 23px 24px;
+      border-left: 2px solid var(--sage);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: var(--canvas);
+    }
+
+    .icon-badge {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 24px;
+      place-items: center;
+      border-radius: var(--radius);
+      color: var(--teal);
+      background: var(--surface-soft);
+    }
+
+    .icon-badge svg {
+      width: 23px;
+      height: 23px;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    h3 {
+      margin-bottom: 9px;
+      font-size: 1.1rem;
+      font-weight: 650;
+      line-height: 1.32;
+    }
+
+    .benefit p,
+    .service p,
+    .quote-card p {
+      color: var(--ink-muted);
+      font-size: 0.96rem;
+    }
+
+    .benefit-kicker {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .services {
+      background: var(--warm);
+      padding-bottom: 66px;
+    }
+
+    .services .center-heading {
+      margin-bottom: 32px;
+    }
+
+    .service-grid {
+      gap: 0;
+      overflow: hidden;
+      border: 1px solid #eadfd7;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .service {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 16px;
+      min-height: 0;
+      padding: 21px 20px;
+      border-bottom: 1px solid #eee5df;
+      background: var(--surface);
+    }
+
+    .service .icon-badge {
+      width: 38px;
+      height: 38px;
+      margin-bottom: 0;
+      background: var(--blush);
+      color: var(--clay);
+    }
+
+    .service .icon-badge svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .section-action {
+      display: grid;
+      justify-items: center;
+      gap: 16px;
+      max-width: 630px;
+      margin: 42px auto 0;
+      padding: 27px 30px 29px;
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+      text-align: center;
+    }
+
+    .section-action p {
+      color: var(--ink-muted);
+      font-size: 0.96rem;
+    }
+
+    .process {
+      padding-top: 38px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 14px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 17px;
+      padding: 25px 22px;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .step-icon {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border-radius: var(--radius);
+      color: var(--teal);
+      background: var(--surface-soft);
+    }
+
+    .step-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .step-label {
+      display: inline-block;
+      margin-bottom: 7px;
+      color: var(--teal);
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .step p {
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+    }
+
+    .doctor {
+      background: var(--surface);
+    }
+
+    .doctor-layout {
+      display: grid;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .doctor-photo {
+      position: relative;
+      overflow: hidden;
+      min-height: 440px;
+      margin: 0;
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+    }
+
+    .doctor-photo img {
+      width: 100%;
+      height: 100%;
+      min-height: 440px;
+      object-fit: cover;
+      object-position: center 27%;
+    }
+
+    .doctor-photo::after {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      width: 92px;
+      height: 29px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.78);
+      border-radius: 0 0 100px 100px;
+      content: "";
+    }
+
+    .doctor-name {
+      margin-bottom: 3px;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.58rem, 2.5vw, 1.92rem);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .doctor-role {
+      margin-bottom: 22px;
+      color: var(--teal);
+      font-size: 0.91rem;
+      font-weight: 650;
+    }
+
+    .doctor-copy {
+      margin-bottom: 27px;
+      color: var(--ink-muted);
+      font-size: 1rem;
+    }
+
+    .star-standard {
+      margin-bottom: 26px;
+      padding: 19px 20px 20px;
+      border-left: 3px solid var(--clay);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: var(--blush);
+    }
+
+    .stars {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--sun);
+      font-size: 1.05rem;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .star-standard strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 1rem;
+    }
+
+    .star-standard p {
+      color: var(--ink-muted);
+      font-size: 0.91rem;
+    }
+
+    .credentials {
+      display: grid;
+      gap: 11px;
+    }
+
+    .doctor-action {
+      margin-top: 30px;
+    }
+
+    .doctor-action .microcopy {
+      margin-top: 11px;
+    }
+
+    .credential {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: center;
+      color: var(--ink-muted);
+      font-size: 0.94rem;
+    }
+
+    .credential-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--teal);
+      background: var(--surface-soft);
+    }
+
+    .credential-mark svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .credential strong {
+      display: block;
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .proof {
+      background: var(--canvas);
+    }
+
+    .quote-card {
+      padding: 28px 23px 24px;
+    }
+
+    .quote-card blockquote {
+      margin-bottom: 25px;
+      color: #2c474b;
+      font-size: 1rem;
+      line-height: 1.68;
+    }
+
+    .review-stars {
+      display: block;
+      margin-bottom: 17px;
+      color: var(--sun);
+      font-size: 0.94rem;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .patient {
+      color: var(--ink);
+      font-size: 0.92rem;
+      font-weight: 650;
+    }
+
+    .patient span {
+      display: block;
+      color: var(--ink-muted);
+      font-size: 0.86rem;
+      font-weight: 400;
+    }
+
+    .proof-note {
+      max-width: 690px;
+      margin: -18px auto 30px;
+      color: var(--ink-muted);
+      font-size: 0.86rem;
+      text-align: center;
+    }
+
+    .faq-layout {
+      display: grid;
+      gap: 34px;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    summary {
+      position: relative;
+      padding: 20px 52px 20px 20px;
+      cursor: pointer;
+      list-style: none;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      color: var(--teal);
+      content: "+";
+      font-size: 1.42rem;
+      font-weight: 400;
+      transform: translateY(-50%);
+    }
+
+    details[open] summary::after {
+      content: "-";
+    }
+
+    details p {
+      padding: 0 20px 20px;
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+    }
+
+    .booking {
+      padding: 80px 0;
+      scroll-margin-top: 20px;
+      background: var(--teal-dark);
+      color: #fff;
+    }
+
+    .booking-layout {
+      display: grid;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .booking h2,
+    .booking .eyebrow {
+      color: #fff;
+    }
+
+    .booking .eyebrow::before {
+      background: #d7e3dc;
+    }
+
+    .booking .lead {
+      max-width: 530px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .booking-assurances {
+      display: grid;
+      gap: 13px;
+      margin-top: 31px;
+    }
+
+    .booking-assurance {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.92rem;
+    }
+
+    .booking-call {
+      margin-top: 22px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.92rem;
+    }
+
+    /* Sits on the dark booking panel, so this one really is light-on-dark. */
+    .guarantee {
+      margin-top: 20px;
+      padding: 16px 18px;
+      max-width: 54ch;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-left: 3px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .guarantee__label {
+      display: block;
+      margin-bottom: 5px;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .booking-call a {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .booking-assurance span:first-child {
+      display: grid;
+      flex: none;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--teal-dark);
+      background: #d7e3dc;
+      font-weight: 700;
+    }
+
+    .booking-card {
+      padding: 29px 24px;
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .booking-card p {
+      margin: 12px 0 22px;
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+    }
+
+    .appointment-form {
+      display: grid;
+      gap: 15px;
+    }
+
+    .form-pair {
+      display: grid;
+      gap: 15px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--ink);
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      min-height: 46px;
+      padding: 12px 13px;
+      border: 1px solid #cfdbd6;
+      border-radius: 6px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+      font-size: 0.94rem;
+    }
+
+    .field textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--teal);
+      outline: 3px solid rgba(29, 105, 101, 0.15);
+    }
+
+    .consent {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin: 3px 0 5px;
+      color: var(--ink-muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .consent input {
+      flex: none;
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      accent-color: var(--teal);
+    }
+
+    .honeypot {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .booking-card .cta {
+      width: 100%;
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 650;
+    }
+
+    .booking-note {
+      margin-top: 13px;
+      color: #607174;
+      font-size: 0.83rem;
+      text-align: center;
+    }
+
+    .form-status {
+      display: none;
+      margin-top: 18px;
+      padding: 13px 14px;
+      border-radius: var(--radius);
+      color: var(--teal-dark);
+      background: var(--surface-soft);
+      font-size: 0.88rem;
+    }
+
+    .form-status.visible {
+      display: block;
+    }
+
+    footer {
+      padding: 47px 0 24px;
+      color: #627578;
+      background: #f2f4f1;
+      font-size: 0.87rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      gap: 31px;
+    }
+
+    .footer-brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .footer-brand img {
+      width: 34px;
+      height: 34px;
+    }
+
+    .footer-belief {
+      max-width: 275px;
+      margin-top: 17px;
+      color: var(--ink-muted);
+      line-height: 1.6;
+    }
+
+    .footer-title {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--ink);
+      font-size: 0.83rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .footer-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--ink-muted);
+      line-height: 1.5;
+    }
+
+    .footer-pending {
+      color: #82675e;
+      font-style: italic;
+    }
+
+    .footer-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px 22px;
+      justify-content: space-between;
+      margin-top: 37px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: #708083;
+      font-size: 0.8rem;
+    }
+
+    .reveal {
+      transform: translateY(15px);
+      opacity: 0;
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+
+    .reveal.visible {
+      transform: none;
+      opacity: 1;
+    }
+
+    @media (min-width: 680px) {
+      .container {
+        width: min(calc(100% - 72px), var(--max));
+      }
+
+      .thoughts,
+      .steps {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .thought:nth-child(2) {
+        margin-top: 28px;
+      }
+
+      .benefit-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .service-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .testimonial-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .form-pair {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .footer-grid {
+        grid-template-columns: 1.05fr 1fr 1fr;
+        gap: 42px;
+      }
+    }
+
+    @media (min-width: 920px) {
+      .bridge-grid {
+        grid-template-columns: 1.04fr 0.82fr;
+        gap: 76px;
+      }
+
+      .benefit-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .service-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .service {
+        grid-template-columns: 1fr;
+        min-height: 186px;
+        border-right: 1px solid #eee5df;
+        border-bottom: 0;
+      }
+
+      .service:last-child {
+        border-right: 0;
+      }
+
+      .steps {
+        position: relative;
+        gap: 30px;
+      }
+
+      .steps::before {
+        position: absolute;
+        top: 21px;
+        left: 88px;
+        right: 88px;
+        height: 43px;
+        border-bottom: 2px solid var(--sage);
+        border-radius: 0 0 48% 48%;
+        content: "";
+      }
+
+      .step {
+        position: relative;
+        display: block;
+        padding: 0 21px;
+        background: transparent;
+        text-align: center;
+      }
+
+      .step-icon {
+        position: relative;
+        margin: 0 auto 22px;
+        border: 1px solid var(--sage);
+        background: var(--surface);
+      }
+
+      .doctor-layout {
+        grid-template-columns: 0.84fr 1fr;
+        gap: 72px;
+      }
+
+      .doctor-photo,
+      .doctor-photo img {
+        min-height: 600px;
+      }
+
+      .faq-layout {
+        grid-template-columns: 0.72fr 1fr;
+        gap: 72px;
+      }
+
+      .booking-layout {
+        grid-template-columns: 0.94fr 470px;
+        gap: 74px;
+      }
+    }
+
+    @media (max-width: 679px) {
+      .topbar {
+        padding-top: 18px;
+      }
+
+      .hero {
+        min-height: 772px;
+        align-items: end;
+      }
+
+      .hero-image {
+        height: 51%;
+        top: 0;
+        object-position: 72% center;
+      }
+
+      .hero::after {
+        background: linear-gradient(180deg, rgba(247, 248, 245, 0.02) 0%, rgba(247, 248, 245, 0.12) 28%, rgba(247, 248, 245, 0.98) 50%, #f7f8f5 100%);
+      }
+
+      .hero-content {
+        padding: 310px 0 38px;
+      }
+
+      h1 {
+        font-size: 2.46rem;
+      }
+
+      .cta {
+        width: 100%;
+      }
+
+      section {
+        padding: 59px 0;
+      }
+
+      .center-heading {
+        margin-bottom: 31px;
+      }
+
+      .section-action {
+        margin-top: 32px;
+        padding: 23px 18px 24px;
+      }
+
+      .footer-grid {
+        gap: 29px;
+      }
+
+      .footer-bottom {
+        display: grid;
+        gap: 7px;
+      }
+
+      .doctor-photo,
+      .doctor-photo img {
+        min-height: 410px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <symbol id="icon-calendar-check" viewBox="0 0 24 24">
+      <path d="M8 2v4M16 2v4M3.5 9.5h17"></path>
+      <rect x="3.5" y="4" width="17" height="17" rx="3"></rect>
+      <path d="m9 15 2 2 4.5-5"></path>
+    </symbol>
+    <symbol id="icon-message" viewBox="0 0 24 24">
+      <path d="M7 18.5 3.5 21v-6a8.5 8.5 0 1 1 3.5 3.5Z"></path>
+      <path d="M8 10h8M8 14h5"></path>
+    </symbol>
+    <symbol id="icon-leaf" viewBox="0 0 24 24">
+      <path d="M20.5 3.5C12 4 5 8.5 5 15c0 3.2 2.4 5.5 5.3 5.5C17 20.5 20.5 12 20.5 3.5Z"></path>
+      <path d="M5 21c2.6-5.6 6.5-8.8 11.5-11"></path>
+    </symbol>
+    <symbol id="icon-heart" viewBox="0 0 24 24">
+      <path d="M20.4 4.9a5.4 5.4 0 0 0-7.6 0L12 5.7l-.8-.8a5.4 5.4 0 0 0-7.6 7.6L12 21l8.4-8.5a5.4 5.4 0 0 0 0-7.6Z"></path>
+    </symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24">
+      <path d="M12 3 20 6v5.5c0 5-3.3 8-8 9.5-4.7-1.5-8-4.5-8-9.5V6l8-3Z"></path>
+      <path d="m9 12 2 2 4-5"></path>
+    </symbol>
+    <symbol id="icon-sparkle" viewBox="0 0 24 24">
+      <path d="M12 3v4M12 17v4M3 12h4M17 12h4"></path>
+      <path d="M12 7c.8 2.8 2.2 4.2 5 5-2.8.8-4.2 2.2-5 5-.8-2.8-2.2-4.2-5-5 2.8-.8 4.2-2.2 5-5Z"></path>
+    </symbol>
+    <symbol id="icon-smile" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M8 14.5c1 1.4 2.3 2.1 4 2.1s3-.7 4-2.1M9 9.5h.01M15 9.5h.01"></path>
+    </symbol>
+    <symbol id="icon-restore" viewBox="0 0 24 24">
+      <path d="M4 12a8 8 0 1 0 2.4-5.7"></path>
+      <path d="M4 4.5v5h5"></path>
+      <path d="M12 8v4l3 2"></path>
+    </symbol>
+    <symbol id="icon-support" viewBox="0 0 24 24">
+      <path d="M12 3a8 8 0 0 0-8 8v3a3 3 0 0 0 3 3h1v-6H4M12 3a8 8 0 0 1 8 8v3a3 3 0 0 1-3 3h-1v-6h4"></path>
+      <path d="M16 17c0 2-1.8 3-4 3h-1"></path>
+    </symbol>
+    <symbol id="icon-building" viewBox="0 0 24 24">
+      <path d="M5 21V5l7-3 7 3v16M9 8h.01M15 8h.01M9 12h.01M15 12h.01M10 21v-5h4v5"></path>
+    </symbol>
+    <symbol id="icon-clipboard" viewBox="0 0 24 24">
+      <rect x="5" y="4" width="14" height="17" rx="2"></rect>
+      <path d="M9 4a3 3 0 0 1 6 0v2H9V4ZM9 13l2 2 4-5"></path>
+    </symbol>
+  </svg>
+  <header class="hero">
+    <img class="hero-image" src="assets/wecare-hero.png" alt="A relaxed Havenwell Dental patient smiling in a bright, welcoming treatment room.">
+    <div class="topbar">
+      <div class="container">
+        <div class="brand" aria-label="Havenwell Dental">
+          <img class="brand-mark" src="assets/wecare-logo-mark.svg" alt="">
+          <span>Havenwell Dental</span>
+        </div>
+        <a class="topbar-phone" href="tel:+18285550136">(828) 555-0136</a>
+      </div>
+    </div>
+    <div class="container hero-content">
+      <p class="eyebrow">Relationship-first dental care</p>
+      <h1>A dental visit you can feel ready for.</h1>
+      <p class="hero-copy">When booking has been sitting on your list, start somewhere calm. At Havenwell Dental, you will be heard, guided clearly, and cared for at a pace that feels manageable.</p>
+      <a class="cta" href="#booking">Book My Appointment</a>
+      <p class="microcopy">Easy scheduling. Gentle first visits. Clear next steps.</p>
+      <div class="hero-signature" aria-label="The Havenwell approach">
+        <span>Listen first</span>
+        <span>Explain clearly</span>
+        <span>Plan together</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="recognition">
+      <div class="container">
+        <div class="center-heading reveal">
+          <p class="eyebrow">It is understandable</p>
+          <h2>Sometimes the hardest part is simply getting started.</h2>
+          <p class="lead">The right visit should make space for questions, timing, and the person behind the appointment.</p>
+        </div>
+        <div class="thoughts">
+          <blockquote class="thought reveal">"I know I should book, but I keep putting it off."</blockquote>
+          <blockquote class="thought reveal">"I want a dentist who explains things clearly."</blockquote>
+          <blockquote class="thought reveal">"I don't want the visit to feel rushed."</blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="doctor">
+      <div class="container doctor-layout">
+        <figure class="doctor-photo reveal">
+          <img src="assets/wecare-doctor.png" alt="Dr. Maya Reyes smiling in a bright Havenwell Dental consultation room." loading="lazy" decoding="async">
+        </figure>
+        <div class="doctor-profile reveal">
+          <p class="eyebrow">Meet your dentist</p>
+          <h2>Care guided by experience and conversation.</h2>
+          <p class="doctor-name">Dr. Maya Reyes, DMD</p>
+          <p class="doctor-role">Lead Dentist | Havenwell Dental</p>
+          <p class="doctor-copy">Dr. Reyes believes the most reassuring visits begin with listening. Her approach brings together thoughtful examination, clear treatment planning, and the time patients need to feel confident in each decision.</p>
+          <div class="star-standard" aria-label="Five-star care experience standard">
+            <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <strong>A five-star standard of care</strong>
+            <p>Warm welcome, unhurried explanation, and a clear plan before you leave.</p>
+          </div>
+          <div class="credentials" aria-label="Professional credentials and clinical focus">
+            <div class="credential">
+              <span class="credential-mark" aria-hidden="true"><svg><use href="#icon-clipboard"></use></svg></span>
+              <span><strong>Doctor of Dental Medicine</strong>Comprehensive patient-centered dentistry</span>
+            </div>
+            <div class="credential">
+              <span class="credential-mark" aria-hidden="true"><svg><use href="#icon-smile"></use></svg></span>
+              <span><strong>General and cosmetic care</strong>Natural-looking, thoughtful treatment planning</span>
+            </div>
+            <div class="credential">
+              <span class="credential-mark" aria-hidden="true"><svg><use href="#icon-heart"></use></svg></span>
+              <span><strong>Comfort-focused approach</strong>Clear explanations for nervous or returning patients</span>
+            </div>
+          </div>
+          <div class="doctor-action">
+            <a class="cta" href="#booking">Book My Appointment</a>
+            <p class="microcopy">Start with a conversation and a clear plan for your visit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof">
+      <div class="container">
+        <div class="center-heading reveal">
+          <p class="eyebrow">Patient testimonials</p>
+          <h2>What patients appreciate about their visits.</h2>
+          <p class="lead">Thoughtful explanations, an unhurried experience, and a clear next step.</p>
+        </div>
+        <div class="testimonial-grid">
+          <article class="quote-card reveal">
+            <span class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <blockquote>"I had delayed scheduling for months. The team explained each part of the visit clearly, and I left knowing exactly what came next."</blockquote>
+            <p class="patient">Melissa R.<span>New patient consultation</span></p>
+          </article>
+          <article class="quote-card reveal">
+            <span class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <blockquote>"Everything felt organized and unhurried. I appreciated being able to ask questions and understand my options before deciding."</blockquote>
+            <p class="patient">Daniel C.<span>Restorative care visit</span></p>
+          </article>
+          <article class="quote-card reveal">
+            <span class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <blockquote>"The clinic is bright and welcoming, and the people are genuinely kind. Booking my next cleaning now feels simple."</blockquote>
+            <p class="patient">Ariana S.<span>Cleaning appointment</span></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="bridge">
+      <div class="container bridge-grid">
+        <div class="reveal">
+          <p class="eyebrow">A calmer next step</p>
+          <h2>Great dental care starts with a great relationship.</h2>
+          <p class="lead">Havenwell Dental is built around thoughtful conversations and comfortable visits. We begin by understanding what brings you in, explain what we see in plain language, and help you choose a care plan that fits your needs.</p>
+          <div style="margin-top: 32px;">
+            <a class="cta" href="#booking">Book My Appointment</a>
+          </div>
+        </div>
+        <div class="care-conversation reveal" aria-label="The Havenwell conversation">
+          <p class="conversation-title">The Havenwell Conversation</p>
+          <div class="conversation-line">
+            <span class="conversation-step">You share</span>
+            <p>What you have been postponing, wondering about, or hoping for.</p>
+          </div>
+          <div class="conversation-line">
+            <span class="conversation-step">We explain</span>
+            <p>What we see and what each option would mean for you.</p>
+          </div>
+          <div class="conversation-line">
+            <span class="conversation-step">We plan</span>
+            <p>A clear next step that fits your priorities and schedule.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits">
+      <div class="container">
+        <div class="center-heading reveal">
+          <p class="eyebrow">Care that feels different</p>
+          <h2>Every detail helps you feel more at ease.</h2>
+        </div>
+        <div class="benefit-grid">
+          <article class="benefit reveal">
+            <span class="icon-badge" aria-hidden="true"><svg><use href="#icon-calendar-check"></use></svg></span>
+            <span class="benefit-kicker">Gentle first visit</span>
+            <h3>Know what happens before it starts.</h3>
+            <p>Clear guidance makes the first step feel manageable.</p>
+          </article>
+          <article class="benefit reveal">
+            <span class="icon-badge" aria-hidden="true"><svg><use href="#icon-message"></use></svg></span>
+            <span class="benefit-kicker">Clear explanation</span>
+            <h3>Decide with confidence.</h3>
+            <p>Understand your options in everyday language.</p>
+          </article>
+          <article class="benefit reveal">
+            <span class="icon-badge" aria-hidden="true"><svg><use href="#icon-leaf"></use></svg></span>
+            <span class="benefit-kicker">Modern environment</span>
+            <h3>Feel welcomed and settled.</h3>
+            <p>An organized setting helps your visit feel easier.</p>
+          </article>
+          <article class="benefit reveal">
+            <span class="icon-badge" aria-hidden="true"><svg><use href="#icon-heart"></use></svg></span>
+            <span class="benefit-kicker">Friendly team</span>
+            <h3>Be treated like a person.</h3>
+            <p>Attentive care that never feels hurried or transactional.</p>
+          </article>
+        </div>
+        <div class="section-action reveal">
+          <p>Start with a visit where your questions are welcome and every next step is explained clearly.</p>
+          <a class="cta" href="#booking">Book My Appointment</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="services">
+      <div class="container">
+        <div class="center-heading reveal">
+          <p class="eyebrow">Ways we can help</p>
+          <h2>Dental care made clear and approachable.</h2>
+        </div>
+        <div class="service-grid">
+          <article class="service reveal">
+            <span class="icon-badge" aria-hidden="true"><svg><use href="#icon-shield"></use></svg></span>
+            <div>
+              <h3>General checkups</h3>
+              <p>Understand your dental health and what to prioritize next.</p>
+            </div>
+          </article>
+          <article class="service reveal">
+            <span class="icon-badge" aria-hidden="true"><svg><use href="#icon-sparkle"></use></svg></span>
+            <div>
+              <h3>Cleaning</h3>
+              <p>Maintain a fresh, healthy smile with regular supportive care.</p>
+            </div>
+          </article>
+          <article class="service reveal">
+            <span class="icon-badge" aria-hidden="true"><svg><use href="#icon-smile"></use></svg></span>
+            <div>
+              <h3>Cosmetic dentistry</h3>
+              <p>Explore natural-looking changes that align with your goals.</p>
+            </div>
+          </article>
+          <article class="service reveal">
+            <span class="icon-badge" aria-hidden="true"><svg><use href="#icon-restore"></use></svg></span>
+            <div>
+              <h3>Restorative care</h3>
+              <p>Restore comfort and function with a plan you understand.</p>
+            </div>
+          </article>
+          <article class="service reveal">
+            <span class="icon-badge" aria-hidden="true"><svg><use href="#icon-support"></use></svg></span>
+            <div>
+              <h3>Emergency dental support</h3>
+              <p>Get timely guidance when a dental concern cannot wait.</p>
+            </div>
+          </article>
+        </div>
+        <div class="section-action reveal">
+          <p>Not sure which type of visit to choose? You do not need to know before you book. We will guide you from there.</p>
+          <a class="cta" href="#booking">Book My Appointment</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="process">
+      <div class="container">
+        <div class="center-heading reveal">
+          <p class="eyebrow">How it works</p>
+          <h2>Three clear steps from booking to a plan.</h2>
+        </div>
+        <div class="steps">
+          <article class="step reveal">
+            <span class="step-icon" aria-hidden="true"><svg><use href="#icon-calendar-check"></use></svg></span>
+            <div>
+              <span class="step-label">Step 01</span>
+              <h3>Book your appointment</h3>
+              <p>Choose a visit time and tell us what would help you feel prepared.</p>
+            </div>
+          </article>
+          <article class="step reveal">
+            <span class="step-icon" aria-hidden="true"><svg><use href="#icon-building"></use></svg></span>
+            <div>
+              <span class="step-label">Step 02</span>
+              <h3>Visit the clinic</h3>
+              <p>Meet a team that listens first and explains along the way.</p>
+            </div>
+          </article>
+          <article class="step reveal">
+            <span class="step-icon" aria-hidden="true"><svg><use href="#icon-clipboard"></use></svg></span>
+            <div>
+              <span class="step-label">Step 03</span>
+              <h3>Leave with a clear care plan</h3>
+              <p>Understand your options and decide on next steps without pressure.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq">
+      <div class="container faq-layout">
+        <div class="reveal">
+          <p class="eyebrow">Common questions</p>
+          <h2>Know what to expect before you book.</h2>
+          <p class="lead">A first conversation can be simple. We will help with the rest.</p>
+        </div>
+        <div class="faq-list reveal">
+          <details>
+            <summary>What should I expect on my first visit?</summary>
+            <p>We begin with a conversation about your history and goals, followed by an assessment appropriate for your needs. Your dentist will explain findings clearly and discuss possible next steps with you.</p>
+          </details>
+          <details>
+            <summary>Do I need to know what treatment I need before booking?</summary>
+            <p>No. You can book with a question, a routine care need, or simply a desire to get back on track. We will help identify what is useful after meeting you.</p>
+          </details>
+          <details>
+            <summary>Can I reschedule?</summary>
+            <p>Yes. If plans change, reach out to the clinic and the team will help you find another available time.</p>
+          </details>
+          <details>
+            <summary>Is this good for nervous patients?</summary>
+            <p>Yes. Let us know when booking that you feel nervous or would appreciate extra explanation. We can plan a visit that feels more predictable and comfortable.</p>
+          </details>
+          <details>
+            <summary>How long does a first visit usually take?</summary>
+            <p>Most first visits take about 45 to 60 minutes, depending on your needs and any questions you would like to discuss.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="booking" id="booking">
+      <div class="container booking-layout">
+        <div class="reveal">
+          <p class="eyebrow">Ready when you are</p>
+          <h2>Let your next dental visit begin with clarity.</h2>
+          <p class="lead">Schedule a welcoming first appointment with Havenwell Dental. We will take time to understand your needs and guide you through what comes next.</p>
+          <div class="booking-assurances" aria-label="Scheduling assurances">
+            <div class="booking-assurance"><span aria-hidden="true">&#10003;</span><span>Tell us what brings you in, even if you are unsure which service you need.</span></div>
+            <div class="booking-assurance"><span aria-hidden="true">&#10003;</span><span>Share a preferred day and time so scheduling starts simply.</span></div>
+            <div class="booking-assurance"><span aria-hidden="true">&#10003;</span><span>Final appointment availability is confirmed by the clinic team.</span></div>
+          </div>
+          <p class="booking-call">Would rather talk it through? Call us at <a href="tel:+18285550136">(828)&nbsp;555-0136</a> &mdash; Mon&ndash;Thu 8&ndash;5, Fri 8&ndash;2.</p>
+          <p class="guarantee">
+            <span class="guarantee__label">Our promise</span>
+            If your first visit doesn&rsquo;t feel calm and clearly explained, tell the front desk before you go and we won&rsquo;t charge you for it.
+          </p>
+        </div>
+        <div class="booking-card reveal" aria-label="Appointment request form">
+          <h3>Request your visit</h3>
+          <p>Share a few details to begin your appointment request.</p>
+          <form action="#" method="post" class="appointment-form" id="appointmentForm">
+            <div class="form-pair">
+              <div class="field">
+                <label for="fullName">Full name</label>
+                <input id="fullName" name="fullName" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="phone">Mobile number</label>
+                <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" minlength="7" maxlength="20" pattern="[0-9+() -]{7,20}" title="Enter a valid mobile number." required>
+              </div>
+            </div>
+            <div class="form-pair">
+              <div class="field">
+                <label for="patientType">Patient type</label>
+                <select id="patientType" name="patientType" required>
+                  <option value="">Select one</option>
+                  <option>New patient</option>
+                  <option>Returning patient</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="visitReason">Reason for visit</label>
+                <select id="visitReason" name="visitReason" required>
+                  <option value="">Select one</option>
+                  <option>Checkup or cleaning</option>
+                  <option>Cosmetic consultation</option>
+                  <option>Restorative concern</option>
+                  <option>Urgent concern</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-pair">
+              <div class="field">
+                <label for="preferredDate">Preferred day</label>
+                <input id="preferredDate" name="preferredDate" type="date" required>
+              </div>
+              <div class="field">
+                <label for="preferredTime">Preferred time</label>
+                <select id="preferredTime" name="preferredTime" required>
+                  <option value="">Select one</option>
+                  <option>Morning</option>
+                  <option>Afternoon</option>
+                  <option>First available</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="visitNotes">Anything you would like us to know? <span style="font-weight:400;color:var(--ink-muted);">(optional)</span></label>
+              <textarea id="visitNotes" name="visitNotes" placeholder="Questions, scheduling needs, or anything that would help you feel prepared."></textarea>
+            </div>
+            <label class="consent" for="consent">
+              <input id="consent" name="consent" type="checkbox" required>
+              <span>I agree to be contacted about this appointment request.</span>
+            </label>
+            <div class="honeypot" aria-hidden="true">
+              <label for="website">Leave this field empty</label>
+              <input id="website" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <button class="cta" type="submit">Book My Appointment</button>
+          </form>
+          <div class="booking-note">Submitting a request does not confirm an appointment time.</div>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img src="assets/wecare-logo-mark.svg" alt="">
+            <span>Havenwell Dental</span>
+          </div>
+          <p class="footer-belief">Great dental care starts with a great relationship.</p>
+        </div>
+        <div>
+          <span class="footer-title">Visit Us</span>
+          <ul class="footer-list">
+            <li>218 Chestnut Street<br>Asheville, NC 28801</li>
+            <li><a href="tel:+18285550136">(828) 555-0136</a></li>
+            <li>Mon&ndash;Thu 8:00 AM &ndash; 5:00 PM<br>Fri 8:00 AM &ndash; 2:00 PM<br>Sat &amp; Sun closed</li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer-title">Appointment Requests</span>
+          <ul class="footer-list">
+            <li>A request does not confirm an appointment time.</li>
+            <li>Share your preferred day and our team will guide the next step.</li>
+            <li>Your information is used to coordinate your visit request.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span id="copyrightYear"></span> Havenwell Dental. All rights reserved.</span>
+        <span><a href="privacy.html">Privacy</a></span>
+        <span>Relationship-first dental care for every visit.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const revealItems = document.querySelectorAll(".reveal");
+    const appointmentForm = document.getElementById("appointmentForm");
+    const phone = document.getElementById("phone");
+    const preferredDate = document.getElementById("preferredDate");
+    const honeypot = document.getElementById("website");
+    const formStatus = document.getElementById("formStatus");
+    const copyrightYear = document.getElementById("copyrightYear");
+    const today = new Date();
+    const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    preferredDate.min = localToday;
+    copyrightYear.textContent = today.getFullYear();
+
+    phone.addEventListener("input", () => {
+      const digitCount = phone.value.replace(/\D/g, "").length;
+      phone.setCustomValidity(digitCount >= 7 ? "" : "Enter a valid mobile number.");
+    });
+
+    preferredDate.addEventListener("change", () => {
+      preferredDate.setCustomValidity(preferredDate.value && preferredDate.value < localToday ? "Choose today or a future date." : "");
+    });
+
+    appointmentForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (honeypot.value.trim()) {
+        appointmentForm.reset();
+        formStatus.textContent = "Thank you. Your appointment request has been received.";
+        formStatus.classList.add("visible");
+        return;
+      }
+      formStatus.textContent = "Thank you. Your appointment request details have been prepared for the clinic team.";
+      formStatus.classList.add("visible");
+    });
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealItems.forEach((item) => observer.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add("visible"));
+    }
+  </script>
+</body>
+</html>

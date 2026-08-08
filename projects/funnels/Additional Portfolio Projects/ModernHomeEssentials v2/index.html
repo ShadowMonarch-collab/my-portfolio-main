@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arctic Home | Home Essentials for an Easier Everyday</title>
+  <meta name="description" content="A curated appliance collection for cleaner rooms, easier meals, and smoother mornings. 50% off launch pricing with free shipping." />
+  <link rel="icon" href="assets/arctic-home-logo.svg" type="image/svg+xml" />
+
+  <meta property="og:title" content="Arctic Home | Home Essentials" />
+  <meta property="og:description" content="A curated appliance collection for cleaner rooms, easier meals, and smoother mornings. 50% off launch pricing with free shipping." />
+  <meta property="og:image" content="assets/hero-modern-home-collection.png" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <svg width="0" height="0" class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-star" viewBox="0 0 20 20"><path d="M10 1.5l2.47 5.01 5.53.8-4 3.9.94 5.5L10 14.1l-4.94 2.6.94-5.5-4-3.9 5.53-.8z"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <a class="brand" href="#landing" data-route="landing" aria-label="Arctic Home">
+      <img src="assets/arctic-home-logo.svg" alt="Arctic Home" />
+    </a>
+    <div class="header-actions">
+      <span class="trust-line">50% off launch offer | Free shipping</span>
+      <a class="button small dark" href="#sales" data-route="sales">Build My Easier Home</a>
+    </div>
+  </header>
+
+  <div class="promo-bar">
+    <span id="promoUrgency">Launch offer active</span>
+    <strong>50% off Arctic Home essentials + free shipping</strong>
+    <b data-countdown>24:00:00</b>
+  </div>
+
+  <main>
+    <section id="landing" class="page active" data-page="landing">
+
+      <section class="hero">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Arctic Home Essentials</p>
+          <div class="offer-pill">50% off launch pricing | Reserved for <span data-countdown>24:00:00</span></div>
+          <h1>Come home to fewer chores waiting for you.</h1>
+          <p class="lead">A warm, practical appliance collection for cleaner rooms, easier meals, smoother mornings, and a home that feels calmer at the end of the day.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#sales" data-route="sales">Build My Easier Home</a>
+            <a class="button ghost" href="#sales" data-route="sales">See The Complete Kit</a>
+          </div>
+          <div class="proof-row">
+            <span>5.0-star customer feedback</span>
+            <span>Free shipping</span>
+            <span>Easy returns</span>
+          </div>
+        </div>
+        <figure class="hero-image reveal delay-1">
+          <img src="assets/hero-modern-home-collection.png" alt="Arctic Home appliance collection in a warm modern home" />
+        </figure>
+      </section>
+
+      <section class="problem-section">
+        <div class="section-heading">
+          <p class="eyebrow">The real problem</p>
+          <h2>It is not the one big clean. It is the small resets that never stop.</h2>
+          <p>Floors. Air. Coffee. Dinner. Quick spills. Dry rooms. The home asks for attention in tiny moments, and those moments add up.</p>
+        </div>
+        <div class="insight-grid">
+          <article>
+            <span>01</span>
+            <h3>The house keeps pulling focus.</h3>
+            <p>Even after work, errands, family, or a long commute, there is still something waiting to be cleaned, cooked, brewed, or reset.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Random appliances only fix random moments.</h3>
+            <p>One product can help, but the routine still feels scattered when every room and task needs a separate decision.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>A calmer home needs a connected routine.</h3>
+            <p>Arctic Home is curated around the jobs people actually repeat, so the whole day feels easier to move through.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="collection-preview">
+        <div class="section-heading center">
+          <p class="eyebrow">Featured essentials</p>
+          <h2>Practical upgrades for the pressure points you feel every week.</h2>
+        </div>
+        <div class="preview-grid" id="landingPreview"></div>
+      </section>
+
+      <section class="bundle-strip">
+        <div>
+          <p class="eyebrow">Best value | 50% off</p>
+          <h2>The Complete Modern Home Kit</h2>
+          <p>The full-home setup for customers who want fewer scattered chores, cleaner rooms, easier meals, and smoother mornings in one coordinated upgrade.</p>
+        </div>
+        <a class="button primary" href="#sales" data-route="sales">Choose The Complete Kit</a>
+      </section>
+
+      <section class="testimonials">
+        <div class="section-heading center">
+          <p class="eyebrow">Customer language</p>
+          <h2>Built for families, renters, remote workers, pet owners, and anyone tired of chasing the house all day.</h2>
+        </div>
+        <div class="testimonial-grid">
+          <article><span class="stars" role="img" aria-label="Rated 5 out of 5 stars"><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg></span><p>"Evenings feel less chaotic. Floors stay cleaner, dinner takes less effort, and the house is easier to reset after the kids are done with it."</p><span>Rachel M. · Busy family homeowner</span></article>
+          <article><span class="stars" role="img" aria-label="Rated 5 out of 5 stars"><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg></span><p>"My apartment finally feels easier to maintain. I did not want a complicated smart home setup. I wanted fewer chores waiting after work."</p><span>Devin K. · Apartment renter</span></article>
+          <article><span class="stars" role="img" aria-label="Rated 5 out of 5 stars"><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg></span><p>"Working from home made me notice every dusty corner. The vacuum and purifier made the space feel calmer without adding another task."</p><span>Priya S. · Remote worker</span></article>
+          <article><span class="stars" role="img" aria-label="Rated 5 out of 5 stars"><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg><svg class="star" aria-hidden="true"><use href="#icon-star"/></svg></span><p>"With pets, clean floors used to feel impossible for more than a day. The robot vacuum changed how often I feel behind."</p><span>Jordan L. · Pet owner</span></article>
+        </div>
+      </section>
+
+      <section class="soft-cta">
+        <p class="eyebrow">Start with the routine that feels heaviest</p>
+        <h2>Make the everyday parts of home feel lighter.</h2>
+        <a class="button primary" href="#sales" data-route="sales">See What Fits My Home</a>
+      </section>
+    </section>
+
+    <section id="sales" class="page" data-page="sales">
+
+      <section class="sales-hero">
+        <div class="section-heading">
+          <p class="eyebrow">Shop the collection</p>
+          <h1>Choose one routine to fix, or upgrade the whole home at once.</h1>
+          <p>Individual appliances are useful when one part of the home needs help. The complete kit is built for the bigger shift: less stress, cleaner rooms, and easier routines from morning to night.</p>
+        </div>
+        <div class="lifestyle-grid">
+          <img src="assets/hero-modern-home-collection.png" alt="Complete Arctic Home kit" />
+          <img src="assets/robot-vacuum.png" alt="Robot vacuum" />
+          <img src="assets/smart-coffee-machine.png" alt="Smart coffee machine" />
+        </div>
+      </section>
+
+      <section class="product-section" id="products">
+        <div class="section-heading center">
+          <p class="eyebrow">Individual essentials</p>
+          <h2>Every product has one clear job: remove a little daily friction.</h2>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+      </section>
+
+      <section class="bundle-offer" id="bundleOffer">
+        <figure><img src="assets/hero-modern-home-collection.png" alt="Complete Modern Home Kit bundle" /></figure>
+        <div>
+          <p class="eyebrow">Recommended for highest order value</p>
+          <h2>The Complete Modern Home Kit</h2>
+          <p>The easiest way to stop solving home routines one product at a time. This kit covers cooking, cleaning, air quality, quick resets, better mornings, and everyday comfort in one coordinated upgrade.</p>
+          <ul class="check-list">
+            <li>Seven-product setup for the routines people repeat most</li>
+            <li>Cleaner floors, fresher rooms, easier meals, and smoother mornings</li>
+            <li>50% off launch pricing with free shipping included</li>
+          </ul>
+          <div class="price-row">
+            <s>$2,898</s>
+            <strong>$1,449</strong>
+            <span>Save 50%</span>
+          </div>
+          <div class="timer-note">Launch pricing refreshes in <b data-countdown>24:00:00</b></div>
+          <button class="button primary" type="button" data-select-bundle>Buy The Complete Kit</button>
+        </div>
+      </section>
+
+      <section class="comparison-section">
+        <div class="section-heading center">
+          <p class="eyebrow">Why the bundle works</p>
+          <h2>The house feels heavier when every routine is separate.</h2>
+        </div>
+        <div class="comparison-grid">
+          <article>
+            <h3>Buying one random appliance at a time</h3>
+            <p>One task gets easier, but cleaning, comfort, meals, and mornings still compete for attention.</p>
+          </article>
+          <article class="highlight">
+            <h3>Choosing Arctic Home as a system</h3>
+            <p>The routines connect. Floors stay easier to manage, rooms feel fresher, meals take less effort, and the home feels calmer to return to.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <div class="section-heading center">
+          <p class="eyebrow">Common questions</p>
+          <h2>Before you build your kit.</h2>
+        </div>
+        <div class="faq-list" id="faqList"></div>
+      </section>
+
+    </section>
+
+
+    <section id="upsell" class="page" data-page="upsell">
+      <section class="upsell-page">
+        <div class="upsell-card">
+          <div class="care-visual"></div>
+          <div>
+            <p class="eyebrow">Optional care add-on</p>
+            <h1>Keep your new routine easier to maintain.</h1>
+            <p>The Arctic Home Care Plan is for customers who want fewer surprises after the appliances arrive: support, reminders, and care guidance in one place.</p>
+            <ul class="check-list">
+              <li>Extended warranty coverage</li>
+              <li>Priority support</li>
+              <li>Replacement discount</li>
+              <li>Maintenance reminders</li>
+              <li>Appliance care guide</li>
+            </ul>
+            <div class="price-row light"><strong>$89</strong><span>One-time care plan</span></div>
+            <a class="button primary" href="#thankyou" data-route="thankyou">Add The Care Plan</a>
+            <a class="downsell" href="#thankyou" data-route="thankyou">No thanks, continue to my order</a>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="thankyou" class="page" data-page="thankyou">
+      <section class="thankyou-page">
+        <div class="section-heading">
+          <p class="eyebrow">Order confirmed</p>
+          <h1>Your Arctic Home upgrade is on the way.</h1>
+          <p>Your order is confirmed. The next step is simple: get ready for a home that feels a little easier to keep up with.</p>
+        </div>
+        <div class="next-grid">
+          <article><span>01</span><h3>Confirmation</h3><p>Order confirmation: AH-2048.</p></article>
+          <article><span>02</span><h3>Processing</h3><p>Your order moves into processing before shipping updates are sent.</p></article>
+          <article><span>03</span><h3>Shipping</h3><p>Estimated shipping: 3-7 business days.</p></article>
+          <article><span>04</span><h3>Care tips</h3><p>Unbox, review quick-start guides, and save care reminders.</p></article>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <img src="assets/arctic-home-logo.svg" alt="Arctic Home" />
+      <p>Smart home essentials for cleaner, easier everyday living.</p>
+    </div>
+    <div class="footer-pills">
+      <span>Secure checkout</span><span>Easy returns</span><span>Free shipping</span><span>50% off launch offer</span>
+    </div>
+    <p class="guarantee">
+      <span class="guarantee__label">Our promise</span>
+      Sixty nights at home. If it doesn&rsquo;t earn its place, send it back for a full refund &mdash; we cover return shipping.
+    </p>
+    <div class="footer-support">
+      <p><strong>Questions before you order?</strong></p>
+      <p><a href="mailto:support@arctichome.com">support@arctichome.com</a> &middot; replies within one business day</p>
+      <p>Mon&ndash;Fri 9:00 AM &ndash; 6:00 PM ET</p>
+      <p><a href="privacy.html">Privacy</a></p>
+    </div>
+  </footer>
+
+  <div class="sticky-cta" id="stickyCta">
+    <span>Arctic Home</span>
+    <a class="button primary" href="#sales" data-route="sales">Build My Easier Home</a>
+  </div>
+
+  <div class="order-modal" id="orderModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+    <div class="order-modal-backdrop" data-order-close></div>
+    <div class="order-modal-card" role="document">
+      <button class="order-modal-close" type="button" data-order-close aria-label="Close order form">&times;</button>
+      <p class="order-modal-title" id="orderModalTitle">Complete your Arctic Home order</p>
+
+      <form action="#" method="post" id="orderForm" class="order-form-2step" data-step="1" novalidate>
+        <ol class="step-progress" aria-label="Order progress">
+          <li class="step-dot is-active" data-step-dot="1"><span>1</span>Your details</li>
+          <li class="step-line" aria-hidden="true"></li>
+          <li class="step-dot" data-step-dot="2"><span>2</span>Payment</li>
+        </ol>
+
+        <div class="order-step" data-step-panel="1">
+          <p class="order-step-label">Step 1 of 2 — Where should we ship it?</p>
+          <fieldset>
+            <legend>Your details</legend>
+            <label>Full name<input type="text" placeholder="Your name"></label>
+            <label>Email<input type="email" placeholder="you@example.com"></label>
+            <label>Phone<input type="tel" placeholder="Optional"></label>
+          </fieldset>
+          <fieldset>
+            <legend>Shipping address</legend>
+            <label>Street address<input type="text" placeholder="Street address"></label>
+            <label>City<input type="text" placeholder="City"></label>
+            <div class="form-row">
+              <label>Country<select><option value="">Select country</option><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option><option>Other</option></select></label>
+              <label>ZIP<input type="text" placeholder="ZIP"></label>
+            </div>
+          </fieldset>
+          <button class="button primary full" type="button" data-order-next>Go To Step #2</button>
+          <p class="step-note">We respect your privacy and information.</p>
+        </div>
+
+        <div class="order-step" data-step-panel="2" hidden>
+          <p class="order-step-label">Step 2 of 2 — Upgrade your order &amp; save</p>
+          <button class="link-back link-back--top" type="button" data-order-back>&larr; Edit shipping details</button>
+
+          <div class="order-checklist">
+            <div class="oc-head"><span>Item</span><span>Qty</span><span>Price</span></div>
+            <div id="modalProducts"></div>
+          </div>
+
+          <div class="coupon-row">
+            <input type="text" placeholder="Enter coupon code" id="couponInput" aria-label="Coupon code">
+            <button type="button" class="button ghost" data-apply-coupon>Apply</button>
+          </div>
+          <p class="coupon-note" id="couponNote" hidden>Code applied.</p>
+
+          <div class="order-modal-summary">
+            <h3>Order summary</h3>
+            <div id="modalSummary"></div>
+            <div class="summary-row"><span>Shipping</span><strong>Free</strong></div>
+            <div class="summary-row total"><span>Order total</span><strong id="modalTotal">$0</strong></div>
+          </div>
+
+          <fieldset>
+            <legend>Payment</legend>
+            <label>Card number<input type="text" placeholder="0000 0000 0000 0000"></label>
+            <div class="form-row">
+              <label>Expiry<input type="text" placeholder="MM / YY"></label>
+              <label>CVC<input type="text" placeholder="CVC"></label>
+            </div>
+          </fieldset>
+
+          <label class="terms-row"><input type="checkbox" id="agreeTerms"> I agree to the <span class="terms-link">terms and conditions</span>.</label>
+          <p class="field-error" id="termsError" hidden>Please agree to the terms and conditions to continue.</p>
+
+          <button class="button primary full" type="submit">Complete My Arctic Home Order</button>
+          <p class="step-note">100% secure &amp; safe payments.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

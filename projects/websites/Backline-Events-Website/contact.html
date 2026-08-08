@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Walkthrough | Backline Events Co., Portland</title>
+<meta name="description" content="Book a free 45-minute walkthrough with Backline Events Co. Tell us your date and venue; we'll find the failure points before you hire us or not.">
+<link rel="icon" href="assets/logo/logo-backline-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<script>
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (document.hidden) return;
+  var d = document.documentElement;
+  d.classList.add('js');
+  window.__blFailsafe = setTimeout(function () { d.classList.remove('js'); }, 2500);
+})();
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="Backline Events Co. home">
+      <svg viewBox="0 0 258 48" role="img" aria-label="Backline Events Co." xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="5" width="25" height="25" fill="#D04D39"/>
+        <rect x="13" y="17" width="25" height="25" fill="currentColor"/>
+        <text x="50" y="25" font-family="'Archivo Black', Impact, sans-serif" font-size="19" fill="currentColor" letter-spacing="0.5">BACKLINE</text>
+        <text x="51" y="40" font-family="Roboto, Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="3.4" fill="#D04D39">EVENTS CO.</text>
+      </svg>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="how-we-work.html">How We Work</a>
+      <a href="events.html">Events</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+    <a class="btn nav__cta" href="contact.html#book">Book a Walkthrough</a>
+    <button class="nav__toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav__drawer">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="how-we-work.html">How We Work</a>
+    <a href="events.html">Events</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" aria-current="page">Contact</a>
+    <a class="btn" href="contact.html#book">Book a Walkthrough</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ PAGE HERO ============ -->
+  <section class="hero hero--page hero--split" style="background-image:
+      linear-gradient(100deg, rgba(22,28,31,0.97) 0%, rgba(22,28,31,0.93) 42%, rgba(22,28,31,0.55) 72%, rgba(208,77,57,0.32) 100%),
+      url('assets/photos/bg-hero-tent-dusk.jpg');
+      background-size: cover; background-position: center;">
+    <div class="hero__inner">
+      <div class="reveal">
+        <p class="kicker kicker--light">Contact</p>
+        <h1>Book a Walkthrough.</h1>
+        <p class="hero__sub">Tell us the date and the venue. We'll walk it with you, hand you the failure points we find, and you can decide about us afterwards.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FORM ============ -->
+  <section class="section" id="book">
+    <div class="wrap wrap--narrow">
+      <div class="reveal">
+        <form action="#" method="post" class="form" data-contact-form novalidate>
+          <div class="form__row">
+            <div class="field">
+              <label for="f-name">Your name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" data-required required>
+              <p class="field__err" data-err-for="f-name" hidden></p>
+            </div>
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" data-required required>
+              <p class="field__err" data-err-for="f-email" hidden></p>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="f-date">Event date <span class="field__hint">Approximate is fine</span></label>
+              <input id="f-date" name="date" type="date" data-required required>
+              <p class="field__err" data-err-for="f-date" hidden></p>
+            </div>
+            <div class="field">
+              <label for="f-venue">Venue <span class="field__hint">If you've booked one</span></label>
+              <input id="f-venue" name="venue" type="text">
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-note">What's the event? <span class="field__hint">Optional</span></label>
+            <textarea id="f-note" name="note" rows="3"></textarea>
+          </div>
+          <button class="btn btn--block" type="submit">Book a Walkthrough</button>
+          <p class="small" style="margin-top: 0.9rem; color: var(--graphite);">A walkthrough takes about 45 minutes. No deposit, and no sales call afterwards unless you ask for one.</p>
+          <p class="guarantee">
+            <span class="guarantee__label">Our promise</span>
+            The walkthrough and the contingency plan cost nothing and stay yours, even if you hire someone else. If we&rsquo;re not right for your date, you&rsquo;ll hear it at the walkthrough &mdash; not after the deposit.
+          </p>
+        </form>
+
+        <div class="form-success" role="status">
+          <h3>Booked. Check your email.</h3>
+          <p>We'll confirm a walkthrough time within one business day. If your date is inside six weeks, call us instead: <a href="tel:+15035550148">(503) 555-0148</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OTHER WAYS TO REACH US ============ -->
+  <section class="section section--panel">
+    <div class="wrap">
+      <div class="grid grid--3">
+        <article class="block reveal">
+          <h3>Call</h3>
+          <p><a class="btn-text" href="tel:+15035550148">(503) 555-0148</a><br>Weekdays, 9 a.m. to 6 p.m. Pacific.</p>
+        </article>
+        <article class="block reveal" data-d="1">
+          <h3>Email</h3>
+          <p><a class="btn-text" href="mailto:hello@backlineevents.com">hello@backlineevents.com</a><br>Usually a same-day reply.</p>
+        </article>
+        <article class="block reveal" data-d="2">
+          <h3>Visit</h3>
+          <p>1400 SE Stark St<br>Portland, OR 97214<br>By appointment only.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__logo">
+          <svg viewBox="0 0 258 48" role="img" aria-label="Backline Events Co." xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="5" width="25" height="25" fill="#D04D39"/>
+            <rect x="13" y="17" width="25" height="25" fill="currentColor"/>
+            <text x="50" y="25" font-family="'Archivo Black', Impact, sans-serif" font-size="19" fill="currentColor" letter-spacing="0.5">BACKLINE</text>
+            <text x="51" y="40" font-family="Roboto, Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="3.4" fill="#D04D39">EVENTS CO.</text>
+          </svg>
+        </div>
+        <p class="footer__meta">Day-of coordination and full-service planning across Portland, the Gorge, and the Willamette Valley.</p>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="how-we-work.html">How We Work</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <p class="footer__meta">
+          1400 SE Stark St<br>Portland, OR 97214<br>
+          (503) 555-0148
+        </p>
+      </div>
+    </div>
+    <p class="footer__fine">&copy; <span data-year>2026</span> Backline Events Co. All rights reserved. &middot; <a href="privacy.html">Privacy</a></p>
+  </div>
+</footer>
+
+<button class="totop" aria-label="Back to top">&uarr;</button>
+
+<script src="js/site.js"></script>
+</body>
+</html>
