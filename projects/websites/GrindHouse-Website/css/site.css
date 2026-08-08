@@ -619,3 +619,16 @@ a { color: var(--bronze-ink); text-decoration: none; }
   .js .reveal { opacity: 1; transform: none; }
   .hero__media img, .ctaband__media img { transform: none !important; }
 }
+
+/* .leadform input sets 0.95rem, which is 15.2px — under the 16px floor where
+   iOS zooms the page on focus. Chips are tapped repeatedly while filtering, so
+   they get a full-height target too. */
+@media (hover: none), (pointer: coarse) {
+  .leadform input,
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  .chip { min-height: 44px; }
+}

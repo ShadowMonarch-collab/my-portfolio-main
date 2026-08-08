@@ -512,3 +512,11 @@ html:not(.js) .faq__q::after { transform: translateY(-50%) rotate(0deg); }
   .js .reveal { opacity: 1; transform: none; }
   .page { padding-top: 0; }
 }
+
+/* The menu toggle is the only way to reach another page on a phone, so it
+   clears 44px rather than sitting two pixels under. Chips are tapped
+   repeatedly while filtering. */
+@media (hover: none), (pointer: coarse) {
+  .nav__toggle { min-width: 44px; min-height: 44px; }
+  .chip { min-height: 44px; }
+}

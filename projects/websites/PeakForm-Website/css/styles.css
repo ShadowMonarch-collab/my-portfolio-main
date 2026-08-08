@@ -677,3 +677,8 @@ a { color: var(--magenta); text-decoration: none; }
 .u-stat-num { font-family: var(--font-display); font-size: 1.8rem; color: var(--magenta); }
 .u-col-center { flex-direction: column; text-align: center; }
 .u-row-start { display: flex; gap: 0.75rem; align-items: flex-start; }
+
+/* Filter chips are tapped repeatedly, so they get a full-height target. */
+@media (hover: none), (pointer: coarse) {
+  .chip { min-height: 44px; }
+}

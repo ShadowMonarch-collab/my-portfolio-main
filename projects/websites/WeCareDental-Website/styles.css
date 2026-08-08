@@ -1656,3 +1656,15 @@ textarea[aria-invalid="true"] {
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
+
+/* Fields use font: inherit, so they pick up the body's 0.9rem and land at
+   14.4px. iOS Safari zooms the page when a field under 16px takes focus and
+   does not zoom back, leaving the visitor pinching out mid-form. Touch only —
+   the desktop scale is deliberate. */
+@media (hover: none), (pointer: coarse) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
