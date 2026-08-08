@@ -1668,3 +1668,9 @@ textarea[aria-invalid="true"] {
     font-size: 16px;
   }
 }
+
+/* Ticking this is required to submit, and the checkbox itself is only 17px —
+   the label is the real target, so it gets the full height. */
+@media (hover: none), (pointer: coarse) {
+  .consent { min-height: 44px; align-items: center; }
+}

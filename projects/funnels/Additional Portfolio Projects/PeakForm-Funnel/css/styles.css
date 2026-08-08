@@ -725,3 +725,9 @@ summary:focus-visible {
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
+
+/* The plan-matcher chips compute to just under 44px from padding alone. The
+   website's chips were pinned in pass 3; the funnel's were missed. */
+@media (hover: none), (pointer: coarse) {
+  .chip { min-height: 44px; }
+}
