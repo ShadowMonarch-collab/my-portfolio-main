@@ -1254,6 +1254,24 @@
         transition: none !important;
       }
     }
+
+    /* iOS Safari zooms the page when a focused field is under 16px and does not
+       zoom back, leaving the visitor pinching out mid-form. Every field here
+       measures 15px because the root size is below 16 and they inherit it.
+       Touch only — the desktop scale is deliberate and unaffected. */
+    @media (hover: none), (pointer: coarse) {
+      .appointment-form input,
+      .appointment-form select,
+      .appointment-form textarea {
+        font-size: 16px;
+      }
+
+      /* Ticking this is required to submit, so it earns a full-height target.
+         Other labels here sit above their field and are only a convenience. */
+      .appointment-form .consent {
+        min-height: 44px;
+      }
+    }
   </style>
 </head>
 <body>

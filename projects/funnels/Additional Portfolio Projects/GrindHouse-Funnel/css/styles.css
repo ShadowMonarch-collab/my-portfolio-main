@@ -668,3 +668,20 @@ html.js .hero__bg.in { opacity: 1; }
   .close__form input { flex: 1; }
   .close__form .btn--wide { width: auto; flex: 0 0 auto; }
 }
+
+/* iOS Safari zooms the whole page when a focused field is under 16px and does
+   not zoom back, so the visitor is left pinching out mid-form. These measure
+   15.2px because the root size is below 16 and the fields inherit from it.
+   Pinned on touch only; the desktop scale is unchanged. */
+@media (hover: none), (pointer: coarse) {
+  .close__form input,
+  .close__form select,
+  .close__form textarea,
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}

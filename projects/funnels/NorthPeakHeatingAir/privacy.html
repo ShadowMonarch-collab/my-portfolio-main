@@ -22,8 +22,15 @@
   }
   body { margin: 0; background: #f4f8f9; }
   .lgl-back {
-    display: inline-block;
-    margin-bottom: 28px;
+    /* Only navigation on the page, and inline-block with no padding left it
+       about 19px tall. Padded to a 44px target; the negative inline margin
+       keeps the text optically aligned with the heading below it. */
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 10px;
+    margin-inline-start: -10px;
+    margin-bottom: 18px;
     color: #ec833a;
     font-size: .85rem;
     font-weight: 700;

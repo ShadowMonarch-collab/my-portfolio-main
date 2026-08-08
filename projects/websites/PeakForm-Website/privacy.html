@@ -16,7 +16,12 @@
     padding: clamp(32px, 6vw, 72px) clamp(20px, 5vw, 32px) 96px;
     color: #17162b; font-size: 1rem; line-height: 1.68;
   }
-  .lgl-back { display: inline-block; margin-bottom: 28px; color: #E0379E;
+  .lgl-back {
+    /* Only navigation on the page; inline-block with no padding left it about
+       19px tall. Padded to a 44px target, pulled back so the text still lines
+       up with the heading. */
+    display: inline-flex; align-items: center; min-height: 44px;
+    padding: 0 10px; margin-inline-start: -10px; margin-bottom: 18px; color: #E0379E;
     font-size: .85rem; font-weight: 700; letter-spacing: .08em;
     text-transform: uppercase; text-decoration: none; }
   .lgl-back:hover { text-decoration: underline; }
