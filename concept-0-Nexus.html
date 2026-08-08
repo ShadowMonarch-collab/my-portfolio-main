@@ -7626,7 +7626,18 @@ if (floatingRobot && !isTouchLike) {
     'textarea',
     'select',
     '[role="button"]',
-    '[tabindex="0"]:not(.floating-robot)'
+    '[tabindex="0"]:not(.floating-robot)',
+    /* The hero copy was only soft-avoided, which is a penalty rather than a
+       ban: when no candidate scored zero the robot took the least-bad spot,
+       and that was regularly straight over the headline and paragraph, with
+       its greeting bubble on top of them. This is the first thing anyone
+       reads, so it is now off-limits entirely. Worst case the robot falls
+       back to a corner, which is a far better outcome than covering the
+       opening line. */
+    '.hero-title',
+    '.hero-sub',
+    '.hero-signature',
+    '.hero-stats'
   ].join(',');
   const robotNavHardAvoidSelector = [
     'a:not(.floating-robot)',
