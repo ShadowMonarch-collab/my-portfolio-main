@@ -1,0 +1,36 @@
+# Netlify deployment config.
+# Set the publish directory to this folder (My-Portfolio_Main) in the site
+# settings — the repository root also holds unrelated working folders.
+
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # The site ships no third-party JavaScript, so this can be genuinely tight.
+    # 'unsafe-inline' is required for script-src and style-src because the CSS
+    # and JS are inline in the HTML rather than in external files; removing it
+    # would mean hashing every block. Everything else is locked down.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; object-src 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# Fingerprint-free filenames, so cache images and fonts hard but let HTML
+# revalidate — otherwise an edit would not reach anyone who has visited before.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/projects/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

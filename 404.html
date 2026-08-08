@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found &mdash; Greg Kenneth Bradecina</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/G-logo-amber.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;800&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: #F5A623;
+    --orange: #E8622A;
+    --dark: #080810;
+    --text: #F0EBE0;
+    --text-dim: #9A8F7F;
+    --border: rgba(245,166,35,0.15);
+    --border-bright: rgba(245,166,35,0.4);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 32px 20px;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(245,166,35,.07), transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(232,98,42,.06), transparent 45%),
+      var(--dark);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    text-align: center;
+  }
+  .code {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .code::before {
+    content: '';
+    display: inline-block;
+    width: 26px;
+    height: 1px;
+    margin-right: 12px;
+    vertical-align: middle;
+    background: var(--amber);
+  }
+  h1 {
+    margin: 18px 0 0;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2.1rem, 7vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -.01em;
+  }
+  h1 span { color: var(--amber); }
+  p {
+    max-width: 46ch;
+    margin: 20px auto 0;
+    color: var(--text-dim);
+    font-weight: 300;
+    line-height: 1.65;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 34px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 26px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
+    transition: background .25s, color .25s, border-color .25s;
+  }
+  .btn--primary {
+    color: var(--dark);
+    background: linear-gradient(135deg, var(--amber), var(--orange));
+  }
+  .btn--primary:hover { filter: brightness(1.08); }
+  .btn--ghost {
+    color: var(--text);
+    border: 1px solid var(--border-bright);
+    background: transparent;
+  }
+  .btn--ghost:hover { background: rgba(245,166,35,.08); }
+  .hint {
+    margin-top: 30px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: #5A5248;
+  }
+</style>
+</head>
+<body>
+  <main>
+    <p class="code">Error 404</p>
+    <h1>That page isn&rsquo;t <span>here.</span></h1>
+    <p>The link may be out of date, or the address slightly off. Everything is still one click away from the main page.</p>
+    <div class="actions">
+      <a class="btn btn--primary" href="/">Back to the portfolio</a>
+      <a class="btn btn--ghost" href="/?view=about">Get in touch</a>
+    </div>
+    <p class="hint">Greg Kenneth Bradecina &middot; GoHighLevel &amp; Automation Systems</p>
+  </main>
+</body>
+</html>

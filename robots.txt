@@ -1,0 +1,11 @@
+# https://yourkickassghl.site
+User-agent: *
+Allow: /$
+Allow: /index.html
+
+# The project folders are spec work for invented businesses, with invented
+# addresses and phone numbers. They are portfolio exhibits, not real companies,
+# and should not appear in search results as though they were.
+Disallow: /projects/
+
+Sitemap: https://yourkickassghl.site/sitemap.xml
