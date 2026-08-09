@@ -2992,7 +2992,11 @@ body.app-modal-open .nav-logo::after {
 }
 .system-close {
   position: fixed;
-  top: 34px;
+  /* Centred on the overline row (measured: overline sits at 62-77px, so its
+     midpoint is 70px; this button is 46px tall, so 70 - 23 = 47) rather than
+     an arbitrary 34px, which floated the button 13px above the header text
+     with nothing visually tying the two together. */
+  top: 47px;
   right: max(calc((100vw - 1280px) / 2 + 48px), 28px);
   z-index: 2;
   width: 46px; height: 46px;
