@@ -4519,11 +4519,24 @@ body.app-modal-open .robot-target-scanner {
   .ghl-build-summary { padding: 16px; gap: 8px; }
   .ghl-summary-node { padding: 10px 12px; }
   .ghl-summary-node strong { font-size: 13px; }
-  .tech-detail-grid { grid-template-columns: 1fr; }
+  /* Three across rather than one. At one card per row this section ran 4400px
+     (5.2 screens) on a 390px phone purely because each of the 28 tools got a
+     full-width 116px block. The role caption is the reason a card needs that
+     height, and it is the least useful part on a phone, so it is dropped here
+     and kept on wider screens. */
+  .tech-detail-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .tech-card {
     min-height: 0;
-    padding: 18px 16px;
+    padding: 12px 6px;
+    text-align: center;
   }
+  .tech-icon { margin-bottom: 7px; font-size: 20px; }
+  .tech-icon img { width: 24px; height: 24px; margin-inline: auto; }
+  .tech-name {
+    font-size: 9px; letter-spacing: .02em; line-height: 1.35;
+    margin-bottom: 0; hyphens: auto;
+  }
+  .tech-role { display: none; }
   .tech-grid-label {
     line-height: 1.5;
   }
