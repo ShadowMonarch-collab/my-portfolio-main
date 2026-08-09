@@ -11,7 +11,7 @@ and filename which no longer exist.
 |---|---|
 | Project folder | `C:\Users\brade\Desktop\ClaudeCodemy-app\My-Portfolio_Main` |
 | Entry point | `index.html` (the whole portfolio shell: markup, CSS and JS in one file) |
-| Git repo | This folder has its **own** `.git`. It is not part of the parent `ClaudeCodemy-app` repo. |
+| Git repo | This folder has its **own** `.git` and its own remote, and that is the one to use. The parent `ClaudeCodemy-app` is **also** a repo covering these same files — read "There are two git repos over this working tree" below before running any git command. |
 | Remote | `https://github.com/ShadowMonarch-collab/my-portfolio-main` (public) |
 | Branch | `main`, tracking `origin/main` |
 | Live site | `https://yourkickassghl.site` (also `www.`) |
