@@ -1471,50 +1471,64 @@ body.hero-tab-jumping #hero::after {
   clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
 }
 
-/* ── CREDENTIAL ──
-   Sits with the skill tags because it is evidence for one of them. Same
-   notched corner, border and wash as .metric-box so it reads as part of the
-   set rather than a bolted-on badge. */
-.credential {
-  display: grid; grid-template-columns: 132px 1fr; gap: 18px; align-items: center;
-  margin-top: 26px; padding: 14px;
+/* ── CERTIFICATES VIEW ──
+   One certificate today, so it is shown at a size worth looking at rather
+   than as a thumbnail padding out an empty page. The grid takes more items
+   without changing anything here. Notched corner and amber wash match
+   .metric-box so the card belongs to the existing set. */
+.certs-intro {
+  max-width: 62ch; color: var(--text-dim);
+  font-weight: 300; line-height: 1.7; margin-bottom: 44px;
+}
+.certs-grid { display: grid; gap: 26px; }
+.cert-card {
+  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 30px; align-items: center;
+  padding: 22px;
   border: 1px solid var(--border);
   background: rgba(245,166,35,0.03);
-  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   transition: border-color .3s ease, background-color .3s ease;
 }
-.credential:hover { border-color: var(--border-bright); background: rgba(245,166,35,0.06); }
-.credential__shot { display: block; line-height: 0; }
-.credential__shot img {
+.cert-card:hover { border-color: var(--border-bright); background: rgba(245,166,35,0.06); }
+.cert-card__shot { display: block; line-height: 0; overflow: hidden; }
+.cert-card__shot img {
   display: block; width: 100%; height: auto;
   border: 1px solid rgba(245,166,35,0.18);
+  transition: transform .5s cubic-bezier(.16,1,.3,1);
 }
-.credential__title {
-  font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700;
-  line-height: 1.3; letter-spacing: -.01em; color: var(--text);
+.cert-card__shot:hover img { transform: scale(1.02); }
+.cert-card__title {
+  font-family: 'Sora', sans-serif; font-size: clamp(17px, 1.5vw, 21px);
+  font-weight: 800; line-height: 1.25; letter-spacing: -.015em; color: var(--text);
 }
-.credential__meta {
-  margin-top: 5px;
-  font-family: 'Space Mono', monospace; font-size: 10.5px;
-  letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim);
+.cert-card__meta {
+  margin-top: 8px;
+  font-family: 'Space Mono', monospace; font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--amber);
 }
-.credential__links { margin-top: 10px; display: flex; gap: 16px; flex-wrap: wrap; }
-.credential__links a {
-  font-family: 'Space Mono', monospace; font-size: 10.5px;
+.cert-card__desc {
+  margin-top: 14px; color: var(--text-dim);
+  font-weight: 300; font-size: 14px; line-height: 1.65;
+}
+.cert-card__links { margin-top: 18px; display: flex; gap: 18px; flex-wrap: wrap; }
+.cert-card__links a {
+  font-family: 'Space Mono', monospace; font-size: 11px;
   letter-spacing: .12em; text-transform: uppercase;
   color: var(--amber); text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color .25s ease;
 }
-.credential__links a:hover { border-bottom-color: var(--amber); }
+.cert-card__links a:hover { border-bottom-color: var(--amber); }
 @media (hover: none), (pointer: coarse) {
-  .credential__links a { min-height: 44px; display: inline-flex; align-items: center; position: relative; }
-  /* "PDF" is only ~23px of text, so the tap area is grown outwards rather than
-     the label padded, which would change the spacing between the two links. */
-  .credential__links a::after { content: ""; position: absolute; inset: 0 -11px; }
+  .cert-card__links a { min-height: 44px; display: inline-flex; align-items: center; position: relative; }
+  /* Short labels, so the tap area is grown outwards rather than the label
+     padded, which would change the gap between the two links. */
+  .cert-card__links a::after { content: ""; position: absolute; inset: 0 -11px; }
 }
-@media (max-width: 640px) {
-  .credential { grid-template-columns: 96px 1fr; gap: 14px; }
+@media (max-width: 860px) {
+  .cert-card { grid-template-columns: 1fr; gap: 22px; padding: 16px; }
+  .certs-intro { margin-bottom: 32px; }
 }
 
 .about-bio {
@@ -4711,6 +4725,7 @@ body.app-modal-open .robot-target-scanner {
     <ul class="nav-links nav-primary-links">
       <li><a href="?view=home" data-view-link="home">Home</a></li>
       <li><a href="?view=about" data-view-link="about">About / Contact</a></li>
+      <li><a href="?view=certificates" data-view-link="certificates">Certificates</a></li>
     </ul>
   </div>
   <div class="nav-right">
@@ -4999,27 +5014,6 @@ body.app-modal-open .robot-target-scanner {
         My approach blends strategic thinking with technical execution &mdash; every system I build is engineered for performance, scalability, and real business outcomes. I don't just set up tools; I craft intelligent ecosystems.
       </p>
 
-      <!-- Sits after the bio so the introduction reads uninterrupted, and lands
-           where a reader has just heard the claim and is looking for proof.
-           Labelled exactly as the certificate reads: issued by Technical
-           Virtual Assistants, with the instructor holding the GoHighLevel
-           credential. Deliberately not called a GoHighLevel certification. -->
-      <div class="credential reveal reveal-delay-3">
-        <a class="credential__shot" href="assets/Certificates/funnel-masterclass.jpg" target="_blank" rel="noopener">
-          <img src="assets/Certificates/funnel-masterclass-thumb.jpg"
-               alt="Certificate of completion for the Live Funnel Building Masterclass, awarded to Greg Kenneth Bradecina by Technical Virtual Assistants on 27 April 2026"
-               width="480" height="339" loading="lazy" decoding="async">
-        </a>
-        <div>
-          <h3 class="credential__title">Live Funnel Building Masterclass</h3>
-          <p class="credential__meta">Technical Virtual Assistants &middot; April 2026</p>
-          <p class="credential__links">
-            <a href="assets/Certificates/funnel-masterclass.jpg" target="_blank" rel="noopener">View certificate</a>
-            <a href="assets/Certificates/Greg_Kenneth_Bradecina_HighLevel_Funnel_Masterclass.pdf" target="_blank" rel="noopener">PDF</a>
-          </p>
-        </div>
-      </div>
-
       <div class="about-metrics reveal reveal-delay-4">
         <div class="metric-box">
           <span class="num">24</span>
@@ -5041,6 +5035,43 @@ body.app-modal-open .robot-target-scanner {
 </section>
 
 <!-- ══════════════ SERVICES ══════════════ -->
+<!-- ══════════════ CERTIFICATES ══════════════ -->
+<section id="certificates" class="app-view-section" data-view-groups="certificates">
+  <div class="section-label reveal">Certificates</div>
+  <h2 class="section-title reveal reveal-delay-1">Training Behind<br>the Build</h2>
+  <p class="certs-intro reveal reveal-delay-2">
+    Formal training that sits underneath the GoHighLevel work in this portfolio.
+    Every certificate here opens at full size, and the original document is linked beside it.
+  </p>
+
+  <div class="certs-grid reveal reveal-delay-2">
+    <!-- Described exactly as the certificate reads: awarded by Technical Virtual
+         Assistants, with the instructor holding the GoHighLevel Certified Admin
+         credential. Deliberately not presented as a GoHighLevel certification. -->
+    <figure class="cert-card">
+      <a class="cert-card__shot" href="assets/Certificates/funnel-masterclass.jpg" target="_blank" rel="noopener"
+         aria-label="Open the Live Funnel Building Masterclass certificate at full size">
+        <img src="assets/Certificates/funnel-masterclass.jpg"
+             alt="Certificate of completion for the Live Funnel Building Masterclass, awarded to Greg Kenneth Bradecina by Technical Virtual Assistants on 27 April 2026"
+             width="1600" height="1131" loading="lazy" decoding="async">
+      </a>
+      <figcaption class="cert-card__body">
+        <h3 class="cert-card__title">Live Funnel Building Masterclass</h3>
+        <p class="cert-card__meta">Technical Virtual Assistants &middot; April 2026</p>
+        <p class="cert-card__desc">
+          Funnel foundations and when each type applies, building from planning and layout
+          through to automation and deployment, landing page flow and structure, lead
+          nurturing, tagging and pipeline organisation inside GoHighLevel.
+        </p>
+        <p class="cert-card__links">
+          <a href="assets/Certificates/funnel-masterclass.jpg" target="_blank" rel="noopener">View full size</a>
+          <a href="assets/Certificates/Greg_Kenneth_Bradecina_HighLevel_Funnel_Masterclass.pdf" target="_blank" rel="noopener">Original PDF</a>
+        </p>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
 <section id="services" class="app-view-section" data-view-groups="home">
   <div class="section-label reveal">Services</div>
   <h2 class="section-title reveal reveal-delay-1">What I Build<br>Inside Your System</h2>
@@ -6879,10 +6910,11 @@ const appViewTitles = {
   mockups: 'Design Mockups | NEXUS Portfolio',
   automations: 'Automations | NEXUS Portfolio',
   apps: 'Apps | NEXUS Portfolio',
+  certificates: 'Certificates | NEXUS Portfolio',
   about: 'About / Contact | NEXUS Portfolio'
 };
-const appValidViews = new Set(['home', 'websites', 'funnels', 'mockups', 'automations', 'apps', 'about']);
-const appViewOrder = ['home', 'funnels', 'websites', 'mockups', 'automations', 'apps', 'about'];
+const appValidViews = new Set(['home', 'websites', 'funnels', 'mockups', 'automations', 'apps', 'certificates', 'about']);
+const appViewOrder = ['home', 'funnels', 'websites', 'mockups', 'automations', 'apps', 'certificates', 'about'];
 let activeAppView = 'home';
 let appViewTransitionTimer;
 
