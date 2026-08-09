@@ -4686,6 +4686,14 @@ body.app-modal-open .robot-target-scanner {
     grid-template-columns: 1fr;
     max-height: calc(100dvh - 176px);
   }
+  /* Both groups are a single column at this width, so the centring applied to
+     a trailing odd item above must be undone - otherwise the last link sits
+     at half width against full-width siblings. */
+  nav.menu-open .nav-links > li:last-child:nth-child(odd) {
+    grid-column: auto;
+    justify-self: stretch;
+    width: auto;
+  }
   nav.menu-open .nav-project-links a {
     font-size: 9.5px;
   }
