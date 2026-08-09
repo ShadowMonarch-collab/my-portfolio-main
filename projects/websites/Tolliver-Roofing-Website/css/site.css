@@ -509,23 +509,11 @@ html:not(.js) .faq__q::after { transform: translateY(-50%) rotate(0deg); }
    of it, and nothing here is required for the page to read correctly.
    ================================================ */
 
-/* .hero__media and .cta__media already reserve an 8% bleed on every side
-   that nothing ever moved into. Drive it from scroll position instead of a
-   scroll listener. Browsers without scroll-driven animations keep exactly
-   the static framing they have today. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    @keyframes tv-settle {
-      from { transform: translateY(-2.6%); }
-      to   { transform: translateY(2.6%); }
-    }
-    .hero__media, .cta__media {
-      animation: tv-settle linear both;
-      animation-timeline: view();
-      animation-range: cover 0% cover 100%;
-    }
-  }
-}
+/* A scroll-driven parallax on .hero__media and .cta__media was tried here and
+   removed: the timeline never advanced, so the transform sat at zero through
+   the whole scroll. A dead effect is worse than no effect, and the static
+   framing reads correctly on its own. The 8% bleed those elements reserve is
+   still unused if this is ever revisited. */
 
 /* The current page already carries a patina rule beneath it. Give the other
    links the same rule, drawn from the left, so hover and current state speak
