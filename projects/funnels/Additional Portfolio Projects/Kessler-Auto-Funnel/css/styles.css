@@ -620,7 +620,9 @@ p { text-wrap: pretty; }
   border: 1.5px solid var(--line);
   border-radius: 4px;
   padding: clamp(1.3rem, 3vw, 2.1rem);
-  min-height: 260px;
+  /* No reserved min-height: the answer runs 390-443px on desktop and
+     546-599px on mobile, so a 260px reservation never actually absorbed the
+     shift - it only left a tall empty box under the idle prompt. */
 }
 .symptom__idle { color: var(--steel); font-size: 0.98rem; }
 
@@ -836,7 +838,8 @@ p { text-wrap: pretty; }
   background: none;
   border: none;
   text-align: left;
-  padding: 1.35rem 0;
+  padding: 1.35rem 3rem 1.35rem 0;
+  position: relative;
   font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.17rem);
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -845,25 +848,22 @@ p { text-wrap: pretty; }
   transition: color var(--t-fast) var(--ease-out);
 }
 .faq__q:hover { color: var(--signal-lume); }
+/* The two strokes are absolutely positioned rather than laid out as flex
+   items: as flex children they were separated by the container's 1.2rem gap,
+   so the vertical stroke landed beside the plus instead of across it. */
+.faq__q::before,
 .faq__q::after {
   content: "";
-  flex: none;
+  position: absolute;
+  right: 6px; top: 50%;
   width: 14px; height: 2px;
   background: var(--signal-lume);
-  box-shadow: 0 0 0 0 transparent;
-  position: relative;
   transition: transform var(--t-mid) var(--ease-out);
 }
-.faq__q::before {
-  content: "";
-  order: 1;
-  flex: none;
-  width: 2px; height: 14px;
-  background: var(--signal-lume);
-  margin-left: -8px;
-  transition: transform var(--t-mid) var(--ease-out), opacity var(--t-mid) var(--ease-out);
-}
-.faq__item.is-open .faq__q::before { transform: scaleY(0); opacity: 0; }
+.faq__q::before { transform: translateY(-50%); }
+.faq__q::after { transform: translateY(-50%) rotate(90deg); }
+.faq__item.is-open .faq__q::after { transform: translateY(-50%) rotate(0deg); }
+html:not(.js) .faq__q::after { transform: translateY(-50%) rotate(0deg); }
 
 .js .faq__a {
   max-height: 0;

@@ -56,6 +56,10 @@
 
 /* ---------- Reset ---------- */
 * { box-sizing: border-box; }
+/* <figure> carries a UA default margin of 1em 40px. Several media blocks and
+   the review cards are figures sitting in grid cells, where that default left
+   them 17px low and 40px narrower than the items beside them. */
+figure { margin: 0; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;

@@ -684,7 +684,8 @@ p { text-wrap: pretty; }
 .faq__q {
   width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1.2rem;
   background: none; border: none; text-align: left;
-  padding: 1.3rem 0;
+  padding: 1.3rem 3rem 1.3rem 0;
+  position: relative;
   font-size: clamp(1.01rem, 0.98rem + 0.28vw, 1.15rem);
   font-weight: 700; letter-spacing: -0.015em; color: var(--ink); cursor: pointer;
   transition: color var(--t-fast) var(--ease-out);
@@ -692,18 +693,21 @@ p { text-wrap: pretty; }
 .section--dark .faq__q { color: var(--ink-rev); }
 .faq__q:hover { color: var(--signal-deep); }
 .section--dark .faq__q:hover { color: var(--signal-lume); }
+/* Absolutely positioned rather than flex items: as flex children the two
+   strokes were separated by the container's 1.2rem gap, so the vertical one
+   sat beside the plus instead of crossing it. */
+.faq__q::before,
 .faq__q::after {
-  content: ""; flex: none; width: 14px; height: 2px; background: var(--signal);
+  content: ""; position: absolute; right: 6px; top: 50%;
+  width: 14px; height: 2px; background: var(--signal);
   transition: transform var(--t-mid) var(--ease-out);
 }
+.section--dark .faq__q::before,
 .section--dark .faq__q::after { background: var(--signal-lume); }
-.faq__q::before {
-  content: ""; order: 1; flex: none; width: 2px; height: 14px; background: var(--signal);
-  margin-left: -8px;
-  transition: transform var(--t-mid) var(--ease-out), opacity var(--t-mid) var(--ease-out);
-}
-.section--dark .faq__q::before { background: var(--signal-lume); }
-.faq__item.is-open .faq__q::before { transform: scaleY(0); opacity: 0; }
+.faq__q::before { transform: translateY(-50%); }
+.faq__q::after { transform: translateY(-50%) rotate(90deg); }
+.faq__item.is-open .faq__q::after { transform: translateY(-50%) rotate(0deg); }
+html:not(.js) .faq__q::after { transform: translateY(-50%) rotate(0deg); }
 
 .js .faq__a { max-height: 0; overflow: hidden; transition: max-height var(--t-slow) var(--ease-exp); }
 .faq__a p { color: var(--ink-soft); padding-bottom: 1.4rem; max-width: 70ch; font-size: 0.99rem; }

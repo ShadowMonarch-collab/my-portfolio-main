@@ -387,7 +387,11 @@ p { text-wrap: pretty; }
 
 @media (max-width: 820px) {
   .matrix thead { display: none; }
-  .matrix, .matrix tbody, .matrix tr, .matrix th, .matrix td { display: block; width: auto; }
+  /* tbody is in these selectors deliberately: the desktop 22%/39% widths are
+     set as `.matrix tbody th/td`, which outranks a plain `.matrix th/td` here,
+     so without it the columns stayed narrow after collapsing to blocks. */
+  .matrix, .matrix tbody, .matrix tbody tr,
+  .matrix tbody th, .matrix tbody td { display: block; width: auto; }
   .matrix tbody tr { background: var(--bg); padding: 1.35rem; margin-bottom: 1rem; border-bottom: 0; }
   .matrix tbody th { padding: 0 0 0.55rem; font-size: 1.12rem; }
   .matrix tbody td { padding: 0; }
