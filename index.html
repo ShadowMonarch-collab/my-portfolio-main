@@ -4677,7 +4677,9 @@ body.app-modal-open .robot-target-scanner {
   }
   nav.menu-open .nav-primary-links a {
     display: flex;
-    min-height: 40px;
+    /* 44px to match the project links below and clear the touch-target
+       minimum; this group was the only one still at 40px. */
+    min-height: 44px;
     align-items: center;
     justify-content: center;
   }
