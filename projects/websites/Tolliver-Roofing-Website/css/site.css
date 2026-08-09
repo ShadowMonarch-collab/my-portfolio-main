@@ -499,6 +499,64 @@ html:not(.js) .faq__q::after { transform: translateY(-50%) rotate(0deg); }
 .js .reveal.in { opacity: 1; transform: none; }
 .js .reveal--d1 { transition-delay: 90ms; }
 .js .reveal--d2 { transition-delay: 180ms; }
+.js .reveal--d3 { transition-delay: 270ms; }
+
+/* ================= MOTION LAYER =================
+   Restrained deliberately. This brand sells a measured, honest inspection,
+   so movement reads as drawn and surveyed rather than bouncy: rules that
+   draw, type that opens on the width axis, images that settle into frame.
+   Transform and opacity only. The reduced-motion block below disables all
+   of it, and nothing here is required for the page to read correctly.
+   ================================================ */
+
+/* .hero__media and .cta__media already reserve an 8% bleed on every side
+   that nothing ever moved into. Drive it from scroll position instead of a
+   scroll listener. Browsers without scroll-driven animations keep exactly
+   the static framing they have today. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes tv-settle {
+      from { transform: translateY(-2.6%); }
+      to   { transform: translateY(2.6%); }
+    }
+    .hero__media, .cta__media {
+      animation: tv-settle linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+/* The current page already carries a patina rule beneath it. Give the other
+   links the same rule, drawn from the left, so hover and current state speak
+   one language instead of hover being a bare colour change. */
+.nav__links a { position: relative; }
+.nav__links a:not([aria-current="page"])::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+  background: var(--patina-lit);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 300ms var(--ease);
+}
+.nav__links a:not([aria-current="page"]):hover::after,
+.nav__links a:not([aria-current="page"]):focus-visible::after { transform: scaleX(1); }
+
+/* Archivo's width axis is this brand's only source of type contrast and it
+   has been static everywhere. Opening a section heading a few percent as you
+   move onto its block is the one gesture that could not belong to any of the
+   other nine sites. Confined to block-level headings so the reflow stays
+   inside a single line box and cannot nudge a neighbour. */
+.split__copy h2 { transition: font-stretch 340ms var(--ease); }
+.split:hover .split__copy h2 { font-stretch: 116%; }
+
+/* Photographs settle into their frame rather than arriving at final size.
+   .split__media is itself a .reveal element, so this rides the existing
+   observer with no extra JS. */
+.js .split__media { overflow: hidden; }
+.js .split__media img {
+  transform: scale(1.045);
+  transition: transform 1200ms var(--ease);
+}
+.js .split__media.in img { transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
