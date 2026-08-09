@@ -1508,7 +1508,10 @@ body.hero-tab-jumping #hero::after {
 }
 .credential__links a:hover { border-bottom-color: var(--amber); }
 @media (hover: none), (pointer: coarse) {
-  .credential__links a { min-height: 44px; display: inline-flex; align-items: center; }
+  .credential__links a { min-height: 44px; display: inline-flex; align-items: center; position: relative; }
+  /* "PDF" is only ~23px of text, so the tap area is grown outwards rather than
+     the label padded, which would change the spacing between the two links. */
+  .credential__links a::after { content: ""; position: absolute; inset: 0 -11px; }
 }
 @media (max-width: 640px) {
   .credential { grid-template-columns: 96px 1fr; gap: 14px; }
