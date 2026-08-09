@@ -1,282 +1,308 @@
-# Portfolio Handoff - Next Chat
-
-## Project
-
-Project folder:
-
-`C:\Users\brade\Desktop\CodexChatGPTmy-app\Portfolio-concept-0-Nexus`
-
-Main file:
-
-`C:\Users\brade\Desktop\CodexChatGPTmy-app\Portfolio-concept-0-Nexus\concept-0-Nexus.html`
-
-This is the active portfolio project. It is currently a static portfolio, mostly contained in `concept-0-Nexus.html`, with local assets and embedded demo projects under:
-
-- `assets`
-- `projects`
-- `docs`
-- `archive`
-
-There is no `package.json` and no build/lint/test script. Treat it as a static HTML/CSS/JS project unless that changes.
-
-## Current Architecture
-
-The portfolio is a single-page website with SPA-style view switching. It should feel like app tabs, but without full page reloads.
-
-Current main views:
-
-- Home
-- Websites
-- Funnels
-- Design Mockups
-- Automations
-- Apps
-- About / Contact
-
-Navigation uses `?view=...` URLs and internal JavaScript view switching. Do not convert it back to anchor scrolling.
-
-The active visual identity is the dark Nexus / GHL command-center style:
-
-- Dark background
-- Amber/orange accents
-- Canvas node effects
-- Scanner effects
-- Premium tab transitions
-- KEN robot assistant
-- Project preview modals
-- Automation blueprint modal
-
-Preserve the design, layout, effects, animations, content, assets, and user experience unless the user explicitly asks to change them.
-
-## Important Current Assets
-
-- Logo: `assets\v2_plain_portfolio_amber.png`
-- Robot assistant: `assets\robot-assistant-r2.png`
-- Personal images: `assets\My Pictures\a1.png` through `a6.png`
-- Mockups: `assets\Mockups`
-- Automation evidence screenshots: `assets\automations`
-- Office/tool logos: `assets\Logos`
-
-Recently used personal images:
-
-- `a1.png` in About/profile area
-- `a2.png` in Working With Me
-- `a4.png` in Process
-- `a5.png` in Where Leads Get Stuck
-- `a6.png` in Services
-
-## Current Content / Copy Direction
-
-Hero headline should stay:
-
-`Building Intelligent Systems for Modern Business.`
-
-Home tab section naming direction:
-
-- `Where Leads Get Stuck`
-- `What I Build in Your System`
-- `How I Build Your System`
-- `Capabilities & Tools`
-- `Start Here`
-
-The portfolio copy was reviewed using the user's copywriting skill folder:
-
-`C:\Users\brade\Desktop\ChatGPT Master\Skill Builder\Skill-CopyWriting`
-
-Tone direction:
-
-- Clear, client-centered, practical
-- Focus on lead problems, follow-up gaps, CRM/pipeline clarity, automation systems, and conversion paths
-- Avoid sounding too abstract or too agency-generic
-
-## Current Project Views
-
-### Websites
-
-Integrated website examples include:
-
-- WeCare Dental
-- NorthPeak Heating & Air
-- Daily Reset Method
-
-Cards open full internal previews in the site preview modal.
-
-### Funnels
-
-Integrated funnel examples include:
-
-- WeCare Dental
-- NorthPeak Heating & Air
-- Daily Reset Method
-
-Cards open full internal previews in the site preview modal.
-
-### Design Mockups
-
-This tab is for funnel/website mockups, not a separate "live preview" category.
-
-Current mockups include:
-
-- `assets\Mockups\DailyResetFunnel.png`
-- `assets\Mockups\Dental Funnel Mockup.png`
-- `assets\Mockups\HVAC Funnel Mockup.png`
-
-The user wants these displayed professionally, not like generic framed cards.
-
-### Automations
-
-This tab contains sample automation systems. Keep the tab name `Automations`; do not rename it just to say "sample".
-
-Automation cards open a fullscreen/cinematic system blueprint modal with:
-
-- System heading
-- Flow logic
-- Modules
-- Business impact
-- GHL workflow evidence screenshots
-
-Automation evidence uses real screenshots from `assets\automations`.
-
-### Apps
-
-Current app projects:
-
-- Daily Dose of Knowledge
-- Color Studio
-- DailyGrace
-
-Paths:
-
-- `projects\applications\daily-dose-of-knowledge\index.html`
-- `projects\applications\color-studio\index.html`
-- `projects\applications\daily-grace\index.html`
-
-Phone previews were carefully adjusted. Avoid casually refactoring the app phone preview CSS.
-
-## KEN Robot Assistant
-
-The floating robot assistant was renamed from JARVIS to KEN.
-
-Behavior:
-
-- Desktop: floating robot scans CTA targets.
-- Mobile/touch: lightweight mobile robot link is used instead.
-- Scanner should follow the CTA/button KEN is currently on.
-- Movement timing was tuned: travel about 2s and hold about 1.5s.
-- Avoid making KEN jumpy on scroll.
-- Do not casually refactor this logic; it took many iterations.
-
-## Recent Performance Pass
-
-A performance optimization pass was completed while preserving the current visual experience.
-
-Changes made in `concept-0-Nexus.html`:
-
-- Added `rafThrottle()`.
-- Added passive event options.
-- Throttled scroll, resize, and mousemove work.
-- Paused canvas loops when hidden, document is hidden, or modal/panel state makes them non-useful.
-- Cached city skyline window positions instead of recalculating/randomizing every frame.
-- Added intrinsic `width` and `height` to major images.
-- Added loading/decoding/fetchpriority hints carefully.
-- Preloaded only the hero logo.
-- Added compositor hints for animated/scanner/robot elements.
-- Reveal observer now unobserves elements after they appear.
-- Removed a no-op parallax scroll listener.
-
-Performance pass intentionally did not:
-
-- Compress or convert image files, to avoid visual changes.
-- Change fonts.
-- Change animation timing.
-- Change layout, copy, colors, sections, CTAs, or navigation behavior.
-- Introduce a framework or build system.
-
-Verification from the performance pass:
-
-- Inline JS syntax check passed.
-- Local asset/reference check passed.
-- Browser render check passed on desktop and mobile for all views.
-- Real content overflow check passed.
-- One browser console message mentioned `MutationObserver`, but repo-wide search found no `MutationObserver` in the portfolio source; likely browser/tooling or preview-frame related.
-
-## Current Fonts
-
-Current Google Fonts request includes:
-
-- Sora
-- Inter
-- Space Mono
-
-Do not change fonts unless the user asks again.
-
-## Contact / Form
-
-Contact details in the portfolio:
-
-- `bradecinagregkenneth@gmail.com`
-- `+63 9158120390`
-- `www.linkedin.com/in/gkbradecina`
-
-Form endpoint:
-
-- `https://formspree.io/f/mojbngwl`
-
-Current form has:
-
-- Required fields
-- Min/max lengths
-- Honeypot `_gotcha`
-- Generic error message
-
-Security/spam recommendation remains:
-
-- If spam becomes a problem, enable Formspree spam controls and/or CAPTCHA/Turnstile provider-side. Do not fake spam protection only on the client.
-
-## Verification Notes
-
-Known commands/checks previously run:
-
-- Inline script syntax check with Node
-- Local asset/reference check
-- Secret/API-key scans
-- In-app browser render checks on desktop/mobile
-- SPA view state checks for all views
-
-The project folder is not a Git repo, so `git diff` and `git status` fail unless the user later initializes Git.
-
-## Rules For Next Chat
-
-Before editing:
-
-1. Read this handoff file.
-2. Inspect `concept-0-Nexus.html`.
-3. If the task touches visuals, use the existing design language.
-4. If the task touches JS/animations, keep changes small and verify syntax.
-5. Preserve all current views, modals, links, CTAs, assets, and animations unless the user explicitly asks to change them.
-
-Do not:
-
-- Rebuild from scratch.
-- Introduce a framework.
-- Convert SPA tabs back to anchor scrolling.
-- Remove KEN, scanner effects, canvas effects, or modals.
-- Remove sections/features because they look heavy; optimize underneath instead.
-- Casually rewrite the robot logic, app phone preview logic, or automation modal logic.
-
-Suggested opening prompt for the next chat:
-
-```text
-We are continuing my portfolio project.
-
-Project folder:
-C:\Users\brade\Desktop\CodexChatGPTmy-app\Portfolio-concept-0-Nexus
-
-Before doing anything, read:
-C:\Users\brade\Desktop\CodexChatGPTmy-app\Portfolio-concept-0-Nexus\docs\HANDOFF-NEXT-CHAT.md
-
-Then inspect:
-C:\Users\brade\Desktop\CodexChatGPTmy-app\Portfolio-concept-0-Nexus\concept-0-Nexus.html
-
-Continue from the current state and preserve the existing design, effects, layout, navigation, and content unless I ask otherwise.
+# Portfolio Handoff
+
+Last updated: 2026-08-10. Replaces an earlier handoff that pointed at a folder
+and filename which no longer exist.
+
+---
+
+## 1. Where everything is
+
+| | |
+|---|---|
+| Project folder | `C:\Users\brade\Desktop\ClaudeCodemy-app\My-Portfolio_Main` |
+| Entry point | `index.html` (the whole portfolio shell: markup, CSS and JS in one file) |
+| Git repo | This folder has its **own** `.git`. It is not part of the parent `ClaudeCodemy-app` repo. |
+| Remote | `https://github.com/ShadowMonarch-collab/my-portfolio-main` (public) |
+| Branch | `main`, tracking `origin/main` |
+| Live site | `https://yourkickassghl.site` (also `www.`) |
+| Host | Vercel, auto-deploys on push to `main` |
+| Deploy latency | Usually under a minute |
+
+**Important:** the parent folder `ClaudeCodemy-app` contains unrelated sibling
+folders (`Applications/`, `Funnels/`, `Websites/`, `Test Projects/`,
+`Portfolio Concepts/`, `Additional Portfolio Projects/`). Those are **not** part
+of this project and must never be committed here. They were never tracked.
+
+### Deploying
+
+Ordinary git from inside `My-Portfolio_Main`:
+
+```bash
+git add -A
+git commit -m "..."
+git push
 ```
+
+That is all. No build step, no `npm run`, no bundler. It is a static site.
+
+To confirm a change is actually live before testing it, poll for a string you
+just added rather than assuming:
+
+```bash
+curl -s "https://www.yourkickassghl.site/?cb=$(date +%s)" | grep -q "some new string"
+```
+
+Vercel's edge cache occasionally serves a stale copy for a few seconds after a
+deploy. A `?cb=` cache-buster distinguishes "not deployed" from "cached".
+
+---
+
+## 2. What the project is
+
+A single-page portfolio shell that switches between views client-side using
+`?view=` query parameters, plus 22 self-contained demo projects served as real
+static sites underneath it.
+
+93 HTML pages total (excluding `node_modules`).
+
+### Views (8)
+
+`home` · `about` · `certificates` · `funnels` · `websites` · `mockups` ·
+`automations` · `apps`
+
+Routing lives in `index.html`. To add a view you must touch **four** places:
+
+1. `appValidViews` (a `Set`)
+2. `appViewTitles` (document titles)
+3. `appViewOrder` (array)
+4. The nav markup, plus a `<section data-view-groups="yourview">`
+
+Then add it to `sitemap.xml`.
+
+Sections are shown/hidden by matching `data-view-groups` against the active
+view. One section can belong to several views (the portfolio grid does).
+
+### Sub-projects
+
+**Funnels (10)** — single-page conversion funnels:
+Backline Events, Ellison Family Dental, GrindHouse, Kessler Auto,
+ModernHomeEssentials v2, PeakForm, Tolliver Roofing, DailyResetMethod,
+Havenwell Dental, NorthPeak Heating & Air
+
+Seven live under `projects/funnels/Additional Portfolio Projects/`. That folder
+name is confusing but is the **real, linked location** — the portfolio links
+directly into it. It is not dead weight.
+
+**Websites (10)** — multi-page sites, same brands:
+Backline Events, DailyResetMethod, Ellison Family Dental, GrindHouse,
+Havenwell Dental, Kessler Auto, ModernHomeEssentials (Arctic Home), NorthPeak,
+PeakForm, Tolliver Roofing
+
+**Apps (4)** — `projects/applications/`:
+KensMotoCare (Vite/React, has `node_modules`, gitignored), color-studio,
+daily-dose-of-knowledge, daily-grace
+
+Every brand is **invented**. Phone numbers use the reserved `555-01XX` fictional
+range deliberately. Do not "correct" them to look real.
+
+---
+
+## 3. Hard-won gotchas
+
+These cost real time to find. Read before debugging.
+
+### The in-app browser pane freezes CSS transitions
+
+The Browser pane runs with `document.visibilityState === "hidden"`, so **CSS
+transitions and animations never progress**. Every element sits at its initial
+value. This produced three separate false conclusions in one session:
+
+- All 16 scroll-reveal elements read as `opacity: 0` → looked like reveals were broken
+- A `font-stretch` hover transition read as unchanged → looked like the font's width axis was broken
+- Images with `loading="lazy"` never loaded → looked like broken images
+
+**Geometry (`getBoundingClientRect`) is reliable in the pane. Anything involving
+a transition, animation or lazy-load is not.** For those, drive headless Edge
+via puppeteer instead (see §5).
+
+### Measure the thing, not a proxy
+
+Repeated own-goal: measuring a proxy and misreading it.
+
+- Counted distinct `top` values to detect nav wrapping → a 2px alignment
+  difference between two nav groups read as "two rows". Nothing was wrapping.
+- Measured a close button's resting position and called it "fixed" → it was
+  actually *jumping* 60px a moment after opening. Sampling only the end state
+  missed a bug that happens during the transition.
+- Double-encoded already-encoded URLs (`%20` → `%2520`) → reported 10 broken
+  assets that were all fine.
+
+If a check reports a problem, confirm the mechanism before fixing it. Sample
+*during* transitions, not only after.
+
+### CSS containing block vs `position: fixed`
+
+A `position: fixed` element is positioned relative to the **viewport only if no
+ancestor has a transform**. Any transformed ancestor becomes its containing
+block instead.
+
+This bit the system blueprint modal: `.system-close` sat inside
+`.system-modal-shell`, which runs a scale-in animation. During the animation the
+button was positioned against the panel; after it, against the viewport — a
+visible 60px jump, and it scrolled off-screen on long pages.
+
+Also note `animation-fill-mode: both` keeps an animation *attached* after it
+finishes, and an attached transform animation creates a containing block even
+when the final keyframe resolves to identity.
+
+**Fix pattern:** move the fixed element outside the animated ancestor. Do not
+try to detach the animation afterwards.
+
+### Media queries do not add specificity
+
+`.matrix tbody td { width: 39% }` (0,1,2) beats
+`@media ... { .matrix td { width: auto } }` (0,1,1). The mobile override
+silently lost, so a responsive table kept desktop column widths and squeezed
+text to a 67px column.
+
+When writing a mobile override, match or exceed the desktop rule's specificity.
+
+### The mobile menu's hardcoded offset
+
+The mobile menu is two stacked `position: fixed` panels. Because a fixed panel
+cannot flow after another, the second panel's `top` is **hardcoded** to the
+first panel's height, at two breakpoints (`≤900px` and `≤600px`).
+
+Adding a third primary nav link made the first panel two rows tall and the
+second panel was drawn straight over it, hiding a link entirely.
+
+**If you add or remove a primary nav link, or change link heights, re-measure
+those offsets.** They are commented in the CSS.
+
+### Browser default margins
+
+`<figure>`, `<blockquote>`, `<dd>` carry a UA default `margin: 1em 40px`. If a
+stylesheet never resets it, such an element inside a grid cell sits low and
+narrow. Found on Arctic Home: hero media, product media and photo review cards
+were all 17px low and 40px narrow. Fingerprint is a `40px` horizontal margin.
+
+### Windows / tooling
+
+- `sharp` fails with `EUNKNOWN` if given a file path it must also write back to.
+  Read into a buffer first: `sharp(fs.readFileSync(file))`.
+- `path.join()` returns backslashes; comparing against a forward-slash root with
+  `.startsWith()` silently fails. Use `path.resolve()`.
+- Never use case-insensitive or regex find-and-replace on this repo. A
+  case-insensitive replace once corrupted asset filenames and a town name.
+  Literal, case-sensitive replacement only.
+- `daily-grace` registers a service worker that stalls the `load` event. Use
+  `waitUntil: 'domcontentloaded'` for that app.
+
+---
+
+## 4. Deployment config
+
+`vercel.json` is the live config (`netlify.toml` exists as a mirror but Vercel
+is what serves the site).
+
+| Setting | Value | Why |
+|---|---|---|
+| `cleanUrls` | **false** | All 1007 internal links use explicit `.html`. With it on, `services.html` redirected to `services/`, pushing every relative asset path one level too deep and 404ing them. |
+| `trailingSlash` | true | Makes bare directory URLs resolve correctly |
+| CSP | see file | Tested live; 0 violations across 9 routes |
+| Cache | assets immutable, HTML `must-revalidate` | Filenames are not fingerprinted |
+
+CSP notably allows `https://www.openstreetmap.org` in `frame-src` for the map on
+Ellison's contact page, and `formspree.io` in `connect-src` / `form-action`.
+
+`object-src 'none'` blocks `<embed>`/`<object>`, so PDFs must be linked, not
+embedded.
+
+SEO files: `robots.txt` (disallows `/projects/`), `sitemap.xml` (8 view URLs),
+`404.html` (custom; its assets must use **root-relative** paths since it is
+served at arbitrary depths).
+
+---
+
+## 5. Verification tooling
+
+Scratchpad scripts exist for repeat checks. They drive headless Edge via
+`puppeteer-core` against the **live site**, so transitions actually run.
+
+Location: the session scratchpad under
+`C:\Users\brade\AppData\Local\Temp\claude\...\scratchpad\`
+(these are session-scoped and may not survive; the patterns matter more than the
+files).
+
+Useful ones:
+
+- `runtime-audit.js` — all 88 project pages × mobile + desktop; JS errors,
+  failed requests, horizontal overflow, thin content
+- `link-audit.js` — static: dead in-page anchors, missing link targets, dead
+  cross-page fragments across 90 pages
+- `csp-live.js` — CSP violations against real deployed headers
+- `ua-margin-audit.js` — unreset browser-default margins
+- `align-audit.js` — side-by-side grid/flex items whose tops do not line up
+  (must skip containers with `align-items: center`, or it is pure noise)
+
+Known acceptable false positives:
+
+- `link-audit.js` reports 2 missing `manifest.webmanifest` in KensMotoCare's
+  Vite source entries. The manifest lives in `public/` and is copied at build
+  time; neither page is linked from the portfolio.
+- Secret-scanning regexes hit `js-tokens` (npm package), "design tokens" in CSS
+  comments, `password` in a library's input-type list, and the word "secret"
+  inside idiom definitions in daily-dose-of-knowledge. All benign.
+
+Clean up leftover headless processes afterwards — they hold file locks and once
+blocked a folder rename:
+
+```powershell
+Get-CimInstance Win32_Process -Filter "Name='msedge.exe'" |
+  Where-Object { $_.CommandLine -like '*pptr-*' } |
+  ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+```
+
+---
+
+## 6. Current state
+
+Fully audited and live as of 2026-08-10. Verified:
+
+- Security headers present on root and project pages
+- CSP: 0 violations across 9 routes
+- No secrets, no `.env` or key files tracked
+- 26/26 external `target="_blank"` links carry `rel="noopener"`
+- Third-party SVGs (GitHub, Netlify, Render, Supabase from Simple Icons) are
+  inert: one `<path>` + `<title>`, no scripts
+- 88 project pages clean at 390px and 1440px
+- All 8 views clean, mobile and desktop
+- Touch targets ≥44px down to 320px
+- Safari confirmed working by the user
+
+### Content integrity rules
+
+Two things matter more than they look:
+
+1. **The certificate is labelled exactly as the document reads** — "Live Funnel
+   Building Masterclass, Technical Virtual Assistants, April 2026". It is **not**
+   a GoHighLevel certification; the *instructor* holds that credential. Anyone
+   who clicks sees the certificate, so the label must survive that comparison.
+2. **Invented brands must stay internally consistent.** A real bug shipped where
+   Kessler claimed "31 years" while its footer said "family owned since 1994" on
+   a page dated 2026. Cross-check any number against every other mention.
+
+### Open items
+
+- `project-category.html` — orphaned, nothing links to it, `noindex`ed. Probably
+  wants deleting.
+- Project contact forms do not submit anywhere. Fine for spec work; would need a
+  Formspree endpoint each to collect real enquiries.
+- Resume is a Google Drive link (chosen so it can be updated without a redeploy).
+  Worth periodically confirming sharing is still "anyone with the link".
+- Tablet (768px) tech grid is 2 columns and fairly sparse; 3 would fit.
+
+---
+
+## 7. Working style
+
+- Match verification effort to the size of the change. A one-line CSS tweak gets
+  one targeted measurement, not a suite of browser scripts. Reserve full sweeps
+  for structural or security-relevant changes, or an explicit audit request.
+- If reading the code settles a question, say so rather than scripting a browser
+  test to re-prove it.
+- Front-end work on this portfolio should apply the anti-slop skills
+  (`impeccable`, `taste-skill`, `ui-ux-pro-max`).
+- Each of the 22 sub-projects has a deliberate, distinct brand identity. Do not
+  apply a uniform treatment across them — the whole point is that they look like
+  different businesses built by the same person.
