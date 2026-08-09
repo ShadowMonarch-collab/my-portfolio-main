@@ -4180,13 +4180,18 @@ body.app-modal-open .robot-target-scanner {
   }
   nav.menu-open .nav-project-links {
     /* 1px overlap so the two stacked panels read as one surface with no
-       hairline seam of page showing through */
-    top: calc(var(--nav-h-mobile) + 8px + 64px);
+       hairline seam of page showing through.
+       117px is the primary panel's height: 14 top padding + two 44px rows +
+       8px gap + 7 bottom padding. It is hardcoded because both panels are
+       fixed, so this one cannot flow after the other - meaning this number
+       must be updated if the primary group gains a row. Three items sit in
+       two rows; a fifth primary link would need this raised again. */
+    top: calc(var(--nav-h-mobile) + 8px + 117px - 1px);
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     padding: 7px 14px 14px;
     border-top: 0;
-    max-height: calc(100dvh - var(--nav-h-mobile) - 90px);
+    max-height: calc(100dvh - var(--nav-h-mobile) - 143px);
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
@@ -4299,7 +4304,9 @@ body.app-modal-open .robot-target-scanner {
   .brand-logo-img { width: 58px; height: 58px; }
   .nav-cta { padding: 9px 16px; font-size: 11px; letter-spacing: .14em; }
   nav.menu-open .nav-primary-links { top: 44px; left: 12px; right: 12px; padding: 18px 18px 9px; }
-  nav.menu-open .nav-project-links { top: 120px; left: 12px; right: 12px; padding: 9px 18px 18px; max-height: calc(100dvh - 132px); }
+  /* Same coupling as above: 123px is 18 + 44 + 8 + 44 + 9, the primary
+     panel's two-row height at this breakpoint's padding. */
+  nav.menu-open .nav-project-links { top: 166px; left: 12px; right: 12px; padding: 9px 18px 18px; max-height: calc(100dvh - 178px); }
   nav.menu-open .nav-project-links a { min-height: 44px; padding: 0 10px; font-size: 10px; letter-spacing: .08em; }
   nav.menu-open .nav-primary-links a { font-size: 11px; letter-spacing: .08em; text-align: center; }
   section { padding: 76px 18px; }
