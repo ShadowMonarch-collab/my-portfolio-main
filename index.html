@@ -4209,6 +4209,15 @@ body.app-modal-open .robot-target-scanner {
     white-space: normal;
     line-height: 1.25;
   }
+  /* Both groups hold an odd number of links, so each ends with one item alone
+     in the left column, which reads as a leftover rather than a deliberate
+     end. Centre it across both columns at the same width as its siblings.
+     Row count is unchanged, so the stacked panels' offsets still hold. */
+  nav.menu-open .nav-links > li:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 4px);
+  }
   nav.menu-open .nav-links a::after { display: none; }
   nav.menu-open .nav-links a:hover,
   nav.menu-open .nav-links a.is-active {
