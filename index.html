@@ -2961,7 +2961,7 @@ body.hero-tab-jumping #hero::after {
    fixed-position descendants. .system-close relies on being fixed to the
    viewport while a blueprint scrolls, so the animation is dropped outright
    once it completes rather than just changing what its last frame says. */
-.system-modal-shell.settled { animation: none; }
+.system-modal.open .system-modal-shell.settled { animation: none; }
 .system-modal-shell::before {
   content: '';
   position: fixed;
