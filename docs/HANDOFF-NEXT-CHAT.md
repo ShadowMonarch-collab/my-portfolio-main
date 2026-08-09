@@ -23,6 +23,33 @@ folders (`Applications/`, `Funnels/`, `Websites/`, `Test Projects/`,
 `Portfolio Concepts/`, `Additional Portfolio Projects/`). Those are **not** part
 of this project and must never be committed here. They were never tracked.
 
+### There are two git repos over this working tree
+
+`ClaudeCodemy-app` is **also** a git repo, on branch `master`, and it tracks 465
+files under `My-Portfolio_Main/` from before this folder got its own repo. It
+will therefore report a large number of "modified" files reflecting work that is
+already committed here. That is expected and not a problem.
+
+**Always run git from inside `My-Portfolio_Main`.** Running it from the parent
+operates on a stale, divergent index of the same files.
+
+The parent used to have an `origin` pointing at this same GitHub repo, left over
+from the original subtree-split push. That was a genuine footgun (a push from
+the parent would have aimed a divergent `master` at the live site's remote) and
+**the remote has been removed**. The parent now has no remote. Do not re-add one.
+
+**Do not delete the parent `.git`.** It is not redundant. The portfolio repo's
+history begins at the commit "Rename project folder to My-Portfolio_Main",
+because `git subtree split --prefix=My-Portfolio_Main` could only carry commits
+that touched that path, and before the rename the path did not exist. **23
+commits**, from the initial commit on 2026-07-18 through 2026-08-09, exist
+**only** in the parent repo — including the privacy and legal pages, the
+prototype-marker removal, the Kessler credit-math fix and mobile pass 1.
+Losing the parent `.git` loses all of that history.
+
+If you want that history somewhere safer, push the parent to a **separate**
+private repo as an archive. Do not push it to `my-portfolio-main`.
+
 ### Deploying
 
 Ordinary git from inside `My-Portfolio_Main`:
@@ -303,6 +330,10 @@ Two things matter more than they look:
   test to re-prove it.
 - Front-end work on this portfolio should apply the anti-slop skills
   (`impeccable`, `taste-skill`, `ui-ux-pro-max`).
+- **Verify this document rather than trusting it.** Its first version pointed at
+  a folder and filename that no longer existed, and its second wrongly implied
+  the parent repo was disposable. A fresh chat caught the two-repo overlap by
+  checking `git remote -v` instead of taking the doc's word for it. Do the same.
 - Each of the 22 sub-projects has a deliberate, distinct brand identity. Do not
   apply a uniform treatment across them — the whole point is that they look like
   different businesses built by the same person.
