@@ -536,6 +536,40 @@ html:not(.js) .faq__q::after { transform: translateY(-50%) rotate(0deg); }
 .split__copy h2 { transition: font-stretch 340ms var(--ease); }
 .split:hover .split__copy h2 { font-stretch: 116%; }
 
+/* Page to page. Seven pages that all share a fixed header, so the hard cut
+   between them was the most visible seam on the site. Cross-document view
+   transitions are CSS only: no router, no JS, and browsers without support
+   simply navigate the way they do today.
+   The drift is small and downward on purpose. This brand should feel like a
+   page being set down, not swept in from the side. */
+@view-transition { navigation: auto; }
+
+/* The header is identical on every page, so give it its own name and it
+   stays put instead of cross-fading with the body underneath it. */
+.nav { view-transition-name: tv-nav; }
+
+@keyframes tv-page-out { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes tv-page-in { from { opacity: 0; transform: translateY(10px); } }
+::view-transition-old(root) { animation: tv-page-out 200ms var(--ease) both; }
+::view-transition-new(root) { animation: tv-page-in 320ms var(--ease) both; }
+
+/* The drawer already slides, but every link inside it arrived at once.
+   Cascading them follows the order you actually read them in. */
+@media (max-width: 1000px) {
+  .nav__drawer a, .nav__drawer .btn {
+    opacity: 0; transform: translateY(-6px);
+    transition: opacity 240ms var(--ease), transform 240ms var(--ease);
+  }
+  .nav.is-open .nav__drawer a, .nav.is-open .nav__drawer .btn { opacity: 1; transform: none; }
+  .nav.is-open .nav__drawer > :nth-child(1) { transition-delay: 120ms; }
+  .nav.is-open .nav__drawer > :nth-child(2) { transition-delay: 165ms; }
+  .nav.is-open .nav__drawer > :nth-child(3) { transition-delay: 210ms; }
+  .nav.is-open .nav__drawer > :nth-child(4) { transition-delay: 255ms; }
+  .nav.is-open .nav__drawer > :nth-child(5) { transition-delay: 300ms; }
+  .nav.is-open .nav__drawer > :nth-child(6) { transition-delay: 345ms; }
+  .nav.is-open .nav__drawer > :nth-child(7) { transition-delay: 390ms; }
+}
+
 /* Photographs settle into their frame rather than arriving at final size.
    .split__media is itself a .reveal element, so this rides the existing
    observer with no extra JS. */
