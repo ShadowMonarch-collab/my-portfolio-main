@@ -4133,6 +4133,11 @@ body.app-modal-open .robot-target-scanner {
   nav { min-height: 46px; padding: 8px 28px 0; gap: 18px; }
   .nav-left { gap: 16px; }
   .nav-links { gap: 16px; }
+  /* The primary group carries three items now, and only the project group was
+     ever tightened here, so the bar wrapped to two rows around 1024px before
+     the hamburger takes over at 900px. */
+  .nav-primary-links { gap: 12px; }
+  .nav-primary-links a { font-size: 11px; letter-spacing: .06em; }
   .nav-project-links { gap: 8px; }
   .nav-project-links a {
     min-height: 36px;
