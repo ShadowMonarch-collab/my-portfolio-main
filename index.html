@@ -2954,14 +2954,6 @@ body.hero-tab-jumping #hero::after {
   position: relative;
 }
 .system-modal.open .system-modal-shell { animation: modal-scale-in .36s cubic-bezier(.16,1,.3,1) both; }
-/* animation-fill-mode: both keeps the animation "attached" (filling) after it
-   finishes, and while an animation is attached the browser still treats the
-   element as transformed even when the final keyframe's transform resolves
-   to identity - that alone is enough to make it a containing block for
-   fixed-position descendants. .system-close relies on being fixed to the
-   viewport while a blueprint scrolls, so the animation is dropped outright
-   once it completes rather than just changing what its last frame says. */
-.system-modal.open .system-modal-shell.settled { animation: none; }
 .system-modal-shell::before {
   content: '';
   position: fixed;
@@ -6046,8 +6038,14 @@ body.app-modal-open .robot-target-scanner {
 
 <!-- SYSTEM BLUEPRINT MODAL -->
 <div class="system-modal" id="system-modal" role="dialog" aria-modal="true" aria-labelledby="system-modal-title">
+  <!-- Deliberately outside .system-modal-shell: the shell runs a transform
+       animation on open, and a transformed ancestor becomes the containing
+       block for a position:fixed child. Inside the shell the button was
+       positioned against the panel during the animation and against the
+       viewport after it, so it visibly jumped. .system-modal itself is never
+       transformed, so out here it is viewport-fixed from the first frame. -->
+  <button class="system-close" id="system-close" aria-label="Close system blueprint">✕</button>
   <div class="system-modal-shell">
-    <button class="system-close" id="system-close" aria-label="Close system blueprint">✕</button>
     <header class="system-hero">
       <div class="system-overline">NEXUS / System Blueprint</div>
       <h2 class="system-title" id="system-modal-title"></h2>
@@ -7629,18 +7627,14 @@ function openSystemModal(index) {
     </article>`).join('');
   systemPanelOpen = true;
   document.body.classList.add('system-modal-open');
-  const shell = systemModal.querySelector('.system-modal-shell');
-  shell.classList.remove('settled');
   systemModal.classList.add('open');
   document.body.style.overflow = 'hidden';
   systemModal.scrollTop = 0;
-  shell.addEventListener('animationend', () => shell.classList.add('settled'), { once: true });
 }
 function closeSystemModal() {
   systemPanelOpen = false;
   document.body.classList.remove('system-modal-open');
   systemModal.classList.remove('open');
-  systemModal.querySelector('.system-modal-shell').classList.remove('settled');
   document.body.style.overflow = '';
 }
 /* ── AUTOMATION PLATFORM SUB-TABS ── */
